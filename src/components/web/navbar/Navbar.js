@@ -1,4 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {
+    usePopupState,
+    bindHover,
+    bindMenu,
+  } from 'material-ui-popup-state/hooks'
+  
 import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import Link from '@material-ui/core/Link';
@@ -6,6 +12,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from 'material-ui-popup-state/HoverMenu'
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import StarBorder from '@material-ui/icons/StarBorder';
@@ -15,133 +23,191 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-    listItems: {
-        display: 'flex',
-        justifyContent: 'center',
-        backgroundColor: 'pink',
-        padding: 0
-    },
-    listItem: {
-        fontWeight: 600,
-        display: 'flex',
-        width: '100%'
-    },
-    link: {
-        textDecoration: 'none',
-        color: 'black',
-        width: 'inherit',
-        cursor: 'pointer',
-
+    linkClass: {
         "&:hover": {
-            textDecoration: 'none',
-            color: 'white',
-            backgroundColor: theme.palette.primary.main
+            textDecoration: 'none'
         }
     },
-    absolute: {
-        position: 'absolute',
-        bottom: 0,
+    linkText: {
+        fontWeight: 600,
+        color: 'black',
+        cursor: 'pointer',
+        padding: '.8rem',
+        width: 'inherit',
+
+        "&:hover": {
+            color: 'white',
+        }
     },
-    hidden: {
-        visibility: 'hidden',
-        maxHeight: 0
+    linkContainer: {
+        "&:hover": {
+            backgroundColor: theme.palette.primary.main,
+            color: 'white',
+            cursor: 'pointer',
+        }
+    },
+    menuItem: {
+      backgroundColor: theme.palette.primary.dark,
+      color: 'white',
+      borderRadius: '0px',
+      borderBottom: '1px solid black',
+      fontSize: '.8rem',
+      margin: 0,
+
+      "&:hover":{
+        backgroundColor: '#252c35',
+      }
+    },
+    noVerticalPadding: {
+       padding: 0,
     }
 }));
 
 const Navbar = () => {
+    const state = {
+        about_us : usePopupState({ variant: 'popover', popupId: 'about_us' }),
+        admission : usePopupState({ variant: 'popover', popupId: 'admission' }),
+        academics : usePopupState({ variant:  'popover', popupId: 'academics' }),
+        student_services : usePopupState({ variant: 'popover', popupId: 'student_services' }),
+        updates : usePopupState({ variant: 'popover', popupId: 'updates' }),
+    }
 
-    const [open, setOpen] = useState(false);
+    const stringTransform = e => {
+        return e.replace("_", " ").toUpperCase();
+    }
 
-    const {listItems, listItem, link, absolute, hidden} = useStyles();
-
-    const handleClick = () => {
-        setOpen(!open);
+    const menus = {
+        home: { 
+            link: '#'
+        },
+        about_us: {
+            link: '#',
+            items: [
+                'HISTORY',
+                'THE SEAL',
+                'MISSION,VISION, GOALS',
+                'THE HYMN',
+                'THE JINGLE',
+                'ST.ARNOLD\'S PRAYER',
+                'ADMINISTRATION',
+                'FACILITIES',
+                'ORGANIZATIONAL STRUCTURE', 
+                'AWARDS & RECOGNITION'
+            ]
+        },
+        admission: {
+            link: '#',
+            items: [
+                'ONLINE ENROLLMENT',
+                'GRADE SCHOOL',
+                'JUNIOR HIGH SCHOOL',
+                'FREE SECONDARY DISTANCE PROGRAM',
+                'SENIOR HIGH SCHOOL',
+                'COLLEGE',
+                'GRADUATE SCHOOL',
+                'SCHOLARSHIP'
+            ]
+        },
+        academics: {
+            link: '#',
+            items: [
+                'GRADE SCHOOL DEPARTMENT',
+                'JUNIOR HIGH SCHOOL DEPARTMENT',
+                'FREE SECONDARY DISTANCE PROGRAM',
+                'SENIOR HIGH SCHOOL DEPARTMENT',
+                'COLLEGE',
+                'GRADUATE SCHOOL OF BUSINESS AND MANAGEMENT'
+            ]
+        },
+        student_services: {
+            link: '#',
+            items: [
+                'COMMUNITY EXTENSION SERVICES',
+                'STUDENT AFFAIRS ORGANIZATION',
+                'ATHLETICS',
+                'PUBLICATION',
+                'CAMPUS MINISTRY',
+                'SERBISYONG DIVINE',
+                'REGISTRAR',
+                'LIBRARY',
+                'RESEARCH',
+                'CLINIC',
+                'CANTEEN'
+            ]
+        },
+        career: {
+            link: '#'
+        },
+        gallery: {
+            link: '#'
+        },
+        updates: {
+            link: '#',
+            items: [
+                'CALENDAR',
+                'ANNOUNCEMENT',
+                'NEWS AND EVENTS'
+            ]
+        },
+        contact_us: {
+            link: '#'
+        },
+        alumni: {
+            link: '#'
+        }
     };
+
+    const {linkClass,  linkText, noVerticalPadding, linkContainer, linkContainerHovered, menuItem} = useStyles();
+    
 
     return (
         <Grid container justify='center'>
-            <List className={listItems} >
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText >
-                        <Typography variant='subtitle1' className={listItem}>HOME</Typography>
-                    </ListItemText>
-                </ListItem>
-                <div>
-                    <ListItem  onMouseOver={handleClick} onMouseOut={handleClick} component={Link} to="#" className={link}>
-                    
-                    <Grid container item direction='column'>
-                         <ListItemText >
-                            <Typography variant='subtitle1' className={listItem}>ABOUT US</Typography>
-                        </ListItemText>
-
-                        <List component="div" disablePadding >
-                            <ListItemText >
-                                <Typography variant='subtitle1' className={listItem}>ABOUT US</Typography>
-                            </ListItemText>
-                        </List>
-                    </Grid>
-                        
-
-                        {/* <div className={absolute}>
-                            <Collapse in={open} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    <ListItemText >
-                                        <Typography variant='subtitle1' className={listItem}>ABOUT US</Typography>
-                                    </ListItemText>
-                                </List>
-                            </Collapse>
-                        </div> */}
-
-
-
-                  </ListItem> 
-                </div>
-               
+           
+            {
+                // key =  home, about_us, admission ...
+                Object.keys(menus).map((key, index)=> {
+            
+                const { link, items } = menus[key]; // { link: {}, items:[] }
                 
-               
+                const getState = items ? state[key] : '';
 
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText >
-                        <Typography variant='subtitle1' className={listItem}>ADMISSION</Typography>
-                    </ListItemText>
-                </ListItem>
-
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText >
-                        <Typography variant='subtitle1' className={listItem}>ACADEMICS</Typography>
-                    </ListItemText>
-                </ListItem>
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText >
-                        <Typography variant='subtitle1' className={listItem}>STUDENT SERVICES</Typography>
-                    </ListItemText>
-                </ListItem>
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText >
-                        <Typography variant='subtitle1' className={listItem}>CAREER</Typography>
-                    </ListItemText>
-                </ListItem>
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText>
-                        <Typography variant='subtitle1' className={listItem}>GALLERY</Typography>
-                    </ListItemText>
-                </ListItem>
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText>
-                        <Typography variant='subtitle1' className={listItem}>UPDATES</Typography>
-                    </ListItemText>
-                </ListItem>
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText>
-                        <Typography variant='subtitle1' className={listItem}>CONTACT US</Typography>
-                    </ListItemText>
-                </ListItem>
-                <ListItem component={Link} to="#" className={link}>
-                    <ListItemText>
-                        <Typography variant='subtitle1' className={listItem}>ALUMNI</Typography>
-                    </ListItemText>
-                </ListItem>
-            </List>
+            return  (
+                        <div key={index} className={ linkContainer }>
+                            <Link
+                                href={link}
+                                className={linkClass}
+                                {...bindHover(getState)}
+                            > 
+                                <Typography variant='subtitle1' className={ linkText }>
+                                    {stringTransform(key)}
+                                </Typography>
+                            </Link>
+                           
+                            {
+                                items !== undefined
+                                    ?<Menu
+                                        getContentAnchorEl={null}
+                                        {...bindMenu(getState)}
+                                        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                                        transformOrigin={{ vertical: "top", horizontal: "center" }}
+                                        MenuListProps={{ className: noVerticalPadding }}
+                                        classes={{
+                                            list: noVerticalPadding, // class name, e.g. `classes-nesting-root-x`
+                                          }}
+                                        >
+                                        <MenuItem key="placeholder" style={{display: "none"}} />
+                                        {
+                                            items.map((item, index) => (
+                                                <MenuItem dense={true} className={menuItem} key={index}>{item}</MenuItem>
+                                            ))  
+                                        }
+                                    </Menu> 
+                                    : ''
+                            }
+                        </div>
+                    )
+                })
+            }
         </Grid>
     )
 }
