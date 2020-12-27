@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react'
-import {menus} from '../data/links'; 
-import {stringTransform} from '../../../helpers';
+import React from 'react'
+import {menus} from '../../../data/navlinks'; 
+import {stringTransform} from '../../../../../helpers';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
@@ -64,7 +64,7 @@ const Navbar = () => {
         updates : usePopupState({ variant: 'popover', popupId: 'updates' }),
     }
 
-    const {linkClass,  linkText, noVerticalPadding, linkContainer, linkContainerHovered, menuItem} = useStyles();
+    const {linkClass,  linkText, noVerticalPadding, linkContainer, menuItem} = useStyles();
     
 
     return (

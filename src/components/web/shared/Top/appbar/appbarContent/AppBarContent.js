@@ -2,8 +2,8 @@ import React, {useState,} from 'react'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import {menus} from '../../data/links'; 
-import {stringTransform} from '../../../../helpers';
+import {menus} from '../../../../data/navlinks'; 
+import {stringTransform} from '../../../../../../helpers';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';

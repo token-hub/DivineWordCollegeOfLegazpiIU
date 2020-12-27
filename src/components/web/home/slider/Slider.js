@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Carousel from 'react-material-ui-carousel'
 import {Paper} from '@material-ui/core';
-import {images} from '../data/images';
-import { makeStyles } from '@material-ui/core/styles';
+import {images} from '../../data/images';
+import {makeStyles } from '@material-ui/core/styles';
 
 const useStyle = makeStyles(theme =>({
     paper: {
-        height: '60vh',
         width: '100%',
     },
     image: {
