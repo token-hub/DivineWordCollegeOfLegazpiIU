@@ -10,8 +10,6 @@ const useStyles = makeStyles({
 		width: '100%',
 		minHeight: '100vh',
 		height: 'auto',
-		// display: 'flex',
-		// justifyContent: 'center',
     }
 });
 

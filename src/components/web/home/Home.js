@@ -11,12 +11,8 @@ const Home = () => {
     return (
         <Grid container>
             <Header />
-            <Hidden mdDown>
-                <Navbar />
-            </Hidden>
-            <Hidden mdUp>
-                <Appbar />
-            </Hidden>
+            <Hidden mdDown><Navbar /></Hidden>
+            <Hidden mdUp><Appbar /></Hidden>
         </Grid>
     )
 }
