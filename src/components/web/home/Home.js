@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Slider from './slider';
 import QuickLinks from './quicklinks';
+import PresidentMessage from './presidentMessage';
 import Top from '../shared/Top';
 
 import Hidden from '@material-ui/core/Hidden';
@@ -13,6 +14,7 @@ const Home = () => {
             <Top />
             <Hidden smDown><Slider /></Hidden>
             <QuickLinks />
+            <PresidentMessage />
         </Grid>
     )
 }

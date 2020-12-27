@@ -30,7 +30,7 @@ const Slider = () => {
 
     return (
         <Carousel
-            autoPlay={true}
+            autoPlay={false}
             indicators={true}
             animation="slide"
             navButtonsAlwaysVisible={true}

@@ -56,7 +56,7 @@ const Appbar = () => {
       );
 
     return (
-        <AppBar position="static" className={toolbar} key={'left'}>
+        <AppBar position="sticky" className={toolbar} key={'left'}>
             <Toolbar variant='dense'>
                 <div className={menuButton} onClick={toggleDrawer(true)}>
                     <IconButton
