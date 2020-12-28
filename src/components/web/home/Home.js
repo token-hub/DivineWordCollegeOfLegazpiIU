@@ -4,6 +4,7 @@ import Slider from './slider';
 import QuickLinks from './quicklinks';
 import PresidentMessage from './presidentMessage';
 import NewsAndEvents from './newsAndEvents';
+import Announcement from './announcement';
 import Top from '../shared/Top';
 
 import Hidden from '@material-ui/core/Hidden';
@@ -17,6 +18,7 @@ const Home = () => {
             <QuickLinks />
             <PresidentMessage />
             <NewsAndEvents />
+            <Announcement />
         </Grid>
     )
 }

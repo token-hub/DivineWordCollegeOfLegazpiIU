@@ -1,7 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
-
+import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
+const breakpoints = createBreakpoints({});
 const theme = createMuiTheme({
     palette: {
       primary: {
@@ -10,6 +9,22 @@ const theme = createMuiTheme({
         dark: '#2B333E'
       }
     },
+    overrides: {
+      MuiTypography: {
+        h6: {
+          fontSize: "1.25rem",
+          [breakpoints.down("xs")]: {
+            fontSize: "1rem"
+          }
+        },
+        h4: {
+          fontSize: "2.125rem",
+          [breakpoints.down("xs")]: {
+            fontSize: "1.3rem"
+          }
+        },
+      }
+    }
   });
 
 export default theme
