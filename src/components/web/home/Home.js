@@ -6,6 +6,7 @@ import PresidentMessage from './presidentMessage';
 import NewsAndEvents from './newsAndEvents';
 import Announcement from './announcement';
 import Top from '../shared/Top';
+import Bottom from '../shared/Bottom';
 
 import Hidden from '@material-ui/core/Hidden';
 
@@ -19,6 +20,7 @@ const Home = () => {
             <PresidentMessage />
             <NewsAndEvents />
             <Announcement />
+            <Bottom />
         </Grid>
     )
 }

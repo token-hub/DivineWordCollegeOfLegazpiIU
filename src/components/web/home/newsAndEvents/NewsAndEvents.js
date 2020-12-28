@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import SharedGrid from '../sharedGrid';
+import SharedGrid from '../../shared/others/sharedGrid';
 import { cards } from "../../data/newsAndEvents";
 
 
@@ -19,7 +19,8 @@ const useStyles = makeStyles(theme => ({
        padding: '4rem 0'
    }, 
    cardContainer: {
-    maxWidth: 450,
+    maxWidth: 400,
+    margin: '.3rem',
     [theme.breakpoints.down('sm')]: {
         maxWidth: 300,
     }
@@ -31,12 +32,15 @@ const useStyles = makeStyles(theme => ({
       marginBottom: '3rem',
       fontWeight: 600,
       color: '#1D17CE'
+  },
+  padding : {
+      padding: '2rem'
   }
 }));
 
 const NewsAndEvents = () => {
 
-    const { root, cardContainer, media, title } = useStyles();
+    const { root, cardContainer, media, title, padding } = useStyles();
 
     const renderCard = (link, title, image, index) => {
         return (
@@ -71,7 +75,7 @@ const NewsAndEvents = () => {
                 </Typography>
             </Grid>
             
-            <Grid container spacing={3} item justify='center'>
+            <Grid container item justify='center'>
                 {
                     cards.map(({ link, title, image }, index) => renderCard(link, title, image, index) )
                 }

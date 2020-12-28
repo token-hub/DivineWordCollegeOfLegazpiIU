@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 
-import SharedGrid from '../sharedGrid';
+import SharedGrid from '../../shared/others/sharedGrid';
 import presidentImg from '../../../../assets/images/others/president.jpg';
 
 const useStyles = makeStyles(theme => ({
