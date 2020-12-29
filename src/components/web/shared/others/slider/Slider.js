@@ -1,17 +1,17 @@
 import React from 'react';
 import Carousel from 'react-material-ui-carousel'
-import {Paper} from '@material-ui/core';
-import {images} from '../../data/images';
+import {Grid, Paper} from '@material-ui/core';
 import {makeStyles } from '@material-ui/core/styles';
 
 const useStyle = makeStyles(theme =>({
     paper: {
         width: '100%',
+        height: '100',
     },
     image: {
-        maxHeight: '100%',
-        width: '100vw',
-        background: 'cover'
+        height: '100%',
+        width: '100%',
+        backgroundSize: 'cover'
     },
     indicators: {
         marginTop: '-3rem'
@@ -19,17 +19,21 @@ const useStyle = makeStyles(theme =>({
     indicatorContainer: {
         position: 'absolute',
         margin: 0
+    },
+    carousel: {
+        height: '100%',
+        width: '100%',
     }
 }));
 
-const Slider = () => {
+const Slider = ({ data, size = null }) => {
 
-    const {paper, image, indicators, indicatorContainer} = useStyle();
+    const {paper, image, indicators, indicatorContainer, carousel} = useStyle();
 
-    const { sliderImages } = images;
+    const setSize = size ? size : carousel;
 
     return (
-        <Carousel
+          <Carousel
             autoPlay={false}
             indicators={true}
             animation="slide"
@@ -39,17 +43,15 @@ const Slider = () => {
             indicatorContainerProps={{ className: indicatorContainer }}
             next={()=>{}}
             prev={()=>{}}
+            className={setSize}
         >
-             {
-                sliderImages.map( ({alt, img}, index) => {
+            {
+                data.map( ({alt, img}, index) => {
                     return (
-                        <Paper key={index} className={paper}>
-                            <img alt={alt} src={img} className={image} />
-                        </Paper>
+                        <img alt={alt} src={img} key={index} className={image} />
                     )
                 } )
             }
-           
         </Carousel>
     )
 }

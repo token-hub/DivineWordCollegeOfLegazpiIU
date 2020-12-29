@@ -1,19 +1,21 @@
 import React from 'react'
-import {menus} from '../../../data/navlinks'; 
-import {stringTransform} from '../../../../../helpers';
+import { useLocation } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from 'material-ui-popup-state/HoverMenu'
+import {menus} from '../../../data/navlinks'; 
 import {
     usePopupState,
     bindHover,
     bindMenu,
 } from 'material-ui-popup-state/hooks'
+import { 
+    stringTransform, 
+} from '../../../../../helpers';
   
-import { makeStyles } from '@material-ui/core/styles';
-
 const useStyles = makeStyles(theme => ({
     linkClass: {
         "&:hover": {
@@ -38,6 +40,18 @@ const useStyles = makeStyles(theme => ({
             cursor: 'pointer',
         }
     },
+    currentPage: {
+        backgroundColor: theme.palette.primary.main,
+        color: 'white',
+        cursor: 'pointer',
+    },
+    currentPageText: {
+        fontWeight: 600,
+        color: 'white',
+        cursor: 'pointer',
+        padding: '.8rem',
+        width: 'inherit',
+    },
     menuItem: {
       backgroundColor: theme.palette.primary.dark,
       color: 'white',
@@ -56,6 +70,19 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Navbar = () => {
+
+    const {pathname} = useLocation();
+
+    const path = stringTransform(pathname,'-', '_').toLowerCase();
+
+    const isCurrentPage = key => {
+        return isHomePage(path, key) || path.includes(key); // /about
+    }
+
+    const isHomePage = key => {
+        return (path === '/' && key === 'home');
+    }
+
     const state = {
         about_us : usePopupState({ variant: 'popover', popupId: 'about_us' }),
         admission : usePopupState({ variant: 'popover', popupId: 'admission' }),
@@ -64,28 +91,34 @@ const Navbar = () => {
         updates : usePopupState({ variant: 'popover', popupId: 'updates' }),
     }
 
-    const {linkClass,  linkText, noVerticalPadding, linkContainer, menuItem} = useStyles();
+    const {linkClass,  linkText, noVerticalPadding, linkContainer, menuItem, currentPage, currentPageText} = useStyles();
     
-
     return (
         <Grid container justify='center'>
             {
-                // key =  home, about_us, admission ...
                 Object.keys(menus).map((key, index)=> {
             
-                const { link, items } = menus[key]; // { link: {}, items:[] }
+                const { link, items } = menus[key];
                 
                 const getState = items ? state[key] : '';
 
+                let setPage = linkContainer;
+                let setLinkText = linkText;
+
+                if (isCurrentPage(key, path)) {
+                   setPage =  currentPage;
+                   setLinkText = currentPageText
+                }
+
             return  (
-                        <div key={index} className={ linkContainer }>
+                        <div key={index} className={setPage}>
                             <Link
                                 href={link}
                                 className={linkClass}
                                 {...bindHover(getState)}
                             > 
-                                <Typography variant='subtitle1' className={ linkText }>
-                                    {stringTransform(key)}
+                                <Typography variant='subtitle1' className={ setLinkText }>
+                                    {stringTransform(key, '_', ' ')}
                                 </Typography>
                             </Link>
                            
@@ -98,13 +131,13 @@ const Navbar = () => {
                                         transformOrigin={{ vertical: "top", horizontal: "center" }}
                                         MenuListProps={{ className: noVerticalPadding }}
                                         classes={{
-                                            list: noVerticalPadding, // class name, e.g. `classes-nesting-root-x`
+                                            list: noVerticalPadding,
                                           }}
                                         >
                                         <MenuItem key="placeholder" style={{display: "none"}} />
                                         {
-                                            items.map((item, index) => (
-                                                <MenuItem dense={true} className={menuItem} key={index}>{item}</MenuItem>
+                                            items.map(({title, link}, index) => (
+                                                <MenuItem dense={true} component='a' href={link} className={menuItem} key={index}>{title}</MenuItem>
                                             ))  
                                         }
                                     </Menu> 

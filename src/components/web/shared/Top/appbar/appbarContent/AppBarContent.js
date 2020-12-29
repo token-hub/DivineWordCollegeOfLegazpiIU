@@ -57,16 +57,16 @@ const AppBarContent = () => {
                 return hasItems 
                         ?   <div key={index}>
                                 <ListItem button key={text} className={listItem} onClick={() => handleListDrawerClick(text)}>
-                                    <ListItemText  primary={stringTransform(text)} />
+                                    <ListItemText  primary={stringTransform(text, '_', ' ')} />
                                     {listDrawer[text] ? <ExpandLess /> : <ExpandMore />}
                                 </ListItem>
                                 
                                 <Collapse in={listDrawer[text]} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>
                                         { 
-                                            items.map((item, index) =>(
+                                            items.map(({title, link}, index) =>(
                                                 <ListItem button component='a' href={link} key={index} className={listItemNested}>
-                                                    <ListItemText primary={stringTransform(item)} />
+                                                    <ListItemText primary={stringTransform(title, '_', ' ')} />
                                                 </ListItem>
                                             ))
                                         }

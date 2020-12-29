@@ -1,29 +1,27 @@
-const setQuickLinks = (link, title) => {
-    return {link, title};
-}
+import { setObject } from '../../../../helpers'; 
 
 const academicPrograms = [
-    setQuickLinks('#', 'Grade School Department'),
-    setQuickLinks('#', 'Junior High School Department'),
-    setQuickLinks('#', 'Free Secondary Discount Program'),
-    setQuickLinks('#', 'Senior High School Department'),
-    setQuickLinks('#', 'College'),
-    setQuickLinks('#', 'Graduate School of Business and Management'),
+    setObject('Grade School Department', '/academics/grade-school-department'),
+    setObject('Junior High School Department', '/academics/junior-high-school-department'),
+    setObject('Free Secondary Discount Program', '/academics/free-secondary-discount-program'),
+    setObject('Senior High School Department', '/academics/senior-high-school-department'),
+    setObject('College', '/academics/college'),
+    setObject('Graduate School of Business and Management', '/academics/graduate-school-of-business-and-management'),
 ];
 
 const whyChoose = [
-    setQuickLinks('#', 'Our Mission, Vision, Goal, Values'),
-    setQuickLinks('#', 'History'),    
-    setQuickLinks('#', 'School Facilities'),    
+    setObject('Mission, Vision, Goal, Values', '/about-us/mission,-vision-&-goal'),
+    setObject('History', '/about-us/history'),    
+    setObject('School Facilities', '/about-us/facilities'),    
 ];
 
 const admission = [
-    setQuickLinks('#', 'Grade School'),
-    setQuickLinks('#', 'Junior High School'),
-    setQuickLinks('#', 'Free Secondary Distance Program'),
-    setQuickLinks('#', 'Senior High School'),
-    setQuickLinks('#', 'College'),
-    setQuickLinks('#', 'Graduate School'),
+    setObject('Grade School', '/admission/grade-school'),
+    setObject('Junior High School', '/admission/junior-high-school'),
+    setObject('Free Secondary Distance Program', '/admission/free-secondary-distance-program'),
+    setObject('Senior High School', '/admission/senior-high-school'),
+    setObject('College', '/admission/college'),
+    setObject('Graduate School', '/admission/graduate-school'),
 ];
 
 export const quickLinksData = {

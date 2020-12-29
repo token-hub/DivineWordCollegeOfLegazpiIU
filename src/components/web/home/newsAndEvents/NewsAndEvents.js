@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import SharedGrid from '../../shared/others/sharedGrid';
 import { cards } from "../../data/newsAndEvents";
 
-
 const useStyles = makeStyles(theme => ({
    root: {
        backgroundColor: 'white',
@@ -19,11 +18,13 @@ const useStyles = makeStyles(theme => ({
        padding: '4rem 0'
    }, 
    cardContainer: {
-    maxWidth: 400,
-    margin: '.3rem',
-    [theme.breakpoints.down('sm')]: {
-        maxWidth: 300,
+    marginBottom: '1rem',
+    [theme.breakpoints.only('xs')] : {
+        width: '100%'
     }
+  },
+  card: {
+      width: '90%',
   },
   media: {
     height: 200,
@@ -33,37 +34,32 @@ const useStyles = makeStyles(theme => ({
       fontWeight: 600,
       color: '#1D17CE'
   },
-  padding : {
-      padding: '2rem'
-  }
 }));
 
 const NewsAndEvents = () => {
 
-    const { root, cardContainer, media, title, padding } = useStyles();
+    const { root, cardContainer, card, media, title } = useStyles();
 
     const renderCard = (link, title, image, index) => {
         return (
-            <Fragment key={index}>
-                <Grid container justify='center' item sm={12} md={4} className={cardContainer} >
-                    <Card className={cardContainer} variant="outlined" raised={true}>
-                        <CardMedia
-                        className={media}
-                        image={image}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h6" component="h2">
-                            { title }
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button color="primary" component='a' href={link}>
-                                Read More
-                            </Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-            </Fragment>
+            <Grid container key={index} justify='center' item sm={12} md={4} className={cardContainer} >
+                <Card className={card} variant="outlined" raised={true}>
+                    <CardMedia
+                    className={media}
+                    image={image}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h6" component="h2">
+                        { title }
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button color="primary" component='a' href={link}>
+                            Read More
+                        </Button>
+                    </CardActions>
+                </Card>
+            </Grid>
         )
     }
 
@@ -75,7 +71,7 @@ const NewsAndEvents = () => {
                 </Typography>
             </Grid>
             
-            <Grid container item justify='center'>
+            <Grid container item>
                 {
                     cards.map(({ link, title, image }, index) => renderCard(link, title, image, index) )
                 }

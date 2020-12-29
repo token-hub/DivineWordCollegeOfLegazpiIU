@@ -23,6 +23,12 @@ const theme = createMuiTheme({
             fontSize: "1.3rem"
           }
         },
+        subtitle1: {
+          fontSize: "1rem",
+          [breakpoints.down("xs")]: {
+            fontSize: ".75rem"
+          }
+        },
       }
     }
   });

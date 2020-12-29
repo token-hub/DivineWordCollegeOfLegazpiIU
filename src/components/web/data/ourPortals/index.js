@@ -1,6 +1,4 @@
-const setObject = (title, link = '#') => {
-    return {title, link}
-}
+import { setObject } from '../../../../helpers'; 
 
 export const portals = [
     setObject('Student'),
