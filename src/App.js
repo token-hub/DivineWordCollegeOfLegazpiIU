@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
+
 import Home from './components/web/home';
 import History from './components/web/aboutUs/history';
 import TheSeal from './components/web/aboutUs/theSeal';
@@ -12,16 +13,50 @@ import Administrators from './components/web/aboutUs/administrators';
 import Facilities from './components/web/aboutUs/facilities';
 import OrganizationalStructure from './components/web/aboutUs/organizationalStructure';
 import AwardsAndRecognition from './components/web/aboutUs/awardsAndRecognition';
+
 import Admission from './components/web/admission';
+import OnlineEnrollment from './components/web/admission/onlineEnrollment';
+import GradeSchool from './components/web/admission/gradeSchool';
+import JuniorHighSchool from './components/web/admission/juniorHighSchool';
+import FreeSecondaryDistanceProgram from './components/web/admission/freeSecondaryDistanceProgram';
+import SeniorHighSchool from './components/web/admission/seniorHighSchool';
+import College from './components/web/admission/college';
+import GraduateSchool from './components/web/admission/graduateSchool';
+import Scholarship from './components/web/admission/scholarship';
+
 import Academics from './components/web/academics';
-import StudentServices from './components/web/studentServices';
+// import GradeSchoolDepartment from './components/web/academics/gradeSchoolDepartment';
+// import JuniorSchoolDepartment from './components/web/academics/juniorSchoolDepartment';
+// import FreeSecondaryDistanceProgramDeparment from './components/web/academics/FreeSecondaryDistanceProgramDepartment';
+// import SeniorSchoolDepartment from './components/web/academics/seniorSchoolDepartment';
+// import CollegeDeparment from './components/web/academics/collegeDeparment';
+// import GSBMDepartment from './components/web/academics/GSBMDepartment';
+
+// import StudentServices from './components/web/studentServices';
+// import CommunityExtensionServices from './components/web/studentServices/communityExtensionServices';
+// import StudentAffairsOrganization from './components/web/studentServices/studentAffairsOrganization';
+// import Athletics from './components/web/studentServices/athletics';
+// import Publication from './components/web/studentServices/publication';
+// import CampusMinistry from './components/web/studentServices/CampusMinistry';
+// import SerbisyongDivine from './components/web/studentServices/serbisyongDivine';
+// import Registrar from './components/web/studentServices/registrar';
+// import Research from './components/web/studentServices/research';
+// import Clinic from './components/web/studentServices/clinic';
+// import Canteen from './components/web/studentServices/canteen';
+
 import Career from './components/web/career';
 import Gallery from './components/web/gallery';
+
 import Updates from './components/web/updates';
+// import Calendar from './components/web/updates/calendar';
+// import Announcement from './components/web/updates/announcement';
+// import NewsAndEvents from './components/web/updates/newsAndEvents';
+
 import ContactUs from './components/web/contactUs';
 import Alumni from './components/web/alumni';
 
 import { makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles({
     app: {
@@ -39,6 +74,8 @@ const App = props => {
 		<div className={app}>
 			<Switch>
 				<Route path="/" exact component={Home} />
+				
+				{/* About Us Pages */}
 				<Route path="/about-us/history" exact component={History} />
 				<Route path="/about-us/the-seal" exact component={TheSeal} />
 				<Route path="/about-us/mission,-vision-&-goal" exact component={MissionVisionGoal} />
@@ -50,15 +87,49 @@ const App = props => {
 				<Route path="/about-us/organizational-structure" exact component={OrganizationalStructure} />
 				<Route path="/about-us/awards-&-recognition" exact component={AwardsAndRecognition} />
 
+				{/* Admission Pages */}
 				<Route path="/admission" exact component={Admission} />
+				<Route path="/admission/online-enrollment" exact component={OnlineEnrollment} />
+				<Route path="/admission/grade-school" exact component={GradeSchool} />
+				<Route path="/admission/junior-high-school" exact component={JuniorHighSchool} />
+				<Route path="/admission/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgram} />
+				<Route path="/admission/senior-high-school" exact component={SeniorHighSchool} />
+				<Route path="/admission/college" exact component={College} />
+				<Route path="/admission/graduate-school" exact component={GraduateSchool} />
+				<Route path="/admission/scholarship" exact component={Scholarship} />
+
+				{/* Acadamics Pages */}
 				<Route path="/academics" exact component={Academics} />
-				<Route path="/student-services" exact component={StudentServices} />
+				{/* <Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />
+				<Route path="/academics/junior-high-school-department" exact component={JuniorSchoolDepartment} /> */}
+				{/* <Route path="/academics/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgramDeparment} />
+				<Route path="/academics/senior-high-school-department" exact component={SeniorSchoolDepartment} />
+				<Route path="/academics/college" exact component={CollegeDeparment} />
+				<Route path="/academics/graduate-school-of-business-and-management" exact component={GSBMDepartment} /> */}
+
+				{/* Student services Pages */}
+				{/* <Route path="/student-services" exact component={StudentServices} /> */}
+				{/* <Route path="/student-services/community-extension-services" exact component={CommunityExtensionServices} />
+				<Route path="/student-services/athletics" exact component={Athletics} />
+				<Route path="/student-services/publication" exact component={Publication} />
+				<Route path="/student-services/campus-ministry" exact component={CampusMinistry} />
+				<Route path="/student-services/serbisyong-divine" exact component={SerbisyongDivine} />
+				<Route path="/student-services/registrar" exact component={Registrar} />
+				<Route path="/student-services/research" exact component={Research} />
+				<Route path="/student-services/Canteen" exact component={canteen} /> */}
+
 				<Route path="/career" exact component={Career} />
 				<Route path="/gallery" exact component={Gallery} />
+
+				{/* Updates Pages */}
 				<Route path="/updates" exact component={Updates} />
+				{/* <Route path="/updates/calendar" exact component={Calendar} />
+				<Route path="/updates/announcement" exact component={Announcement} />
+				<Route path="/updates/news-and-events" exact component={NewsAndEvents} /> */}
+
 				<Route path="/contact-us" exact component={ContactUs} />
 				<Route path="/alumni" exact component={Alumni} />
-				{/*<Route path="/home/:page" exact render={ props => <Home2 {...props} /> } />*/}
+				
 			</Switch>
 		</div>
 	);

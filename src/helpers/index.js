@@ -22,11 +22,21 @@ const setImage = (alt, img) => {
     return { alt, img };
 }
 
+const setListContent = (title, link = '#', dateAndTime = null) => {
+    return {title, link, dateAndTime};
+}
+
+const setObjectGen = (item, value = null) => {
+    return {item, value};
+}
+
 export {
     stringTransform,
     isCurrentPage,
     isHomePage,
     setObject,
     capitalizeAllFirstLetter,
-    setImage
+    setImage,
+    setListContent,
+    setObjectGen
 }

@@ -1,12 +1,12 @@
 import React, {Fragment} from 'react'
-import Overview from './overview';
+import ListContainer from '../listContainer';
 import Main from './main';
 import SharedGrid from '../sharedGrid';
 import Top from '../../Top';
 import Bottom from '../../Bottom';
 import Banner from '../../Top/banner';
+import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme =>({
     root: {
@@ -43,7 +43,7 @@ const SharedLayout = ({title, banner, data, children}) => {
             <Banner img={img} alt={alt} />
             <SharedGrid root={root} >
                 <Grid item className={overview} >
-                    <Overview data={data} />
+                    <ListContainer data={data} header='OVERVIEW' type='overview' />
                 </Grid>
 
                 <Grid item className={main}>

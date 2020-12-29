@@ -55,7 +55,7 @@ export const menus = {
             setObject('REGISTRAR', '/student_services/registrar'),
             setObject('RESEARCH', '/student_services/research'),
             setObject('CLINIC', '/student_services/clinic'),
-            setObject('canteen', '/student_services/canteen'),
+            setObject('CANTEEN', '/student_services/canteen'),
         ]
     },
     career: {
