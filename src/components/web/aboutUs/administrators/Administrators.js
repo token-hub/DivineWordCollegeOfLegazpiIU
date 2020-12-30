@@ -2,21 +2,16 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import clsx from  'clsx';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
 import SharedLayout from '../../shared/others/sharedLayout';
 import { menus } from '../../data/navlinks';
 import { AboutUsBannerObj } from '../../data/banners';
 import { images } from '../../data/images';
 import { admins } from '../../data/administrators';
+import RenderTable from '../../shared/others/renderTable/RenderTable';
 
 
 import { makeStyles } from '@material-ui/core/styles';
+
 
 const useStyles = makeStyles(theme => ({
     bold: {
@@ -37,13 +32,7 @@ const useStyles = makeStyles(theme => ({
         maxHeight: '100%',
         width: '100%',
         background: 'cover'
-    },
-    table: {
-        minWidth: 650,
-        [theme.breakpoints.only('xs')] : {
-            minWidth: 300,
-        }
-    },
+    }
 }));
 
 const Administrators = () => {
@@ -52,7 +41,7 @@ const Administrators = () => {
 
     const { president, vpaa, vpa, vpf } = administrators;
 
-    const {bold, paragraph, description, imageContainer, image, table} = useStyles();
+    const {bold, paragraph, description, imageContainer, image} = useStyles();
 
     const renderAdministrator = (title, name, job, img) => {
         return (
@@ -93,26 +82,7 @@ const Administrators = () => {
                 <Typography variant='h6' color='primary' className={clsx(paragraph, bold)}>
                     SVD's
                 </Typography>
-                <TableContainer >
-                <Table className={table} aria-label="simple table">
-                    <TableHead>
-                    <TableRow>
-                        <TableCell align="left"></TableCell>
-                        <TableCell align="right"></TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {
-                        admins.map(({title, name}) => (
-                            <TableRow key={name}>
-                            <TableCell align="left">{title}</TableCell>
-                            <TableCell align="right">{name}</TableCell>
-                            </TableRow>
-                        ))
-                    }
-                    </TableBody>
-                </Table>
-                </TableContainer>
+                <RenderTable tableBody={admins} size='small' />
             </SharedLayout>
         </Grid>
     )

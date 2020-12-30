@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme =>({
         paddingLeft: '2rem',
     },
     listIconIndented: {
-        paddingLeft: '2rem',
+        paddingLeft: '4rem',
         color: 'gray'
     },
     italic: {
@@ -37,9 +37,24 @@ const useStyles = makeStyles(theme =>({
     },
 }));
 
-const RenderList = ({header, data}) => {
+const RenderList = ({header = '', data}) => {
 
-    const {paragraph, bold, noPadding, listIcon, icon} = useStyles();
+    const {paragraph, bold, noPadding, listIcon, icon, listIconIndented} = useStyles();
+
+    const isObject = val => {
+        return val instanceof Object;
+    }
+
+    const renderList = (index, className, value) => {
+        return (
+            <ListItem key={index} className={noPadding}>
+                <ListItemIcon className={className}>
+                    <FiberManualRecordIcon className={icon} />
+                </ListItemIcon>
+                <ListItemText primary={value} />
+            </ListItem>
+        );
+    }
 
     return (
         <>
@@ -49,14 +64,40 @@ const RenderList = ({header, data}) => {
 
             <List className={paragraph}>
                 {
-                    data.map((student, index) => (
-                        <ListItem key={index} className={noPadding}>
-                            <ListItemIcon className={listIcon}>
-                                <FiberManualRecordIcon className={icon} />
-                            </ListItemIcon>
-                            <ListItemText primary={student} />
-                        </ListItem> 
-                    ))
+                    data.map((val, index) => {
+                        return isObject(val)
+                            ?   <div key={index}>
+                                {
+                                    <>   
+                                        {
+                                            renderList(index, listIcon, val['item'])
+                                        }   
+                                        {
+                                            val['value'] !== null
+                                                ?   <div>
+                                                        {
+                                                            val['value']['value'] !== null 
+                                                                ?   val['value']['value'].map( (val, index) => {
+                                                                        return (
+                                                                            <div key={index}>
+                                                                                {
+                                                                                   renderList(index, listIconIndented, val)
+                                                                                }
+                                                                            </div>
+                                                                        )
+                                                                    })
+                                                                : ""
+                                                        }
+                                                    </div>
+                                                : ''
+                                        }
+                                    </>
+                                }
+                                </div>
+                            : <>
+                            { renderList(index, listIcon, val) } 
+                            </>  
+                    })
                 }
             </List>
         </>

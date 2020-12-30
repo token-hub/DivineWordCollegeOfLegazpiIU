@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 const stringTransform = (text, from, to) => {
     return text.split(from).join(to).toUpperCase();
 }
@@ -10,8 +12,8 @@ const isHomePage = (path, key = 'home') => {
     return (path === '/' && key === 'home');
 }
 
-const setObject= (title, link = '#') => {
-    return {title, link};
+const setObject= (title, link = '#', sublinks = undefined) => {
+    return {title, link, sublinks};
 }
 
 const capitalizeAllFirstLetter = string => {
@@ -26,8 +28,16 @@ const setListContent = (title, link = '#', dateAndTime = null) => {
     return {title, link, dateAndTime};
 }
 
-const setObjectGen = (item, value = null) => {
+const setObjectGen = (item = null, value = null) => {
     return {item, value};
+}
+
+const isNeedTextTransform = (type, text) => {
+    return type === 'overview' ? capitalizeAllFirstLetter(text) : text;
+}
+
+const isBlock = (item, className, className2) => {
+    return item ? clsx(className, className2) : className;
 }
 
 export {
@@ -38,5 +48,7 @@ export {
     capitalizeAllFirstLetter,
     setImage,
     setListContent,
-    setObjectGen
+    setObjectGen,
+    isNeedTextTransform,
+    isBlock
 }

@@ -27,7 +27,7 @@ const College = () => {
     return (
         <Grid container>
             <SharedLayout data={menus.admission.items} title='College' banner={AdmissionBannerObj}>
-                 <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
+                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
                     ENROLLMENT PROCEDURE
                 </Typography>
 

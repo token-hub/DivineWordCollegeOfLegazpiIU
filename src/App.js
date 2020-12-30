@@ -24,12 +24,20 @@ import College from './components/web/admission/college';
 import GraduateSchool from './components/web/admission/graduateSchool';
 import Scholarship from './components/web/admission/scholarship';
 
-import Academics from './components/web/academics';
-// import GradeSchoolDepartment from './components/web/academics/gradeSchoolDepartment';
-// import JuniorSchoolDepartment from './components/web/academics/juniorSchoolDepartment';
-// import FreeSecondaryDistanceProgramDeparment from './components/web/academics/FreeSecondaryDistanceProgramDepartment';
-// import SeniorSchoolDepartment from './components/web/academics/seniorSchoolDepartment';
-// import CollegeDeparment from './components/web/academics/collegeDeparment';
+
+import GradeSchoolDepartment from './components/web/academics/gradeSchoolDepartment';
+import JuniorHighSchoolDepartment from './components/web/academics/juniorHighSchoolDepartment';
+import FreeSecondaryDistanceProgramDeparment from './components/web/academics/freeSecondaryDistanceProgramDepartment';
+import SeniorHighSchoolDepartment from './components/web/academics/seniorHighSchoolDepartment';
+import CollegeDepartment from './components/web/academics/collegeDepartment';
+import SchoolOfNursing from './components/web/academics/schoolOfNursing';
+import SchoolOfHospitalityManagement from './components/web/academics/schoolOfHospitalityManagement';
+import SchoolOfEducationArtsAndSciences from './components/web/academics/schoolOfEducationArtsAndSciences';
+import SchoolOfEngineeringAndComputerStudies from './components/web/academics/schoolOfEngineeringAndComputerStudies';
+// import SchoolOfBusinessManagementAndAccountancy from './components/web/academics/schoolOfBusinessManagementAndAccountancy';
+// import GraduateSchoolOfBusinessAndManagement from './components/web/academics/graduateSchoolOfBusinessAndManagement';
+
+
 // import GSBMDepartment from './components/web/academics/GSBMDepartment';
 
 // import StudentServices from './components/web/studentServices';
@@ -99,13 +107,21 @@ const App = props => {
 				<Route path="/admission/scholarship" exact component={Scholarship} />
 
 				{/* Acadamics Pages */}
-				<Route path="/academics" exact component={Academics} />
-				{/* <Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />
-				<Route path="/academics/junior-high-school-department" exact component={JuniorSchoolDepartment} /> */}
-				{/* <Route path="/academics/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgramDeparment} />
-				<Route path="/academics/senior-high-school-department" exact component={SeniorSchoolDepartment} />
-				<Route path="/academics/college" exact component={CollegeDeparment} />
-				<Route path="/academics/graduate-school-of-business-and-management" exact component={GSBMDepartment} /> */}
+				<Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />
+				<Route path="/academics/junior-high-school-department" exact component={JuniorHighSchoolDepartment} />
+				<Route path="/academics/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgramDeparment} />
+				<Route path="/academics/senior-high-school-department" exact component={SeniorHighSchoolDepartment} />
+				<Route path="/academics/college" exact component={CollegeDepartment} />
+				<Route path="/academics/school-of-nursing" exact component={SchoolOfNursing} />
+				<Route path="/academics/school-of-hospitality-management" exact component={SchoolOfHospitalityManagement} />
+				<Route path="/academics/school-of-education-arts-and-sciences" exact component={SchoolOfEducationArtsAndSciences} />
+				<Route path="/academics/school-of-engineering-and-computer-studies" exact component={SchoolOfEngineeringAndComputerStudies} />
+				{/* <Route path="/academics/school-of-business-management-and-accountancy" exact component={SchoolOfBusinessManagementAndAccountancy} />
+				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} /> */}
+
+
+
+				{/* <Route path="/academics/graduate-school-of-business-and-management" exact component={GSBMDepartment} /> */}
 
 				{/* Student services Pages */}
 				{/* <Route path="/student-services" exact component={StudentServices} /> */}
