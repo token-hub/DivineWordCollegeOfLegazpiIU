@@ -10,12 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme =>({
-    bold: {
-        fontWeight: 600
-    },
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
     noPadding: {
         padding: 0
     },
@@ -26,82 +20,101 @@ const useStyles = makeStyles(theme =>({
     listIcon: {
         minWidth: 0,
         color: 'black',
-        paddingLeft: '2rem',
+        paddingLeft: '1rem'
     },
-    listIconIndented: {
-        paddingLeft: '4rem',
-        color: 'gray'
+    bold: {
+        fontWeight: 600
     },
-    italic: {
-        fontStyle: 'italic'
+    paragraph: {
+        marginBottom: '.5rem'
     },
+    listContainer : {
+        marginBottom: '1.5rem'
+    }
 }));
 
 const RenderList = ({header = '', data}) => {
-
-    const {paragraph, bold, noPadding, listIcon, icon, listIconIndented} = useStyles();
+ 
+    const {noPadding, listIcon, icon, bold, paragraph, listContainer} = useStyles();
 
     const isObject = val => {
         return val instanceof Object;
     }
 
-    const renderList = (index, className, value) => {
+    let nestedCount = 0;
+
+    const isArray = val => {
+        return Array.isArray(val) && !null;
+    }
+
+    const listItem = (title, index = '') => {
         return (
             <ListItem key={index} className={noPadding}>
-                <ListItemIcon className={className}>
+                <ListItemIcon className={listIcon}>
                     <FiberManualRecordIcon className={icon} />
                 </ListItemIcon>
-                <ListItemText primary={value} />
+                <ListItemText primary={title} />
             </ListItem>
-        );
+        )
+    }
+
+    const renderListItem = data => {
+
+        let list;
+
+        if ( !isObject(data) && !isArray(data)) {
+            list = listItem(data)
+        }  else {
+            const {item, value} = data;
+
+           list = <>
+                <Typography variant='subtitle1'>
+                    {item}
+                </Typography>
+                {
+                    value !== null
+                    ?  isArray(value)
+                        ?   value.map( (val, index) => listItem(val, index) )
+                        : (isObject(value) && !isArray(value))
+                            ?   mapObjectListItem(value)
+                            :   listItem(value)
+                    : ''
+                }
+            </>
+        }
+
+        return list   
+    }
+ 
+    const mapListItem = array => {
+        let padding = {};
+        nestedCount+= 2;
+        return array.map( (data, index) => {
+            if (isArray(data['value'])) padding = {paddingLeft: `${nestedCount++}rem`};
+           return (
+                <div key={index} style={{ padding }}>
+                    {renderListItem(data)}
+                </div>
+            )
+        });
+    }
+
+    const mapObjectListItem = obj => {
+        return  (
+            <div style={{ paddingLeft: `${nestedCount}rem` }}>
+                {renderListItem(obj)}
+            </div>
+        )
     }
 
     return (
-        <>
-            <Typography variant='subtitle1' color='primary' className={bold}>
+        <div className={listContainer} >
+            <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
                 {header}
             </Typography>
-
-            <List className={paragraph}>
-                {
-                    data.map((val, index) => {
-                        return isObject(val)
-                            ?   <div key={index}>
-                                {
-                                    <>   
-                                        {
-                                            renderList(index, listIcon, val['item'])
-                                        }   
-                                        {
-                                            val['value'] !== null
-                                                ?   <div>
-                                                        {
-                                                            val['value']['value'] !== null 
-                                                                ?   val['value']['value'].map( (val, index) => {
-                                                                        return (
-                                                                            <div key={index}>
-                                                                                {
-                                                                                   renderList(index, listIconIndented, val)
-                                                                                }
-                                                                            </div>
-                                                                        )
-                                                                    })
-                                                                : ""
-                                                        }
-                                                    </div>
-                                                : ''
-                                        }
-                                    </>
-                                }
-                                </div>
-                            : <>
-                            { renderList(index, listIcon, val) } 
-                            </>  
-                    })
-                }
-            </List>
-        </>
-    )   
+            {mapListItem(data)}
+        </div>
+    );
 }
 
 export default RenderList

@@ -34,8 +34,8 @@ import SchoolOfNursing from './components/web/academics/schoolOfNursing';
 import SchoolOfHospitalityManagement from './components/web/academics/schoolOfHospitalityManagement';
 import SchoolOfEducationArtsAndSciences from './components/web/academics/schoolOfEducationArtsAndSciences';
 import SchoolOfEngineeringAndComputerStudies from './components/web/academics/schoolOfEngineeringAndComputerStudies';
-// import SchoolOfBusinessManagementAndAccountancy from './components/web/academics/schoolOfBusinessManagementAndAccountancy';
-// import GraduateSchoolOfBusinessAndManagement from './components/web/academics/graduateSchoolOfBusinessAndManagement';
+import SchoolOfBusinessManagementAndAccountancy from './components/web/academics/schoolOfBusinessManagementAndAccountancy';
+import GraduateSchoolOfBusinessAndManagement from './components/web/academics/graduateSchoolOfBusinessAndManagement';
 
 
 // import GSBMDepartment from './components/web/academics/GSBMDepartment';
@@ -116,8 +116,8 @@ const App = props => {
 				<Route path="/academics/school-of-hospitality-management" exact component={SchoolOfHospitalityManagement} />
 				<Route path="/academics/school-of-education-arts-and-sciences" exact component={SchoolOfEducationArtsAndSciences} />
 				<Route path="/academics/school-of-engineering-and-computer-studies" exact component={SchoolOfEngineeringAndComputerStudies} />
-				{/* <Route path="/academics/school-of-business-management-and-accountancy" exact component={SchoolOfBusinessManagementAndAccountancy} />
-				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} /> */}
+				<Route path="/academics/school-of-business-management-and-accountancy" exact component={SchoolOfBusinessManagementAndAccountancy} />
+				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} />
 
 
 

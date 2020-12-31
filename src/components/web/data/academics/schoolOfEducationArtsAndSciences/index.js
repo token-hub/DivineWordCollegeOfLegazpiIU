@@ -1,18 +1,19 @@
 import {setObjectGen} from '../../../../../helpers';
 
 const courses = [
-    'Bachelor of Science in Psychology (BS PSYCH)',
-    'Bachelor of Physical Education (BPED)',
-    'Bachelor of Special Needs Education (BSNED)',
-    'Bachelor of Elementary Education (BEED)',
-    'Bachelor of Secondary Education (BSED)',
-];
-
-const major = [
-    'English',
-    'Science',
-    'Mathematics',
-    'Filipino',
+    setObjectGen('', [
+        'Bachelor of Science in Psychology (BS PSYCH)',
+        'Bachelor of Physical Education (BPED)',
+        'Bachelor of Special Needs Education (BSNED)',
+        'Bachelor of Elementary Education (BEED)',
+        'Bachelor of Secondary Education (BSED)',
+    ]),
+    setObjectGen('Majors in:', [
+        'English',
+        'Science',
+        'Mathematics',
+        'Filipino',
+    ]),
 ];
 
 const facultyAndStaff = [
@@ -56,6 +57,5 @@ const facultyAndStaff = [
 
 export {
     courses, 
-    major,
     facultyAndStaff
 }

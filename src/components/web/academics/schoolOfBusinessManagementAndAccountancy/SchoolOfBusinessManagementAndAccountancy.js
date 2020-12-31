@@ -5,15 +5,15 @@ import Typography from '@material-ui/core/Typography';
 
 import { makeStyles } from '@material-ui/core/styles';
 import RenderList from '../../shared/others/renderList';
+import RenderTable from '../../shared/others/renderTable';
 import { menus } from '../../data/navlinks';
 import SharedLayout from '../../shared/others/sharedLayout';
 import { AcademicsBannerObj } from '../../data/banners';
-
 import {
-    courses, 
+    objectives,
+    courses,
     facultyAndStaff
-} from '../../data/academics/schoolOfEducationArtsAndSciences';
-import RenderTable from '../../shared/others/renderTable/RenderTable';
+} from '../../data/academics/schoolOfBusinessManagementAndAccountancy';
 
 const useStyles = makeStyles({
     bold: {
@@ -24,27 +24,23 @@ const useStyles = makeStyles({
     },
 });
 
-const SchoolOfEducationArtsAndSciences = () => {
+const SchoolOfBusinessManagementAndAccountancy = () => {
 
     const {bold, paragraph} = useStyles();
 
     return (
         <Grid container>
-            <SharedLayout data={menus.academics.items} title='School of Education, Arts and Sciences' banner={AcademicsBannerObj}>
-                
-                <RenderList header='Courses Offered:' data={courses} />
-
+            <SharedLayout data={menus.academics.items} title='School of Business Management & Accountancy' banner={AcademicsBannerObj}>
                 <Typography variant='subtitle1' className={paragraph}>
-                    Non Degree courses: Certificate in College Teaching (CCT)
-                </Typography>
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
-                    List of Faculty and Staff (S.Y. 2019-2020)
+                    The School of Business Management and Accountancy (SBMA) is committed to excellence and dynamism in teaching-learning-research processes across all areas of discipline in business and public. It seeks to produce socially responsible and service-oriented graduates, imbued with the DWCL core values.
                 </Typography>
 
+                <RenderList header='Specific Objectives:' data={objectives} />
+                <RenderList header='Courses Offered:' data={courses} />
                 <RenderTable tableBody={facultyAndStaff} size='small' />
             </SharedLayout>
         </Grid>
     )
 }
 
-export default SchoolOfEducationArtsAndSciences
+export default SchoolOfBusinessManagementAndAccountancy

@@ -20,7 +20,7 @@ const useStyles = makeStyles({
         fontWeight: 600
     },
     paragraph: {
-        marginBottom: '1.5rem'
+        marginBottom: '1rem'
     },
 });
 
@@ -36,8 +36,8 @@ const GradeSchoolDepartment = () => {
                 </Typography>
 
                 <RenderList header='Specific Objectives:' data={objectives} />
-                <RenderList header='PROGRAMS OFFERED:' data={objectives} />
-                <Typography variant='subtitle1' color='primary' className={paragraph}>
+                <RenderList header='Programs Offered:' data={program} />
+                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
                     List of Faculty and Staff (S.Y. 2019-2020)
                 </Typography>
                 <RenderTable tableBody={facultyAndStaff} size='small' />

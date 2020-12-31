@@ -9,7 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { menus } from '../../data/navlinks';
 import { AboutUsBannerObj } from '../../data/banners';
-
+import { administrators } from '../../data/aboutUs/history';
+import RenderList from '../../shared/others/renderList';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -95,50 +96,9 @@ const History = () => {
                 <Typography variant='subtitle1' className={paragraph}>
                     <span className={bold}>The Administrators through the Years</span>. The pioneering job of the school administration was handled by Fr. Joseph L. Bates, SVD who became the director of the institution from 1961 to 1971. Fr. Donald Mulrenan, SVD became president from 1968 to 1970 when Fr. Bates went to the United States. In compliance with the move for the Filipinization of educational institutions in the Philippines, the following took over as Presidents of the Divine Word College of Legazpi in their respective terms:
                 </Typography>
-                <Typography variant='subtitle1' className={paragraph}>
-                    <List>
-                        {
-                            [
-                                'Fr. Florante S. Camacho, SVD 1970-1973',
-                                'Fr. Valentino D. Darunday, SVD 1973-1979', 
-                                'Fr. Alfredo A. Reyes, SVD 1979-1985'
-                            ].map(administrator => (
-                                <ListItem className={noPadding}>
-                                    <ListItemIcon className={listIcon}>
-                                        <ArrowRightIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={administrator} />
-                                </ListItem> 
-                            ))
-                        }
-                    </List>
-                </Typography>
-                <Typography variant='subtitle1' className={paragraph}>
-                    & 1989-1990
-                </Typography>
-                <Typography variant='subtitle1' className={paragraph}>
-                    <List>
-                        {
-                            [
-                                'Fr. Eleuterio S. Lacaron, SVD 1985-1989',
-                                'Fr. Restituto A. Lumanlan, SVD 1990-1993', 
-                                'Fr. Jose M. Calucag, SVD (+) 1994-1999',
-                                'Fr. Ignacio C. Joaquin, SVD February 1999 – May 1999',
-                                'Fr. Michael O. Padua, SVD 1999-2002',
-                                'Fr. Francisco Antonio T. Estepa, SVD 2002-2007',
-                                'Fr. Crispin A. Cordero, SVD 2008 –2017',
-                                'Fr. Nielo M. Cantilado, SVD 2017 – Present'
-                            ].map(administrator => (
-                                <ListItem className={noPadding}>
-                                    <ListItemIcon className={listIcon}>
-                                        <ArrowRightIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={administrator} />
-                                </ListItem> 
-                            ))
-                        }
-                    </List>
-                </Typography>
+
+                <RenderList data={administrators} />
+               
             </SharedLayout>
         </Grid>
     )

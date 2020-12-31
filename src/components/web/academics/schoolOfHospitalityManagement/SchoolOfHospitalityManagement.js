@@ -41,12 +41,7 @@ const SchoolOfHospitalityManagement = () => {
                     Programs Offered:
                 </Typography>
 
-                <Typography variant='subtitle1' color='primary' className={bold}>
-                    Bachelor of Science in Hospitality Management (BSHM)
-                </Typography>
-
-                <RenderList header='Also offers with TVET Registered Programs:' data={programs} />
-
+                <RenderList header='Bachelor of Science in Hospitality Management (BSHM)' data={programs} />
 
                 <RenderTable tableBody={facultyAndStaff} size='small' />
             </SharedLayout>

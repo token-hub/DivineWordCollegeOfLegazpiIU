@@ -45,10 +45,10 @@ const SeniorHighSchoolDepartment = () => {
 
                 <RenderList header='ACADEMIC TRACK' data={courses} />
 
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
+                {/* <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
                     TECHNICAL VOCATIONAL TRACK
-                </Typography>
-                <RenderList header='HE – Home Economics' data={vocational} />
+                </Typography> */}
+                <RenderList header='TECHNICAL VOCATIONAL TRACK' data={vocational} />
 
 
                 <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>

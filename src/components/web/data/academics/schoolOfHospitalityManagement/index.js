@@ -14,9 +14,12 @@ const objectives = [
 ];
 
 const programs = [
-    'Cookery NC II (316 hours)',
-    'Food and Beverage Service NC II (356 hours)',
-    'Bread and Pastry Production NC II ( 141 hours)',
+    setObjectGen('Also offers with TVET Registered Programs:', [
+        'Cookery NC II (316 hours)',
+        'Food and Beverage Service NC II (356 hours)',
+        'Bread and Pastry Production NC II ( 141 hours)',
+    ]),
+   
 ];
 
 const facultyAndStaff = [

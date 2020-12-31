@@ -16,10 +16,12 @@ const courses = [
 ];
 
 const vocational = [
-    'Cookery',
-    'Bread & Pastry Production',
-    'Food and Beverages NC II',
-    'Event Management NC II',
+    setObjectGen('HE – Home Economics', [
+        'Cookery',
+        'Bread & Pastry Production',
+        'Food and Beverages NC II',
+        'Event Management NC II',
+    ]),  
 ];
 
 const facultyAndStaff = [

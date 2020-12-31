@@ -6,9 +6,7 @@ const colleges = [
     setObject('SCHOOL OF EDUCATION, ARTS AND SCIENCES', '/academics/school-of-education-arts-and-sciences'),
     setObject('SCHOOL OF ENGINERRING AND COMPUTER STUDIES', '/academics/school-of-engineering-and-computer-studies'),
     setObject('SCHOOL OF BUSINESS MANAGEMENT AND ACCOUNTANCY', '/academics/school-of-business-management-and-accountancy'),
-    setObject('GRADUATE SCHOOL OF BUSINESS AND MANAGEMENT', '/academics/graduate-school-of-business-and-management'),
 ];
-
 
 export const menus = {
     home: { 

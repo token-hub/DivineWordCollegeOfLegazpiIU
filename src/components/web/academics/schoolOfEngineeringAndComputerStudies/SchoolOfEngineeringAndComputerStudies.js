@@ -48,11 +48,8 @@ const SchoolOfEngineeringAndComputerStudies = () => {
                 </Typography>
                 <RenderList header='Specific Objectives: Develop IT professionals who can:' data={objectivesIT} />
 
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
-                    Courses Offered:
-                </Typography>
                 <RenderList header='Courses Offered:' data={courses} />
-
+                
                 <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
                     List of Faculty and Staff (S.Y. 2019-2020)
                 </Typography>
