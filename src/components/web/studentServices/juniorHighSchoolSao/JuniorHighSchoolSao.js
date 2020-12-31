@@ -5,15 +5,11 @@ import Typography from '@material-ui/core/Typography';
 
 import { makeStyles } from '@material-ui/core/styles';
 import RenderList from '../../shared/others/renderList';
+import RenderTable from '../../shared/others/renderTable';
+
 import { menus } from '../../data/navlinks';
 import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
-
-import {
-    courses, 
-    facultyAndStaff
-} from '../../data/academics/schoolOfEducationArtsAndSciences';
-import RenderTable from '../../shared/others/renderTable/RenderTable';
+import { StudentServicesBannerObj } from '../../data/banners';
 
 const useStyles = makeStyles({
     bold: {
@@ -24,21 +20,20 @@ const useStyles = makeStyles({
     },
 });
 
-const SchoolOfEducationArtsAndSciences = () => {
+const JuniorHighSchoolSao = () => {
 
     const {bold, paragraph} = useStyles();
 
     return (
         <Grid container>
-            <SharedLayout data={menus.academics.items} title='School of Education, Arts and Sciences' banner={AcademicsBannerObj}>
-                <RenderList header='Courses Offered:' data={courses} />
+            <SharedLayout data={menus.student_services.items} title='Junior High School' banner={StudentServicesBannerObj}>
                 <Typography variant='subtitle1' className={paragraph}>
-                    Non Degree courses: Certificate in College Teaching (CCT)
+                    Please visit us again as we are currently updating information on this page. <br />
+                    Thank you.
                 </Typography>
-                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)'/>
             </SharedLayout>
         </Grid>
     )
 }
 
-export default SchoolOfEducationArtsAndSciences
+export default JuniorHighSchoolSao

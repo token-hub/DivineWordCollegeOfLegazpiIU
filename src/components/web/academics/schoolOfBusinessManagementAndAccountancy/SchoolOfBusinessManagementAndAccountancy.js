@@ -37,7 +37,7 @@ const SchoolOfBusinessManagementAndAccountancy = () => {
 
                 <RenderList header='Specific Objectives:' data={objectives} />
                 <RenderList header='Courses Offered:' data={courses} />
-                <RenderTable tableBody={facultyAndStaff} size='small' />
+                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
             </SharedLayout>
         </Grid>
     )

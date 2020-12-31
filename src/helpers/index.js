@@ -28,7 +28,7 @@ const setListContent = (title, link = '#', dateAndTime = null) => {
     return {title, link, dateAndTime};
 }
 
-const setObjectGen = (item = null, value = null) => {
+const setObjectGen = (item = null, value = null, link = null) => {
     return {item, value};
 }
 

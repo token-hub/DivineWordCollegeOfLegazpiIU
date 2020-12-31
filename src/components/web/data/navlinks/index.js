@@ -8,6 +8,13 @@ const colleges = [
     setObject('SCHOOL OF BUSINESS MANAGEMENT AND ACCOUNTANCY', '/academics/school-of-business-management-and-accountancy'),
 ];
 
+const student_services = [
+    setObject('GRADE SCHOOL', '/student-services/grade-school'),
+    setObject('JUNIOR HIGH SCHOOL', '/student-services/junior-high-school'),
+    setObject('SENIOR HIGH NURSING', '/student-services/senior-high-school'),
+    setObject('COLLEGE', '/student-services/college'),
+];
+
 export const menus = {
     home: { 
         link: '/',
@@ -54,16 +61,17 @@ export const menus = {
     student_services: {
         link: '#',
         items: [
-            setObject('COMMUNITY EXTENSION SERVICES', '/student_services/community-extension-services'),
-            setObject('STUDENT AFFAIRS ORGANIZATION', '/student_services/student-affairs-organization'),
-            setObject('ATHLETICS', '/student_services/athletics'),
-            setObject('PUBLICATION', '/student_services/publication'),
-            setObject('CAMPUS MINISTRY', '/student_services/campus-ministry'),
-            setObject('SERBISYONG DIVINE', '/student_services/serbisyong-divine'),
-            setObject('REGISTRAR', '/student_services/registrar'),
-            setObject('RESEARCH', '/student_services/research'),
-            setObject('CLINIC', '/student_services/clinic'),
-            setObject('CANTEEN', '/student_services/canteen'),
+            setObject('COMMUNITY EXTENSION SERVICES', '/student-services/community-extension-services'),
+            setObject('STUDENT AFFAIRS ORGANIZATION', '/student-services/student-affairs-organization', student_services),
+            setObject('ATHLETICS', '/student-services/athletics'),
+            setObject('PUBLICATION', '/student-services/publication'),
+            setObject('CAMPUS MINISTRY', '/student-services/campus-ministry'),
+            setObject('SERBISYONG DIVINE', '/student-services/serbisyong-divine'),
+            setObject('REGISTRAR', '/student-services/registrar'),
+            setObject('LIBRARY', '/student-services/library'),
+            setObject('RESEARCH', '/student-services/research'),
+            setObject('CLINIC', '/student-services/clinic'),
+            setObject('CANTEEN', '/student-services/canteen'),
         ]
     },
     career: {

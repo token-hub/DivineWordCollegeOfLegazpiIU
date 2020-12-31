@@ -47,15 +47,8 @@ const SchoolOfEngineeringAndComputerStudies = () => {
                     The computer studies programs aim to produce globally competitive information technology (IT) professionals and socially responsible technopreneurs guided by the Divinian core values. The computer studies programs prepare students to become IT professionals and researchers who are proficient in designing and developing computing solutions, well-versed in application installation, operation, development, maintenance and administration, and familiar with hardware installation, operation, and maintenance.
                 </Typography>
                 <RenderList header='Specific Objectives: Develop IT professionals who can:' data={objectivesIT} />
-
                 <RenderList header='Courses Offered:' data={courses} />
-                
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
-                    List of Faculty and Staff (S.Y. 2019-2020)
-                </Typography>
-                
-                <RenderTable tableBody={facultyAndStaff} size='small' />
-               
+                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)'/>
             </SharedLayout>
         </Grid>
     )

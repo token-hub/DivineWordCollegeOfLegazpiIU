@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { render } from 'react-dom';
 
 const useStyles = makeStyles(theme =>({
     noPadding: {
@@ -20,7 +21,8 @@ const useStyles = makeStyles(theme =>({
     listIcon: {
         minWidth: 0,
         color: 'black',
-        paddingLeft: '1rem'
+        paddingLeft: '1rem',
+        paddingTop: '.2rem'
     },
     bold: {
         fontWeight: 600
@@ -42,41 +44,60 @@ const RenderList = ({header = '', data}) => {
     }
 
     let nestedCount = 0;
+    let childrenCount = 0;
 
     const isArray = val => {
         return Array.isArray(val) && !null;
     }
 
-    const listItem = (title, index = '') => {
+    const isStringOrNumber = data => {
+        return !isObject(data) && !isArray(data);
+    }
+
+    const listItem = (data, index = null) => {
+        if (isObject(data)) {
+            return renderListItem(data, true);
+        }
         return (
-            <ListItem key={index} className={noPadding}>
+            <ListItem alignItems='flex-start' key={index} className={noPadding}>
                 <ListItemIcon className={listIcon}>
                     <FiberManualRecordIcon className={icon} />
                 </ListItemIcon>
-                <ListItemText primary={title} />
+                <ListItemText primary={data} />
             </ListItem>
         )
     }
 
-    const renderListItem = data => {
-
+    const renderListItem = (data, dotIcon = false) => {
         let list;
 
-        if ( !isObject(data) && !isArray(data)) {
+        if (isStringOrNumber(data)) {
             list = listItem(data)
-        }  else {
+        }  else if (isArray(data)) {
+            list = data.map( (val, index) => {
+                return isStringOrNumber(val)
+                    ? listItem(val, index)
+                    : renderListItem(val)
+            })
+        } else {
             const {item, value} = data;
-
+            childrenCount++;
            list = <>
-                <Typography variant='subtitle1'>
-                    {item}
-                </Typography>
+               {
+                   dotIcon 
+                    ? listItem(value, null)
+                    :  <Typography variant='subtitle1' color='primary'>
+                        {item}
+                    </Typography>
+               }
                 {
                     value !== null
                     ?  isArray(value)
-                        ?   value.map( (val, index) => listItem(val, index) )
+                        ?   childrenCount > 0 
+                            ? value.map( (val, index) => mapObjectListItem(val, listItem, index) ) 
+                            : value.map( (val, index) => listItem(val, index) )
                         : (isObject(value) && !isArray(value))
-                            ?   mapObjectListItem(value)
+                            ?   mapObjectListItem(value, renderListItem)
                             :   listItem(value)
                     : ''
                 }
@@ -85,31 +106,54 @@ const RenderList = ({header = '', data}) => {
 
         return list   
     }
- 
+
     const mapListItem = array => {
         let padding = {};
-        nestedCount+= 2;
-        return array.map( (data, index) => {
-            if (isArray(data['value'])) padding = {paddingLeft: `${nestedCount++}rem`};
-           return (
-                <div key={index} style={{ padding }}>
-                    {renderListItem(data)}
-                </div>
+        let list = '';
+        nestedCount++;
+
+        const arrLength = array.length;
+        let stringNumCount = 0;
+        
+        for(let count in array ) {
+            if (isStringOrNumber(count)) {
+                stringNumCount++;
+            }
+        }
+
+        if (stringNumCount === arrLength) {
+            list = (
+                <List disablePadding>
+                    {renderListItem(array)}
+                </List>
             )
-        });
+        } else {
+            list = array.map( (data, index) => { 
+                if (isArray(data['value'])) padding = {paddingLeft: `${nestedCount++}rem`};
+                return (
+                    <List key={index} disablePadding>
+                        {renderListItem(data)}
+                    </List>
+                )
+            });
+        }
+
+        return list;
     }
 
-    const mapObjectListItem = obj => {
+    const mapObjectListItem = (obj, callback, index = null) => {
+        const applyPadding =  obj.item !== '' ? `${nestedCount}rem` : '';
+        
         return  (
-            <div style={{ paddingLeft: `${nestedCount}rem` }}>
-                {renderListItem(obj)}
-            </div>
+            <List style={{ paddingLeft: applyPadding }} disablePadding>
+                {callback(obj, index)}
+            </List>
         )
     }
 
     return (
-        <div className={listContainer} >
-            <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
+        <div className={listContainer}>
+            <Typography variant='h6' color='primary' className={clsx(paragraph, bold)}>
                 {header}
             </Typography>
             {mapListItem(data)}

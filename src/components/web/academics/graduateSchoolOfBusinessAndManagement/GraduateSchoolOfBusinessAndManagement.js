@@ -32,7 +32,7 @@ const GraduateSchoolOfBusinessAndAccountancy = () => {
     return (
         <Grid container>
             <SharedLayout data={menus.academics.items} title='Graduate School of Business and Management' banner={AcademicsBannerObj}>
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
+                <Typography variant='subtitle1' className={paragraph}>
                     Being the highest level in the institution, the Graduate School of Business and Management aims to develop leadership and expertise in business, management and community development as a competent human resource base, needed for regional and national development.
                 </Typography>
 
@@ -40,10 +40,7 @@ const GraduateSchoolOfBusinessAndAccountancy = () => {
                 <RenderList header='Programs Offered:' data={programs} />
                 <RenderList header='Admission Requirements' data={requirements} />
 
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
-                    List of Faculty and Staff (S.Y. 2019-2020)
-                </Typography>
-                <RenderTable tableBody={facultyAndstaff} size='small' />
+                <RenderTable tableBody={facultyAndstaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
             </SharedLayout>
         </Grid>
     )

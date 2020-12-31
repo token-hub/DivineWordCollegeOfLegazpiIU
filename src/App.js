@@ -38,19 +38,22 @@ import SchoolOfBusinessManagementAndAccountancy from './components/web/academics
 import GraduateSchoolOfBusinessAndManagement from './components/web/academics/graduateSchoolOfBusinessAndManagement';
 
 
-// import GSBMDepartment from './components/web/academics/GSBMDepartment';
-
 // import StudentServices from './components/web/studentServices';
-// import CommunityExtensionServices from './components/web/studentServices/communityExtensionServices';
-// import StudentAffairsOrganization from './components/web/studentServices/studentAffairsOrganization';
-// import Athletics from './components/web/studentServices/athletics';
-// import Publication from './components/web/studentServices/publication';
-// import CampusMinistry from './components/web/studentServices/CampusMinistry';
-// import SerbisyongDivine from './components/web/studentServices/serbisyongDivine';
-// import Registrar from './components/web/studentServices/registrar';
-// import Research from './components/web/studentServices/research';
-// import Clinic from './components/web/studentServices/clinic';
-// import Canteen from './components/web/studentServices/canteen';
+import CommunityExtensionServices from './components/web/studentServices/communityExtensionServices';
+import StudentAffairsOrganization from './components/web/studentServices/studentAffairsOrganization';
+import GradeSchoolSao from './components/web/studentServices/gradeSchoolSao';
+import JuniorHighSchoolSao from './components/web/studentServices/juniorHighSchoolSao';
+import SeniorHighSchoolSao from './components/web/studentServices/seniorHighSchoolSao';
+import CollegeSao from './components/web/studentServices/collegeSao';
+import Athletics from './components/web/studentServices/athletics';
+import Publication from './components/web/studentServices/publication';
+import CampusMinistry from './components/web/studentServices/campusMinistry';
+import SerbisyongDivine from './components/web/studentServices/serbisyongDivine';
+import Registrar from './components/web/studentServices/registrar';
+import Library from './components/web/studentServices/library';
+import Research from './components/web/studentServices/research';
+import Clinic from './components/web/studentServices/clinic';
+import Canteen from './components/web/studentServices/canteen';
 
 import Career from './components/web/career';
 import Gallery from './components/web/gallery';
@@ -120,19 +123,23 @@ const App = props => {
 				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} />
 
 
-
-				{/* <Route path="/academics/graduate-school-of-business-and-management" exact component={GSBMDepartment} /> */}
-
 				{/* Student services Pages */}
 				{/* <Route path="/student-services" exact component={StudentServices} /> */}
-				{/* <Route path="/student-services/community-extension-services" exact component={CommunityExtensionServices} />
+				<Route path="/student-services/community-extension-services" exact component={CommunityExtensionServices} />
+				<Route path="/student-services/student-affairs-organization" exact component={StudentAffairsOrganization} />
+				<Route path="/student-services/grade-school" exact component={GradeSchoolSao} />
+				<Route path="/student-services/junior-high-school" exact component={JuniorHighSchoolSao} />
+				<Route path="/student-services/senior-high-school" exact component={SeniorHighSchoolSao} />
+				<Route path="/student-services/college" exact component={CollegeSao} />
 				<Route path="/student-services/athletics" exact component={Athletics} />
 				<Route path="/student-services/publication" exact component={Publication} />
 				<Route path="/student-services/campus-ministry" exact component={CampusMinistry} />
 				<Route path="/student-services/serbisyong-divine" exact component={SerbisyongDivine} />
 				<Route path="/student-services/registrar" exact component={Registrar} />
+				<Route path="/student-services/library" exact component={Library} />
 				<Route path="/student-services/research" exact component={Research} />
-				<Route path="/student-services/Canteen" exact component={canteen} /> */}
+				<Route path="/student-services/clinic" exact component={Clinic} />
+				<Route path="/student-services/canteen" exact component={Canteen} />
 
 				<Route path="/career" exact component={Career} />
 				<Route path="/gallery" exact component={Gallery} />

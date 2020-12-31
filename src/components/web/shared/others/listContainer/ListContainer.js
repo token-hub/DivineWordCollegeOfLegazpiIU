@@ -120,7 +120,8 @@ const ListContainer = ({data = null, header, type}) => {
                                     const setListClass = isBlock(dateAndTime, setListItem(path, title), block);
                                     return (
                                         <>
-                                            <ListItem button key={index} 
+                                            <ListItem button 
+                                                key={index} 
                                                 component='a' 
                                                 href={link}  
                                                 className={setListClass} 

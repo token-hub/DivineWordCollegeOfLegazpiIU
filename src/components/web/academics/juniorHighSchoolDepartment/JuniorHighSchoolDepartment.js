@@ -39,7 +39,7 @@ const JuniorHighSchoolDepartment = () => {
 
                 <RenderList header='A. NEW STUDENTS (TRANSFEREES)' data={newStudents} />
                 <RenderList header='PROGRAMS OFFERED:' data={programs} />
-                <RenderTable tableBody={facultyAndStaff} size='small' />
+                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
             </SharedLayout>
         </Grid>
     )

@@ -37,10 +37,7 @@ const GradeSchoolDepartment = () => {
 
                 <RenderList header='Specific Objectives:' data={objectives} />
                 <RenderList header='Programs Offered:' data={program} />
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
-                    List of Faculty and Staff (S.Y. 2019-2020)
-                </Typography>
-                <RenderTable tableBody={facultyAndStaff} size='small' />
+                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
             </SharedLayout>
         </Grid>
     )
