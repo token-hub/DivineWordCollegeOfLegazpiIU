@@ -68,6 +68,7 @@ import Alumni from './components/web/alumni';
 // dashbaord pages imports
 import Login from './components/dashboard/authentication/login';
 import Register from './components/dashboard/authentication/register';
+import HomeDashboard from './components/dashboard/homeDashboard';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -158,6 +159,7 @@ const App = props => {
 				{/* ============= [ Dashboard pages ] ============= */}
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
+				<Route path="/dashboard/home" exact component={HomeDashboard} />
 				
 			</Switch>
 		</div>
