@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     announcementContent: {
-        width: '50%',
+        width: width => width.width,
         height: 'auto',
         color: 'white',
         padding: '1rem',
@@ -49,10 +49,10 @@ const useStyles = makeStyles(theme => ({
 
 const UpdateContainer = ({ month, day, title, subtitle = null, link = '#', color = 'inherit', width ='100%', dateOverwrite }) => {
 
-    const { announcementContent, content, date, header} = useStyles();
-    
+    const { announcementContent, content, date, header} = useStyles({width: width});
+
     return (
-        <Grid item container className={announcementContent} style={{ width: width }} direction='row'>
+        <Grid item container className={announcementContent} direction='row'>
             <Grid item className={date} style={{ dateOverwrite }}>
                 <Typography variant="h6" align='center' gutterBottom={false}>
                     {month}

@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 
 import Home from './components/web/home';
+// about us pages imports
 import History from './components/web/aboutUs/history';
 import TheSeal from './components/web/aboutUs/theSeal';
 import MissionVisionGoal from './components/web/aboutUs/missionVisionGoal';
@@ -13,7 +14,7 @@ import Administrators from './components/web/aboutUs/administrators';
 import Facilities from './components/web/aboutUs/facilities';
 import OrganizationalStructure from './components/web/aboutUs/organizationalStructure';
 import AwardsAndRecognition from './components/web/aboutUs/awardsAndRecognition';
-
+// admission pages imports
 import Admission from './components/web/admission';
 import OnlineEnrollment from './components/web/admission/onlineEnrollment';
 import GradeSchool from './components/web/admission/gradeSchool';
@@ -23,8 +24,7 @@ import SeniorHighSchool from './components/web/admission/seniorHighSchool';
 import College from './components/web/admission/college';
 import GraduateSchool from './components/web/admission/graduateSchool';
 import Scholarship from './components/web/admission/scholarship';
-
-
+// academics pages imports
 import GradeSchoolDepartment from './components/web/academics/gradeSchoolDepartment';
 import JuniorHighSchoolDepartment from './components/web/academics/juniorHighSchoolDepartment';
 import FreeSecondaryDistanceProgramDeparment from './components/web/academics/freeSecondaryDistanceProgramDepartment';
@@ -36,9 +36,7 @@ import SchoolOfEducationArtsAndSciences from './components/web/academics/schoolO
 import SchoolOfEngineeringAndComputerStudies from './components/web/academics/schoolOfEngineeringAndComputerStudies';
 import SchoolOfBusinessManagementAndAccountancy from './components/web/academics/schoolOfBusinessManagementAndAccountancy';
 import GraduateSchoolOfBusinessAndManagement from './components/web/academics/graduateSchoolOfBusinessAndManagement';
-
-
-// import StudentServices from './components/web/studentServices';
+// student services pages imports
 import CommunityExtensionServices from './components/web/studentServices/communityExtensionServices';
 import StudentAffairsOrganization from './components/web/studentServices/studentAffairsOrganization';
 import GradeSchoolSao from './components/web/studentServices/gradeSchoolSao';
@@ -58,6 +56,7 @@ import Canteen from './components/web/studentServices/canteen';
 import Career from './components/web/career';
 import Gallery from './components/web/gallery';
 
+// updates services pages imports
 import Updates from './components/web/updates';
 import Calendar from './components/web/updates/calendar';
 import Announcement from './components/web/updates/announcement';
@@ -66,8 +65,11 @@ import NewsAndEvents from './components/web/updates/newsAndEvents';
 import ContactUs from './components/web/contactUs';
 import Alumni from './components/web/alumni';
 
-import { makeStyles } from '@material-ui/core/styles';
+// dashbaord pages imports
+import Login from './components/dashboard/authentication/login';
+import Register from './components/dashboard/authentication/register';
 
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     app: {
@@ -151,7 +153,11 @@ const App = props => {
 				<Route path="/updates/news-and-events" exact component={NewsAndEvents} />
 
 				<Route path="/contact-us" exact component={ContactUs} />
-				<Route path="/alumni" exact component={Alumni} />
+				<Route path="/alumni" exact component={Alumni} />	
+
+				{/* ============= [ Dashboard pages ] ============= */}
+				<Route path="/dashboard/login" exact component={Login} />
+				<Route path="/dashboard/register" exact component={Register} />
 				
 			</Switch>
 		</div>

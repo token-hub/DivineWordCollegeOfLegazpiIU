@@ -4,14 +4,10 @@ import {Grid, Paper} from '@material-ui/core';
 import {makeStyles } from '@material-ui/core/styles';
 
 const useStyle = makeStyles(theme =>({
-    paper: {
-        width: '100%',
-        height: '100',
-    },
     image: {
         height: '100%',
         width: '100%',
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
     },
     indicators: {
         marginTop: '-3rem'
@@ -23,18 +19,19 @@ const useStyle = makeStyles(theme =>({
     carousel: {
         height: '100%',
         width: '100%',
+        backgroundSize: 'cover',
     }
 }));
 
 const Slider = ({ data, size = null }) => {
 
-    const {paper, image, indicators, indicatorContainer, carousel} = useStyle();
+    const {image, indicators, indicatorContainer, carousel} = useStyle();
 
     const setSize = size ? size : carousel;
 
     return (
           <Carousel
-            autoPlay={false}
+            autoPlay={true}
             indicators={true}
             animation="slide"
             navButtonsAlwaysVisible={true}

@@ -44,6 +44,11 @@ const setUpdates = (month, day, title, subtitle = null, link = '#', color='inher
     return {month, day, title, subtitle, link, color};
 }
 
+const renderIconFromObject = (key, object) => {
+    const Contact = object[key];
+    return <Contact color='primary' />
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -55,5 +60,6 @@ export {
     setObjectGen,
     isNeedTextTransform,
     isBlock,
-    setUpdates
+    setUpdates,
+    renderIconFromObject
 }

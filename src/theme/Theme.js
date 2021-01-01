@@ -7,6 +7,10 @@ const theme = createMuiTheme({
         light: '#5F5AEF',
         main: '#1D17CE',
         dark: '#2B333E'
+      },
+      secondary: {
+        main: '#5F5AEF',
+        dark: '#413E92'
       }
     },
     overrides: {
@@ -15,6 +19,12 @@ const theme = createMuiTheme({
           fontSize: "1.25rem",
           [breakpoints.down("xs")]: {
             fontSize: "1rem"
+          }
+        },
+        h5: {
+          fontSize: "1.8rem",
+          [breakpoints.down("xs")]: {
+            fontSize: "1.2rem"
           }
         },
         h4: {

@@ -5,24 +5,23 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import EmailIcon from '@material-ui/icons/Email';
-import PhoneIcon from '@material-ui/icons/Phone';
-import PhonelinkIcon from '@material-ui/icons/Phonelink';
-import RoomIcon from '@material-ui/icons/Room';
 import ListItemText from '@material-ui/core/ListItemText';
 import Top from '../shared/Top';
 import Bottom from '../shared/Bottom';
 import Banner from '../shared/Top/banner';
 import ContactUsBanner from '../../../assets/images/banners/contact-us.jpg';
 import TextField from '@material-ui/core/TextField';
-
 import { makeStyles } from '@material-ui/core/styles';
-import { setObjectGen } from '../../../helpers';
+import { renderIconFromObject } from '../../../helpers';
+
+import {
+    contactsText,
+    contacts,
+    fields,
+    contactIcon
+} from '../data/contactUS';
 
 const useStyles = makeStyles(theme =>({
-    bold: {
-        fontWeight: 600
-    },
     left: {
         padding: '4rem 2rem 2rem'
     },
@@ -34,9 +33,6 @@ const useStyles = makeStyles(theme =>({
         [theme.breakpoints.down('sm')]: {
             paddingLeft: '2rem',
         }
-    },
-    padding: {  
-        padding: '2rem'
     },
     paragraph: {
         marginBottom: '1.5rem'
@@ -82,46 +78,14 @@ const useStyles = makeStyles(theme =>({
     white: {
         color: 'white'
     },
+    bold: {
+        fontWeight: 600
+    }
 }));
 
 const ContactUs = () => {
 
-    const {right, left, padding, bold, paragraph, mediaLinks, paddingLeft, input, white, } = useStyles();
-
-    const setContacts = (icon, text) => {
-        return { icon, text };
-    }
-
-    const contactIcon = {
-        email: EmailIcon,
-        phone: PhoneIcon,
-        telefax: PhonelinkIcon,
-        south: RoomIcon,
-        north: RoomIcon,
-    }
-    
-    const contactsText = {
-        email: 'dwclinfo@dwc-legazpi.edu',
-        phone: '(052)480-1239     (052)480-1239',
-        telefax: 'Telefax: (052)480-2148     481-0350 (HS)',
-        south: '(SOUTH CAMPUS) - cor.J.P Rizal and Fr. J.L. Bates Sts., Albay District, Legazpi City 4500 Philippines',
-        north: '(NORTH CAMPUS) - Capt. F. Aquende Drive, Cruzada, Legazpi City 4500 Philippines',
-    }
-
-    const renderContactsIcon = key => {
-        const Contact = contactIcon[key];
-        return <Contact color='primary' />
-    }
-
-    const contacts = ['email', 'phone', 'telefax', 'south', 'north'];
-
-    const fields = [
-        setObjectGen('Name', 'text'),
-        setObjectGen('Email', 'email'),
-        setObjectGen('Contact number', 'number'),
-        setObjectGen('Subject', 'text'),
-        setObjectGen('Message', 'textarea'),
-    ];
+    const {bold, right, left, paragraph, mediaLinks, paddingLeft, input, white, } = useStyles();
 
     return (
         <Grid container>
@@ -144,7 +108,7 @@ const ContactUs = () => {
                                         return (
                                             <ListItem index={index} disableGutters={true}>
                                                 <ListItemIcon className={mediaLinks}>
-                                                    { renderContactsIcon(val) }
+                                                    { renderIconFromObject(val, contactIcon) }
                                                     <ListItemText primary={contactsText[val]} className={paddingLeft} />
                                                 </ListItemIcon>
                                             </ListItem>     
