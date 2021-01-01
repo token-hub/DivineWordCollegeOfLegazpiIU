@@ -59,9 +59,9 @@ import Career from './components/web/career';
 import Gallery from './components/web/gallery';
 
 import Updates from './components/web/updates';
-// import Calendar from './components/web/updates/calendar';
-// import Announcement from './components/web/updates/announcement';
-// import NewsAndEvents from './components/web/updates/newsAndEvents';
+import Calendar from './components/web/updates/calendar';
+import Announcement from './components/web/updates/announcement';
+import NewsAndEvents from './components/web/updates/newsAndEvents';
 
 import ContactUs from './components/web/contactUs';
 import Alumni from './components/web/alumni';
@@ -146,9 +146,9 @@ const App = props => {
 
 				{/* Updates Pages */}
 				<Route path="/updates" exact component={Updates} />
-				{/* <Route path="/updates/calendar" exact component={Calendar} />
+				<Route path="/updates/calendar" exact component={Calendar} />
 				<Route path="/updates/announcement" exact component={Announcement} />
-				<Route path="/updates/news-and-events" exact component={NewsAndEvents} /> */}
+				<Route path="/updates/news-and-events" exact component={NewsAndEvents} />
 
 				<Route path="/contact-us" exact component={ContactUs} />
 				<Route path="/alumni" exact component={Alumni} />

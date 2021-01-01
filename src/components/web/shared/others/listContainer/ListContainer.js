@@ -164,7 +164,7 @@ const ListContainer = ({data = null, header, type}) => {
                                         </>
                                     )
                                 })
-                            :   <ListItem alignItems className={clsx(listItem, alignCenter)}>
+                            :   <ListItem className={clsx(listItem, alignCenter)}>
                                     <ListItemText primary={`No ${header}`} />
                                 </ListItem>
                     }

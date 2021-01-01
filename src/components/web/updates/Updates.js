@@ -1,17 +1,12 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Top from '../shared/Top';
-import Bottom from '../shared/Bottom';
-import Banner from '../shared/Top/banner';
-import UpdatesBanner from '../../../assets/images/banners/updates.jpg';
+import RenderUpdatesLayout from '../shared/others/renderUpdatesLayout';
+import { UpdatesBannerObj } from '../data/banners';
+
+import { updates } from '../data/updates';
 
 const Updates = () => {
     return (
-        <Grid container>
-            <Top />
-            <Banner img={UpdatesBanner} alt='Updates banner' />
-            <Bottom />
-        </Grid>
+      <RenderUpdatesLayout banner={UpdatesBannerObj} data={updates} />
     )
 }
 

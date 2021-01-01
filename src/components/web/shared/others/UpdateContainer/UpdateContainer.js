@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]:{
             width: '100%',
             padding: '1rem .3rem',
-        }
+        },
     },
     date: {
         height: '100px',
@@ -29,28 +29,31 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.only('xs')]:{
             height: '70px',
         }
-
-        
     },
     content: {
         height: 'auto',
         width: '85%',
         padding: '0 1rem',
         color: 'black',
-        borderBottom: '1px solid #1D17CE',
+        // borderLeft: '1px solid #1D17CE',
+        borderRight: '1px solid #1D17CE',
+    },
+    header: {
         "&:hover" : {
-           fontStyle: 'italic'
-        }
+            color: 'gray',
+            fontWeight: 600,
+            fontStyle: 'italic'
+         }
     }
  }));
 
-const UpdateContainer = ({ month, day, title, subtitle = null, link = '#', color = 'inherit' }) => {
+const UpdateContainer = ({ month, day, title, subtitle = null, link = '#', color = 'inherit', width ='100%', dateOverwrite }) => {
 
-    const { announcementContent, content, date, } = useStyles();
-
+    const { announcementContent, content, date, header} = useStyles();
+    
     return (
-        <Grid item container className={announcementContent}  direction='row'>
-            <Grid item className={date}>
+        <Grid item container className={announcementContent} style={{ width: width }} direction='row'>
+            <Grid item className={date} style={{ dateOverwrite }}>
                 <Typography variant="h6" align='center' gutterBottom={false}>
                     {month}
                 </Typography>
@@ -59,8 +62,8 @@ const UpdateContainer = ({ month, day, title, subtitle = null, link = '#', color
                 </Typography>
             </Grid>
             <Grid item className={content}>
-                <Typography gutterBottom variant="h6" align='justify'>
-                    <Link href={link} underline='none' color={color} >
+                <Typography gutterBottom variant="h6">
+                    <Link href={link} underline='none' className={header} color={color} >
                     {title}
                     </Link>
                 </Typography>

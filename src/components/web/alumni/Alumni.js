@@ -7,14 +7,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import RenderTable from '../shared/others/renderTable';
 import { officers } from '../data/alumni';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     paragraph: {
-        marginBottom: '1.5rem'
+        marginBottom: '1.5rem',
+        [theme.breakpoints.only('xs')] : {
+            textAlign: 'center'
+        }
     },
     bold: {
         fontWeight: 600
     },
-})
+}))
 
 const Alumni = () => {
 

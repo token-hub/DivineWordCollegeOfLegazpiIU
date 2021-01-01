@@ -40,6 +40,10 @@ const isBlock = (item, className, className2) => {
     return item ? clsx(className, className2) : className;
 }
 
+const setUpdates = (month, day, title, subtitle = null, link = '#', color='inherit') => {
+    return {month, day, title, subtitle, link, color};
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -50,5 +54,6 @@ export {
     setListContent,
     setObjectGen,
     isNeedTextTransform,
-    isBlock
+    isBlock,
+    setUpdates
 }

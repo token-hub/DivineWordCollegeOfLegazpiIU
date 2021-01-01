@@ -39,15 +39,11 @@ const Announcement = () => {
 
             <Grid container item className={announcementContainer}>
                 {
-                    announcements.map(({month, day, title, subtitle, link, color}, index) => 
+                    announcements.map((data, index) => 
                         <UpdateContainer 
                             key={index}
-                            month={month} 
-                            day={day} 
-                            title={title} 
-                            subtitle={subtitle} 
-                            link={link} 
-                            color={color}
+                            width='50%'
+                            {...data}
                         /> 
                     )
                 }

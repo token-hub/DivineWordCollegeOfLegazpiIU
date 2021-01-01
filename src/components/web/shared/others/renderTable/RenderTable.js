@@ -21,7 +21,10 @@ const useStyles = makeStyles(theme => ({
         fontWeight: 600
     },
     paragraph: {
-        marginBottom: '1.5rem'
+        marginBottom: '1.5rem',
+        [theme.breakpoints.only('xs')] : {
+            textAlign: 'center'
+        }
     },
 }));
 
