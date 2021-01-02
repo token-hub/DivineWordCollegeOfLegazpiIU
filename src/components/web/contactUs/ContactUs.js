@@ -20,6 +20,7 @@ import {
     fields,
     contactIcon
 } from '../data/contactUS';
+import GoogleMap from './googleMap/GoogleMap';
 
 const useStyles = makeStyles(theme =>({
     left: {
@@ -55,7 +56,7 @@ const useStyles = makeStyles(theme =>({
         display: 'flex',
         color: 'white',
         direction: 'row',
-        width:'auto',
+        // width:'auto',
         marginBottom: '1rem',
         '& label.Mui-focused': {
             color: 'white',
@@ -80,12 +81,12 @@ const useStyles = makeStyles(theme =>({
     },
     bold: {
         fontWeight: 600
-    }
+    },
 }));
 
 const ContactUs = () => {
 
-    const {bold, right, left, paragraph, mediaLinks, paddingLeft, input, white, } = useStyles();
+    const {bold, right, left, paragraph, mediaLinks, paddingLeft, input, white} = useStyles();
 
     return (
         <Grid container>
@@ -102,7 +103,7 @@ const ContactUs = () => {
                                 Please contact us through:
                             </Typography>
                             
-                            <List aria-label="multimedia-links" disablePadding>
+                            {/* <List key='list' aria-label="multimedia-links" disablePadding> */}
                                 {
                                     contacts.map( (val ,index) => {
                                         return (
@@ -115,12 +116,12 @@ const ContactUs = () => {
                                         )
                                     }) 
                                 }
-                            </List>
+                            {/* </List> */}
                         </Grid>
                     </Grid>
                     <Grid item md={6} className={right} color='primary'>
-                        <Grid justify='center' item md={9}>
-                            <form >    
+                        <Grid container justify='center' item md={9}>
+                            <form style={{ width: '100%' }}>    
                                 {
                                     fields.map( ({item, value},index) => {
                                         let extra = {};
@@ -132,7 +133,8 @@ const ContactUs = () => {
                                                 type={value}
                                                 label={item} 
                                                 variant="outlined"
-                                                required='true'
+                                                required={true}
+                                                fullWidth={true}
                                                 size='small' 
                                                 InputProps={{ className: input }}
                                                 InputLabelProps={{ className: white }}
@@ -147,6 +149,7 @@ const ContactUs = () => {
                         <Grid item md={3} />
                     </Grid>
                </Grid>
+                <GoogleMap />           
             <Bottom />
         </Grid>
     )
