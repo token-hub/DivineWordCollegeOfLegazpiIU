@@ -27,7 +27,7 @@ const OurAddress = () => {
                 South Campus
             </Typography>
             <Typography gutterBottom variant="subtitle2">
-                cor.J.P Rizal and Fr. J.L. Bates Sts., Albay District, Legazpi City 4500 Philippines
+                cor.J.P Rizal and Fr. J.L. Bates St., Albay District, Legazpi City 4500 Philippines
             </Typography>
         </Fragment>
     )

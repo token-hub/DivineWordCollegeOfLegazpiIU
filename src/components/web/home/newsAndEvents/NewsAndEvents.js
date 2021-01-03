@@ -54,7 +54,7 @@ const NewsAndEvents = () => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button color="primary" component='a' href={link}>
+                        <Button color="primary" variant='contained' component='a' href={link}>
                             Read More
                         </Button>
                     </CardActions>

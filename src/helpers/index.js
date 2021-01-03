@@ -36,6 +36,10 @@ const isNeedTextTransform = (type, text) => {
     return type === 'overview' ? capitalizeAllFirstLetter(text) : text;
 }
 
+const TextTransformCamelCase = text => {
+    return text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+}
+
 const isBlock = (item, className, className2) => {
     return item ? clsx(className, className2) : className;
 }
@@ -45,8 +49,9 @@ const setUpdates = (month, day, title, subtitle = null, link = '#', color='inher
 }
 
 const renderIconFromObject = (key, object) => {
-    const Contact = object[key];
-    return <Contact color='primary' />
+    const Icon = object[key];
+
+    return Icon ? <Icon /> : '';
 }
 
 export {
@@ -61,5 +66,6 @@ export {
     isNeedTextTransform,
     isBlock,
     setUpdates,
-    renderIconFromObject
+    renderIconFromObject,
+    TextTransformCamelCase
 }

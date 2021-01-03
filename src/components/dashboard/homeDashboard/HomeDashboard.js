@@ -17,9 +17,15 @@ const HomeDashboard = () => {
     return (
         <DashboardLayout>
             <Grid container>
-                {/* hello
-                hello
-                hello */}
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
+              lorem ipsum
             </Grid>
         </DashboardLayout>
     )

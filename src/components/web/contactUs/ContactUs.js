@@ -102,8 +102,6 @@ const ContactUs = () => {
                             <Typography variant='subtitle1' className={paragraph}>
                                 Please contact us through:
                             </Typography>
-                            
-                            {/* <List key='list' aria-label="multimedia-links" disablePadding> */}
                                 {
                                     contacts.map( (val ,index) => {
                                         return (

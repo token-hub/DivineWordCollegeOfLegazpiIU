@@ -11,9 +11,24 @@ const theme = createMuiTheme({
       secondary: {
         main: '#5F5AEF',
         dark: '#413E92'
+      },
+      sidebar: {
+        main: '#414A76',
+        dark: '#2B333E'
       }
     },
     overrides: {
+      MuiListItemIcon:{
+        root: {
+          minWidth: '35px',
+          color: 'white'
+        }
+      },
+      MuiListItem: {
+        root: {
+          cursor: 'pointer'
+        }
+      },
       MuiTypography: {
         h6: {
           fontSize: "1.25rem",
