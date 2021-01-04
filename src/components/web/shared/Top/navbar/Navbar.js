@@ -79,7 +79,7 @@ const Navbar = () => {
         return isHomePage(path, key) || path.includes(key); // /about
     }
 
-    const isHomePage = key => {
+    const isHomePage = (path, key) => {
         return (path === '/' && key === 'home');
     }
 
@@ -104,14 +104,13 @@ const Navbar = () => {
 
                 let setPage = linkContainer;
                 let setLinkText = linkText;
-
+                    
                 if (isCurrentPage(key, path)) {
                    setPage =  currentPage;
                    setLinkText = currentPageText
                 }
 
-            return  (
-                        <div key={index} className={setPage}>
+            return  (<div key={index} className={setPage}>
                             <Link
                                 href={link}
                                 className={linkClass}
@@ -122,8 +121,7 @@ const Navbar = () => {
                                 </Typography>
                             </Link>
                            
-                            {
-                                items !== undefined
+                            {items !== undefined
                                     ?<Menu
                                         getContentAnchorEl={null}
                                         {...bindMenu(getState)}
@@ -141,10 +139,8 @@ const Navbar = () => {
                                             ))  
                                         }
                                     </Menu> 
-                                    : ''
-                            }
-                        </div>
-                    )
+                                    : ''}
+                        </div>)
                 })
             }
         </Grid>
