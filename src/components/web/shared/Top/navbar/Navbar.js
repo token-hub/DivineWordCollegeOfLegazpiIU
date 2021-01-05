@@ -13,7 +13,9 @@ import {
     bindMenu,
 } from 'material-ui-popup-state/hooks'
 import { 
-    stringTransform, 
+    stringTransform,
+    isCurrentPage,
+    isHomePage
 } from '../../../../../helpers';
   
 const useStyles = makeStyles(theme => ({
@@ -74,14 +76,6 @@ const Navbar = () => {
     const {pathname} = useLocation();
 
     const path = stringTransform(pathname,'-', '_').toLowerCase();
-
-    const isCurrentPage = key => {
-        return isHomePage(path, key) || path.includes(key); // /about
-    }
-
-    const isHomePage = (path, key) => {
-        return (path === '/' && key === 'home');
-    }
 
     const state = {
         about_us : usePopupState({ variant: 'popover', popupId: 'about_us' }),

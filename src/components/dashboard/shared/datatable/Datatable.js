@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -33,14 +33,18 @@ const useStyles = makeStyles((theme) => ({
   container: {
     maxHeight: 480,
   },
+  stickyHeader: {
+    background: 'pink'
+  }
 }));
 
 const Datatable = ({ rows, headCells }) => {
   const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('calories');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -56,13 +60,43 @@ const Datatable = ({ rows, headCells }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map((n) => n.name);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    setSelected(newSelected);
+  };
+  
   
   const {root, paper, table, visuallyHidden, container} = useStyles();
 
   return (
     <div className={root}>
       <Paper className={paper}>
-        {/* <DatatableToolbar header='Nutrition' /> */}
+        <DatatableToolbar numSelected={selected.length} />
         <TableContainer className={container}>
           <Table
             className={table}
@@ -71,11 +105,13 @@ const Datatable = ({ rows, headCells }) => {
             stickyHeader={true}
           >
             <DatatableHead
-              classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
               headCells={headCells}
+              numSelected={selected.length}
+              rowCount={rows.length}
+              onSelectAllClick={handleSelectAllClick}
             />
             <DatatableBody 
               order={order}
@@ -83,6 +119,8 @@ const Datatable = ({ rows, headCells }) => {
               rows={rows}
               page={page}
               rowsPerPage={rowsPerPage}
+              selected={selected}
+              handleClick={handleClick}
             />
 
           </Table>

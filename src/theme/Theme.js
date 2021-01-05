@@ -24,11 +24,6 @@ const theme = createMuiTheme({
           color: 'white'
         }
       },
-      MuiListItem: {
-        root: {
-          cursor: 'pointer'
-        }
-      },
       MuiTypography: {
         h6: {
           fontSize: "1.25rem",

@@ -43,14 +43,14 @@ const useStyles = makeStyles(theme =>({
         flexDirection: 'row',
     },
     mediaLinks: {
-        color: 'black',
+        color: theme.palette.primary.main,
         minWidth: '0',
         alignItems: 'center',
         width: '100%'
     },
-    paddingLeft: {
+    paddingLeftColor: {
         paddingLeft: '.5rem',
-        
+        color: 'black'
     },
     input: {
         display: 'flex',
@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme =>({
 
 const ContactUs = () => {
 
-    const {bold, right, left, paragraph, mediaLinks, paddingLeft, input, white} = useStyles();
+    const {bold, right, left, paragraph, mediaLinks, paddingLeftColor, input, white} = useStyles();
 
     return (
         <Grid container>
@@ -106,9 +106,9 @@ const ContactUs = () => {
                                     contacts.map( (val ,index) => {
                                         return (
                                             <ListItem index={index} disableGutters={true}>
-                                                <ListItemIcon className={mediaLinks}>
+                                                <ListItemIcon classes={{ root: mediaLinks }} >
                                                     { renderIconFromObject(val, contactIcon) }
-                                                    <ListItemText primary={contactsText[val]} className={paddingLeft} />
+                                                    <ListItemText primary={contactsText[val]} classes={{ root: paddingLeftColor }} />
                                                 </ListItemIcon>
                                             </ListItem>     
                                         )

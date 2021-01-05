@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { useLocation } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
@@ -13,10 +14,15 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
-import {renderIconFromObject, TextTransformCamelCase} from '../../../../helpers';
+import {
+   renderIconFromObject,
+   TextTransformCamelCase,
+   isCurrentPage,
+   isHomePage,
+   stringTransform
+  } from '../../../../helpers';
 import {menus, menuIconObject} from '../../data/appbar';
 
-    
 const drawerWidth = 280;
 
 const useStyles = makeStyles((theme) => ({
@@ -41,16 +47,35 @@ const useStyles = makeStyles((theme) => ({
       padding: '0 1rem'
     },
     muiButton: {
+      marginBottom: ".5rem",
       "&:hover": {
         background: theme.palette.secondary.dark,
         borderRadius: '5%',
       }
     },
+    muiButtonCurrent: {
+      background: theme.palette.secondary.dark,
+      marginBottom: ".5rem",
+      borderRadius: '5%',
+      "&:hover": {
+        background: theme.palette.secondary.dark,
+      }
+    },
     muiButtonIndented: {
       paddingLeft: '2rem',
+      marginBottom: ".5rem",
       "&:hover": {
         background: theme.palette.secondary.dark,
         borderRadius: '5%',
+      }
+    },
+    muiButtonIndentedCurrent: {
+      paddingLeft: '2rem',
+      borderRadius: '5%',
+      marginBottom: ".5rem",
+      background: theme.palette.secondary.dark,
+      "&:hover": {
+        background: theme.palette.secondary.dark,
       }
     },
     listButton: {
@@ -63,17 +88,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = () => {
 
-
-
-    const {drawer, drawerPaper, drawerContainer, toolbar, sidebarGroup, muiButton, muiButtonIndented, listButton} = useStyles();
+    const {drawer, drawerPaper, drawerContainer, toolbar, sidebarGroup, muiButton, muiButtonIndented, listButton, muiButtonCurrent, muiButtonIndentedCurrent} = useStyles();
   
     let initialState = {};
   
     const [sidebarItem, setsidebarItem] = useState(initialState);
-  
+
+    useEffect( () => {
+      setsidebarItem({...initialState});
+    }, [] );
+
     const handleListDrawerClick = key => {
       setsidebarItem({...sidebarItem, [key]: !sidebarItem[key]});
     };
+
+    const {pathname} = useLocation();
+
+    const path = stringTransform(pathname,'-', '_').toLowerCase();
 
     return (
         <Drawer
@@ -94,11 +125,17 @@ const Sidebar = () => {
             <List disablePadding>
               {menus.map(({title, link, sublinks}, index) => {
                 const notEmptySublinks = sublinks !== undefined;
-                
-                if (notEmptySublinks) Object.assign(initialState, {[title]: false});
+                const isCurrentPageValue = isCurrentPage(path, stringTransform(title).toLowerCase());
+                const setMuiButton = isCurrentPageValue ? muiButtonCurrent: muiButton;
+                let sublink = '';
+
+                if (notEmptySublinks) {
+                  Object.assign(initialState, {[title]: false})
+                  sublink = menus[index].title;
+                }
                 return (
                   <div key={index}>
-                    <ListItem button component='a' href={link} classes={{ button: muiButton }}  key={title}>
+                    <ListItem button component='a' href={link} classes={{ button: setMuiButton }}  key={title}>
                       <ListItemIcon>{renderIconFromObject(TextTransformCamelCase(title), menuIconObject)}</ListItemIcon>
                       <ListItemText primary={title} />
                       {notEmptySublinks ?
@@ -113,12 +150,22 @@ const Sidebar = () => {
                     <Collapse in={sidebarItem[title]} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
                           { notEmptySublinks ?
-                              sublinks.map(({title, link}, index) => (
-                                  <ListItem button component='a' href={link} classes={{ button: muiButtonIndented }}  key={index}>
+                              sublinks.map(({title, link}, index) => {
+
+                                let setMuiButtonIndented = muiButtonIndented;
+                                
+                                if (isCurrentPage(path, stringTransform(title).toLowerCase())) {
+                                  setMuiButtonIndented = muiButtonIndentedCurrent;
+                                  initialState = {[sublink]: true};
+                                }
+
+                                return (
+                                  <ListItem button component='a' href={link} classes={{ button: setMuiButtonIndented }}  key={index}>
                                       <ListItemIcon>{renderIconFromObject(TextTransformCamelCase(title), menuIconObject)}</ListItemIcon>
                                       <ListItemText primary={title} />
                                   </ListItem>
-                              )) : ''
+                              )
+                            }) : ''
                           }
                       </List>
                     </Collapse>
