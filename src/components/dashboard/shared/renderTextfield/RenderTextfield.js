@@ -20,7 +20,7 @@ const RenderTextfield = ({ data }) => {
                         key={index}
                         id={item}
                         label={item}
-                        required={true}
+                        // required={true}
                         type={value} 
                         fullWidth={true}
                         className={input}

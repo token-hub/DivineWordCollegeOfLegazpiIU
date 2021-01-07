@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
+import {  useBasename } from 'history';
 
 import Home from './components/web/home';
 // about us pages imports
@@ -70,6 +71,7 @@ import Login from './components/dashboard/authentication/login';
 import Register from './components/dashboard/authentication/register';
 import HomeDashboard from './components/dashboard/homeDashboard';
 import Roles from './components/dashboard/roles';
+import AnnouncementDashboard from './components/dashboard/announcementDashboard';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -162,6 +164,7 @@ const App = props => {
 				<Route path="/dashboard/register" exact component={Register} />
 				<Route path="/dashboard/home" exact component={HomeDashboard} />
 				<Route path="/dashboard/roles" exact component={Roles} />
+				<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />
 				
 			</Switch>
 		</div>

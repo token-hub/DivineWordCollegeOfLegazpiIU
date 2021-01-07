@@ -5,11 +5,12 @@ import App from './App';
 
 import Theme from './theme';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { HashRouter as Router, } from 'react-router-dom';
+import { BrowserRouter as Router, } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 ReactDOM.render(
-  <Router>
+  <Router basename='/dwc-legazpi.edu'>
     {/* <React.StrictMode> */}
       <ThemeProvider theme={Theme}>
         <CssBaseline />

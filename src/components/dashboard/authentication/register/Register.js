@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
@@ -8,6 +8,8 @@ import RegisterLogin from '../../shared/registerLogin';
 import RenderListIcon from '../../../shared/renderListIcon';
 import RenderTextfield from '../../shared/renderTextfield/RenderTextfield';
 import {register} from '../../data/register';
+import apiClient from '../../../../services/api';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
     paragraph: {
@@ -47,6 +49,19 @@ const useStyles = makeStyles(theme => ({
 
 const Register = () => {
 
+    useEffect( () => {
+        return axios.get(`${apiClient}/api/user`, { withCredentials: true })
+        .then(res => console.log(res))
+        .catch( e => console.log(e) )
+    }, [] )
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        axios.get('http://localhost:8000/api/user')
+        .then(res => console.log(res))
+        .catch( e => console.log(e) )
+    }
+
     const {
         paragraph, 
         icon, 
@@ -70,13 +85,13 @@ const Register = () => {
                         Register
                     </Typography>
                 </div>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className={BottomMain}>
                         <RenderTextfield data={register} />
                     </div>
 
                     <div className={BottomFooter}>
-                        <Button variant="contained" fullWidth size='large' color='secondary'>Register</Button>
+                        <Button type='submit' variant="contained" fullWidth size='large' color='secondary'>Register</Button>
                     </div>
                 </form>
             </div>
