@@ -10,7 +10,8 @@ import { BrowserRouter as Router, } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 ReactDOM.render(
-  <Router basename='/dwc-legazpi.edu'>
+  // <Router basename='/dwc-legazpi.edu'>
+  <Router >
     {/* <React.StrictMode> */}
       <ThemeProvider theme={Theme}>
         <CssBaseline />

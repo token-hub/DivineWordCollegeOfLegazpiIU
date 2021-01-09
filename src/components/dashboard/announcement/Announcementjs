@@ -8,7 +8,7 @@ const useStyles = makeStyles({
 
 });
 
-const AnnouncementDashboard = () => {
+const Announcement = () => {
    
     return (
         <DashboardLayout>
@@ -17,4 +17,4 @@ const AnnouncementDashboard = () => {
     )
 }
 
-export default AnnouncementDashboard
+export default Announcement

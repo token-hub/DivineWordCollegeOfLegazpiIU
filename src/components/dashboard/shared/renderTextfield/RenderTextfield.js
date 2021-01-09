@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
+import { DashboardContext } from '../../../../App';
 
 const useStyles = makeStyles({
     input: {
@@ -9,6 +10,8 @@ const useStyles = makeStyles({
 });
 
 const RenderTextfield = ({ data }) => {
+
+    const { dashboardProvider: {handleInputChange, inputState} } = useContext(DashboardContext);
 
     const {input} = useStyles();
 
@@ -20,8 +23,11 @@ const RenderTextfield = ({ data }) => {
                         key={index}
                         id={item}
                         label={item}
+                        name={item.toLowerCase()}
+                        onChange={handleInputChange}
                         // required={true}
-                        type={value} 
+                        type={value}
+                        value={inputState[item]} 
                         fullWidth={true}
                         className={input}
                         variant="outlined"

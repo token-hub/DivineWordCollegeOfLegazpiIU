@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {createContext, useEffect, useState} from 'react'
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import {  useBasename } from 'history';
+import { useHistory } from "react-router-dom";
 
 import Home from './components/web/home';
 // about us pages imports
@@ -69,11 +69,13 @@ import Alumni from './components/web/alumni';
 // dashbaord pages imports
 import Login from './components/dashboard/authentication/login';
 import Register from './components/dashboard/authentication/register';
-import HomeDashboard from './components/dashboard/homeDashboard';
+import HomeDashboard from './components/dashboard/home';
 import Roles from './components/dashboard/roles';
-import AnnouncementDashboard from './components/dashboard/announcementDashboard';
-
+import AnnouncementDashboard from './components/dashboard/announcement';
 import { makeStyles } from '@material-ui/core/styles';
+import apiClient from './services/api';
+
+export const DashboardContext = createContext();
 
 const useStyles = makeStyles({
     app: {
@@ -84,6 +86,72 @@ const useStyles = makeStyles({
 });
 
 const App = props => {
+	const history = useHistory();
+	const storageUserKey = 'user';
+
+	const setUserToStorage = (key, val) => {
+		localStorage.setItem(key, JSON.stringify(val));
+	}
+
+	const getUserFromStorage = key => {
+		return JSON.parse(localStorage.getItem(key))
+	}
+	
+	const userInitialState =  getUserFromStorage(storageUserKey) ? getUserFromStorage(storageUserKey) : {};
+
+	const [user, setUser] = useState(userInitialState);
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [inputState, setinputState] = useState({
+		username: '',
+		password: ''
+	})
+
+	const handleLogin = e => {
+		e.preventDefault();
+
+		apiClient.get('/sanctum/csrf-cookie')
+        .then(res => {
+            apiClient.post('/login', inputState)
+            .then( res => {
+				apiClient.get('/api/user')
+				.then(response => {
+					setUserToStorage(storageUserKey, response.data)
+					setUser(getUserFromStorage(storageUserKey));
+					history.push('home')
+				})
+        })
+		.catch(e => console.log(e) )
+
+		setLoggedIn(true);
+	})
+}
+	const handleLogout = e => {
+		e.preventDefault();
+
+		apiClient.post('/logout').
+        then( () => {
+			localStorage.clear();
+			history.push('login')
+        } )
+	}
+
+	const handleInputChange = e => {
+		const { name, value } = e.target;
+		
+		setinputState( prevState => ({
+			...prevState,
+			[name]: value
+		}) )
+	}
+
+	const dashboardProvider = {
+		loggedIn,
+		handleLogin,
+		handleLogout,
+		handleInputChange,
+		inputState,
+		user
+	}
 
 	const { app } = useStyles();
 
@@ -160,12 +228,16 @@ const App = props => {
 				<Route path="/alumni" exact component={Alumni} />	
 
 				{/* ============= [ Dashboard pages ] ============= */}
-				<Route path="/dashboard/login" exact component={Login} />
-				<Route path="/dashboard/register" exact component={Register} />
-				<Route path="/dashboard/home" exact component={HomeDashboard} />
-				<Route path="/dashboard/roles" exact component={Roles} />
-				<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />
+
 				
+				<DashboardContext.Provider value={{dashboardProvider}}>
+					<Route path="/dashboard/login" exact component={Login} />
+					<Route path="/dashboard/register" exact component={Register} />
+					<Route path="/dashboard/home" exact component={HomeDashboard} />
+					<Route path="/dashboard/roles" exact component={Roles} />
+					<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />
+				</DashboardContext.Provider>
+			
 			</Switch>
 		</div>
 	);

@@ -49,15 +49,9 @@ const useStyles = makeStyles(theme => ({
 
 const Register = () => {
 
-    useEffect( () => {
-        return axios.get(`${apiClient}/api/user`, { withCredentials: true })
-        .then(res => console.log(res))
-        .catch( e => console.log(e) )
-    }, [] )
-
     const handleSubmit = e => {
         e.preventDefault();
-        axios.get('http://localhost:8000/api/user')
+        axios.get('http://localhost:8000/api/user', { withCredentials: true })
         .then(res => console.log(res))
         .catch( e => console.log(e) )
     }

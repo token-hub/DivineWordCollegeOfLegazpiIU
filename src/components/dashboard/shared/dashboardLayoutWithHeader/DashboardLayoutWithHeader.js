@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Header from '../header/Header';
 import Sidebar from '../sidebar.js/Index';
+import Base from '../base';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +44,7 @@ const DashboardLayoutWithHeader = ({ header, link, linkTitle, children }) => {
   const {root, content, toolbar, paper, divider, title} = useStyles();
   
   return (
-    <div className={root}>
+    <Base root={root}>
       <Header />
       <Sidebar />
       <main className={content}>
@@ -57,7 +58,7 @@ const DashboardLayoutWithHeader = ({ header, link, linkTitle, children }) => {
             { children }
         </Paper>
       </main>
-    </div>
+    </Base>
   );
 }
 

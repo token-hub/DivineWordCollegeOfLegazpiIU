@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     }
 });
 
-const HomeDashboard = () => {
+const Home = () => {
 
     const {imgContainer, container, logo} = useStyles();
 
@@ -36,4 +36,4 @@ const HomeDashboard = () => {
     )
 }
 
-export default HomeDashboard
+export default Home

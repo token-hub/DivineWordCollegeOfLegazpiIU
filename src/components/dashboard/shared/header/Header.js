@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import clsx from  'clsx';
@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Toolbar from '@material-ui/core/Toolbar';
+import { DashboardContext } from '../../../../App';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -48,8 +49,9 @@ const useStyles = makeStyles(theme => ({
     icon: {
         color: 'white'
     },
-    noPadding: {
-        padding: 0
+    noPaddingWidth: {
+        padding: 0,
+        width: 'initial'
     },
     right: {
         display: 'flex',
@@ -61,6 +63,8 @@ const Header = () => {
 
     const {bold, header, image, left, headerTitle, right, noPadding, appBar} = useStyles();
 
+    const {dashboardProvider: {user: {name}, handleLogout}} = useContext(DashboardContext);
+  
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -79,14 +83,14 @@ const Header = () => {
                 <Typography variant='h6' className={clsx(bold, headerTitle)}> DWCL Panel</Typography>
             </Grid>
             <Grid item className={right}>
-                <Typography variant='h6' className={clsx(bold, headerTitle)}> ADMIN</Typography>
+                <Typography variant='h6' className={clsx(bold, headerTitle)}> {name} </Typography>
                     <ListItem
-                     className={noPadding}
+                      style={{ width: 'initial' }}
                      aria-controls="user" 
                      aria-haspopup="true" 
                      onClick={handleClick} 
                      >
-                        <ListItemIcon>
+                        <ListItemIcon >
                             { Boolean(anchorEl) ? <ExpandLessIcon /> : <ExpandMoreIcon /> }
                         </ListItemIcon>
                     </ListItem>
@@ -102,7 +106,7 @@ const Header = () => {
                     >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
             </Grid>
         </Toolbar>

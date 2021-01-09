@@ -4,6 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Header from '../header/Header';
 import Sidebar from '../sidebar.js/Index';
 import Paper from '@material-ui/core/Paper';
+import Base from '../base';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const DashboardLayout =  ({ children }) => {
   const {root ,content, toolbar, paper} = useStyles();
   
   return (
-    <div className={root}>
+    <Base root={root}>
       <Header />
       <Sidebar />
       <main className={content}>
@@ -42,7 +43,7 @@ const DashboardLayout =  ({ children }) => {
             { children }
         </Paper>
       </main>
-    </div>
+    </Base>
   );
 }
 
