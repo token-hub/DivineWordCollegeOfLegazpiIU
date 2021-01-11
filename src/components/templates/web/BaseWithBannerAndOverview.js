@@ -1,0 +1,55 @@
+import React from 'react'
+import {Base} from '../../templates/web';
+import Grid from '@material-ui/core/Grid';
+import {Banner, SharedGrid, ListContainer} from '../../molecules/web';
+import {makeStyles} from '@material-ui/core/styles';
+import {BannerWithOverviewMain} from '../../templates/web';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+		width: '100%',
+        height: 'auto',
+        padding: '2rem'
+    },
+    overview: {
+        width: '30%',
+        [theme.breakpoints.down('sm')] : {
+            order: 2,
+            width: '100%',
+            marginTop: '2rem'
+        }
+    },
+    main : {
+        width: '70%',
+        [theme.breakpoints.down('sm')] : {
+            order: 1,
+            width: '100%'
+        }
+    }
+}));
+
+const BaseWithBannerAndOverview = ({title, banner, data, children}) => {
+
+    const {root, overview, main} = useStyles();
+
+    const {img, alt} = banner;
+
+    return (
+        <Base>
+            <Banner img={img} alt={alt} />
+            <SharedGrid root={root}>
+            <Grid item className={overview} >
+                <ListContainer data={data} header='OVERVIEW' type='overview' />
+            </Grid>
+
+            <Grid item className={main}>
+                <BannerWithOverviewMain title={title}>
+                    {children}
+                </BannerWithOverviewMain>
+            </Grid>
+            </SharedGrid>
+        </Base>
+    )
+}
+
+export default BaseWithBannerAndOverview

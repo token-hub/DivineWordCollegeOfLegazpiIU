@@ -54,6 +54,11 @@ const renderIconFromObject = (key, object) => {
     return Icon ? <Icon /> : '';
 }
 
+const setCard = (link, title, image) => {
+    return {link, title, image};
+}
+
+
 export {
     stringTransform,
     isCurrentPage,
@@ -67,5 +72,6 @@ export {
     isBlock,
     setUpdates,
     renderIconFromObject,
-    TextTransformCamelCase
+    TextTransformCamelCase,
+    setCard
 }

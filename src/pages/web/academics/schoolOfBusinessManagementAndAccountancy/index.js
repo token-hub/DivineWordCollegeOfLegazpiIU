@@ -1,0 +1,3 @@
+import SchoolOfBusinessManagementAndAccountancy from './SchoolOfBusinessManagementAndAccountancy';
+
+export default SchoolOfBusinessManagementAndAccountancy;

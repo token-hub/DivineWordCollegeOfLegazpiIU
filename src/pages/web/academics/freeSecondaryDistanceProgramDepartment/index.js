@@ -1,0 +1,3 @@
+import FreeSecondaryDistanceProgramDepartment from './FreeSecondaryDistanceProgramDepartment';
+
+export default FreeSecondaryDistanceProgramDepartment;
