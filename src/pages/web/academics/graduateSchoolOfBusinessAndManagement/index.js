@@ -1,3 +1,0 @@
-import GraduateSchoolOfBusinessAndManagement from './GraduateSchoolOfBusinessAndManagement';
-
-export default GraduateSchoolOfBusinessAndManagement;

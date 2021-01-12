@@ -16,6 +16,7 @@ import Banner from './Banner';
 import ListContainer from './ListContainer';
 import RenderTable from './RenderTable';
 import ImageWithParagraph from './ImageWithParagraph';
+import RenderList from './RenderList';
 
 export {
     HomeHeaderLeft,
@@ -35,5 +36,6 @@ export {
     Banner,
     ListContainer,
     RenderTable,
-    ImageWithParagraph
+    ImageWithParagraph,
+    RenderList
 }

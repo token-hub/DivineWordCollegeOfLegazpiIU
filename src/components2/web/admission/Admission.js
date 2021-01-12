@@ -59,41 +59,35 @@ const Admission = () => {
             </Typography>
             <RenderList header='New Students' data={newStudents} />
             <RenderList header='Old Students' data={oldStudents} />
+            <RenderList header='GUIDANCE SERVICES' data={guidanceServices} />
             <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
                 GUIDANCE SERVICES
             </Typography>
             <List className={paragraph}>
                 {
-                    guidanceServices.map( ({item, value},index) => 
-                        {
-                            return (
-                                <>
-                                <ListItem className={noPadding}>
-                                    <ListItemIcon className={listIcon}>
-                                        <FiberManualRecordIcon className={icon} />
-                                    </ListItemIcon>
-                                    <ListItemText primary={item} />
-                                </ListItem> 
-                                    {
-                                        value !== null 
-                                            ?<List>
-                                                {
-                                                    value.map(e =>(
-                                                        <ListItem className={noPadding}>
-                                                            <ListItemIcon className={clsx(listIcon, listIconIndented)}>
-                                                                <FiberManualRecordIcon className={icon} />
-                                                            </ListItemIcon>
-                                                            <ListItemText primary={e} />
-                                                        </ListItem>
-                                                    ))
-                                                }
-                                            </List>
-                                            : ''
-                                    }
-                                </>   
-                            )
-                        }
-                    )
+                    guidanceServices.map( ({item, value}, index) =>  
+                        (<>
+                            <ListItem className={noPadding}>
+                                <ListItemIcon className={listIcon}>
+                                    <FiberManualRecordIcon className={icon} />
+                                </ListItemIcon>
+                                <ListItemText primary={item} />
+                            </ListItem> 
+                                {value !== null 
+                                        ?<List>
+                                            {value.map(e =>(
+                                                    <ListItem className={noPadding}>
+                                                        <ListItemIcon className={clsx(listIcon, listIconIndented)}>
+                                                            <FiberManualRecordIcon className={icon} />
+                                                        </ListItemIcon>
+                                                        <ListItemText primary={e} />
+                                                    </ListItem>
+                                                ))
+                                            }
+                                        </List>
+                                        : ''
+                                }
+                            </>))
                 }
             </List>
             

@@ -8,6 +8,7 @@ import NewsAndEvents from './NewsAndEvents';
 import Announcements from './Annoucements';
 import Informations from './Informations';
 import Credits from './Credits';
+import UpdatesListContainer from './UpdatesListContainer';
 
 export {
     Header,
@@ -19,5 +20,6 @@ export {
     NewsAndEvents,
     Announcements,
     Informations,
-    Credits
+    Credits,
+    UpdatesListContainer
 }

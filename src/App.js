@@ -16,8 +16,19 @@ import {
     TheJingle,
     TheSeal
 } from './pages/web/AboutUs';
-import Home2 from './components2/web/home';
+import {
+	Admission,
+	OnlineEnrollment,
+	GradeSchool,
+	JuniorHighSchool,
+	FreeSecondaryDistanceProgram,
+	SeniorHighSchool,
+	College,
+	GraduateSchool,
+	Scholarship
+} from './pages/web/Admission';
 
+import Home2 from './components2/web/home';
 // about us pages imports
 // import History from './components2/web/aboutUs/history';
 // import TheSeal from './components/web/aboutUs/theSeal';
@@ -30,8 +41,8 @@ import Home2 from './components2/web/home';
 // import OrganizationalStructure from './components/web/aboutUs/organizationalStructure';
 // import AwardsAndRecognition from './components/web/aboutUs/awardsAndRecognition';
 // admission pages imports
-// import Admission from './components/web/admission';
-// import OnlineEnrollment from './components/web/admission/onlineEnrollment';
+import Admission2 from './components2/web/admission';
+import OnlineEnrollment2 from './components2/web/admission/onlineEnrollment';
 // import GradeSchool from './components/web/admission/gradeSchool';
 // import JuniorHighSchool from './components/web/admission/juniorHighSchool';
 // import FreeSecondaryDistanceProgram from './components/web/admission/freeSecondaryDistanceProgram';
@@ -190,7 +201,9 @@ const App = props => {
 				<Route path="/about-us/awards-&-recognition" exact component={AwardsAndRecognition} />
 
 				{/* Admission Pages */}
-				{/* <Route path="/admission" exact component={Admission} />
+				<Route path="/admission2" exact component={Admission2} />
+				<Route path="/admission" exact component={Admission} />
+				<Route path="/admission/online-enrollment2" exact component={OnlineEnrollment2} />
 				<Route path="/admission/online-enrollment" exact component={OnlineEnrollment} />
 				<Route path="/admission/grade-school" exact component={GradeSchool} />
 				<Route path="/admission/junior-high-school" exact component={JuniorHighSchool} />
@@ -198,7 +211,7 @@ const App = props => {
 				<Route path="/admission/senior-high-school" exact component={SeniorHighSchool} />
 				<Route path="/admission/college" exact component={College} />
 				<Route path="/admission/graduate-school" exact component={GraduateSchool} />
-				<Route path="/admission/scholarship" exact component={Scholarship} /> */}
+				<Route path="/admission/scholarship" exact component={Scholarship} />
 
 				{/* Acadamics Pages */}
 				{/* <Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />

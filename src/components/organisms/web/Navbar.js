@@ -76,8 +76,8 @@ const Navbar = () => {
     
                     let setPage = linkContainer;
                     let setLinkText = linkText;
-                        
-                    if (isCurrentPage(key, path)) {
+                    
+                    if (isCurrentPage(path, key)) {
                        setPage =  currentPage;
                        setLinkText = currentPageText
                     }

@@ -7,6 +7,7 @@ import NavMenuItem from './NavMenuItem';
 import LinkTextIcon from './LinkTextIcon';
 import Paragraph from './Paragraph';
 import BoldSpan from './BoldSpan';
+import ListItemIconWithText from './ListItemIconWithText';
 
 export {
     ListIcon,
@@ -17,5 +18,6 @@ export {
     NavMenuItem,
     LinkTextIcon,
     Paragraph,
-    BoldSpan
+    BoldSpan,
+    ListItemIconWithText
 }

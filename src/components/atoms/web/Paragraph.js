@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Paragraph = ({ variant = 'subtitle1',bold ,children, ...rest }) => {
+const Paragraph = ({ variant = 'subtitle1', bold,children, ...rest }) => {
 
     const {paragraph, boldText} = useStyles();
     
