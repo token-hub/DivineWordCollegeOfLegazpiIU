@@ -1,47 +1,29 @@
-import React from 'react';
+import React from 'react'
 import Grid from '@material-ui/core/Grid';
-import clsx from  'clsx';
-import Typography from '@material-ui/core/Typography';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { menus } from '../../data/navlinks';
-import { AboutUsBannerObj } from '../../data/banners';
-import { images } from '../../data/images';
-
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Image} from '../../../components/atoms/web';
+import {orgChart} from '../../../assets/images';
 import { makeStyles } from '@material-ui/core/styles';
 
-const {img, alt} = images.orgChart; 
-
 const useStyles = makeStyles({
-    bold: {
-        fontWeight: 600
-    },
     imgContainer: {
         height: '100%',
         width: '100%',
     },
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
-    image: {
-        maxHeight: '100%',
-        widht: '100%',
-        backgroundSize: 'cover'
-    }
 });
+const OrganizationalStructure = () => { 
 
-const History = () => {
-
-    const {bold, paragraph, image, imgContainer} = useStyles();
+    const {imgContainer} = useStyles();
+    const {img, alt} = orgChart;
 
     return (
-        <Grid container>
-            <SharedLayout data={menus.about_us.items} title='The seal' banner={AboutUsBannerObj}>
-                <Grid container justify='center' className={imgContainer}>
-                    <img src={img} alt={alt} className={image}/>
-                </Grid>
-            </SharedLayout>
-        </Grid>
+        <BaseWithBannerAndOverview data={navlinks.about_us.items} title='Organizational Structure' banner={banners.AboutUsBannerObj}>
+            <Grid container justify='center' className={imgContainer}>
+                <Image source={img} alt={alt}/>
+            </Grid>
+        </BaseWithBannerAndOverview>
     )
 }
 
-export default History
+export default OrganizationalStructure

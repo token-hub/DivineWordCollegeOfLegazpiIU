@@ -84,7 +84,7 @@ const Navbar = () => {
 
                     return (
                         <Grid item key={index} className={setPage}>
-                            <LinkTextNavlink setLinkText={setLinkText} {...bindHover(getState)}>
+                            <LinkTextNavlink link={link} setLinkText={setLinkText} {...bindHover(getState)}>
                                 {stringTransform(key, '_', ' ')}
                             </LinkTextNavlink>
 

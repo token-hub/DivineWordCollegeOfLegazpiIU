@@ -58,6 +58,9 @@ const setCard = (link, title, image) => {
     return {link, title, image};
 }
 
+const setImageWithParagraph = (title, name, jobDescription, image) => {
+    return {title, name, jobDescription, image};
+}
 
 export {
     stringTransform,
@@ -73,5 +76,6 @@ export {
     setUpdates,
     renderIconFromObject,
     TextTransformCamelCase,
-    setCard
+    setCard,
+    setImageWithParagraph
 }

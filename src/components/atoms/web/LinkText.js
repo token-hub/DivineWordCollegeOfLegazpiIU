@@ -12,13 +12,13 @@ const useStyles = makeStyles({
      },
 })
 
-const LinkText = ({ text, link = '#' }) => {
+const LinkText = ({ text, color = 'inherit', link = '#' }) => {
 
     const {anchorTag} = useStyles();
 
     return (
         <Typography variant="subtitle1">
-            <Link href={link} color="inherit" classes={{ root: anchorTag }}>
+            <Link href={link} color={color} classes={{ root: anchorTag }}>
                {text}
             </Link> 
         </Typography>

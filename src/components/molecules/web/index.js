@@ -14,6 +14,8 @@ import OurSocialMedialinks from './OurSocialMediaLinks';
 import OurQuicklinks from './OurQuicklinks';
 import Banner from './Banner';
 import ListContainer from './ListContainer';
+import RenderTable from './RenderTable';
+import ImageWithParagraph from './ImageWithParagraph';
 
 export {
     HomeHeaderLeft,
@@ -31,5 +33,7 @@ export {
     OurSocialMedialinks,
     OurQuicklinks,
     Banner,
-    ListContainer
+    ListContainer,
+    RenderTable,
+    ImageWithParagraph
 }

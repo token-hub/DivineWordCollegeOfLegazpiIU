@@ -1,9 +1,7 @@
 import React from 'react'
 import {BaseWithBannerAndOverview} from '../../../components/templates/web';
-import {navlinks} from '../../../data/web';
-import {banners} from '../../../data/web';
+import {navlinks, banners} from '../../../data/web';
 import {Paragraph, BoldSpan} from '../../../components/atoms/web';
-
 
 const History = () => {
 

@@ -6,14 +6,14 @@ import { useHistory } from "react-router-dom";
 import {Home} from './pages/web';
 import {
     History,
-    // Administrators,
-    // AwardsAndRecognition,
-    // Facilities,
-    // MissionVisionGoal,
-    // OrganizationalStructure,
-    // StArnoldsPrayer,
-    // TheHymn,
-    // TheJingle,
+    Administrators,
+    AwardsAndRecognition,
+    Facilities,
+    MissionVisionGoal,
+    OrganizationalStructure,
+    StArnoldsPrayer,
+    TheHymn,
+    TheJingle,
     TheSeal
 } from './pages/web/AboutUs';
 import Home2 from './components2/web/home';
@@ -180,14 +180,14 @@ const App = props => {
 				{/* About Us Pages */}
 				 <Route path="/about-us/history" exact component={History} />
 				<Route path="/about-us/the-seal" exact component={TheSeal} />
-				{/*<Route path="/about-us/mission,-vision-&-goal" exact component={MissionVisionGoal} />
+				<Route path="/about-us/mission,-vision-&-goal" exact component={MissionVisionGoal} />
 				<Route path="/about-us/the-hymn" exact component={TheHymn} />
 				<Route path="/about-us/the-jingle" exact component={TheJingle} />
 				<Route path="/about-us/st.arnold's-prayer" exact component={StArnoldsPrayer} />
 				<Route path="/about-us/administrators" exact component={Administrators} />
 				<Route path="/about-us/facilities" exact component={Facilities} />
 				<Route path="/about-us/organizational-structure" exact component={OrganizationalStructure} />
-				<Route path="/about-us/awards-&-recognition" exact component={AwardsAndRecognition} /> */}
+				<Route path="/about-us/awards-&-recognition" exact component={AwardsAndRecognition} />
 
 				{/* Admission Pages */}
 				{/* <Route path="/admission" exact component={Admission} />

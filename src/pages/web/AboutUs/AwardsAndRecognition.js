@@ -1,34 +1,17 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { menus } from '../../data/navlinks';
-import { AboutUsBannerObj } from '../../data/banners';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
 
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
-});
-
-const History = () => {
-
-    const {bold, paragraph} = useStyles();
-
+const AwardsAndRecognition = () => { 
     return (
-        <Grid container>
-            <SharedLayout data={menus.about_us.items} title='Awards & Recognition' banner={AboutUsBannerObj}>
-                <Typography variant='subtitle1' className={paragraph}>
-                     Please visit us again as we are currently updating information on this page.
-                </Typography>
-                <Typography variant='subtitle1' className={paragraph}>
-                    Thank you. 
-                </Typography>
-            </SharedLayout>
-        </Grid>
+        <BaseWithBannerAndOverview data={navlinks.about_us.items} title='Awards and Recognition' banner={banners.AboutUsBannerObj}>
+            <Paragraph>
+                Please visit us again as we are currently updating information on this page. <br />
+                Thank you.
+            </Paragraph>            
+        </BaseWithBannerAndOverview>
     )
 }
 
-export default History
+export default AwardsAndRecognition
