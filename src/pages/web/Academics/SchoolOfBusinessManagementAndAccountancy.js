@@ -1,45 +1,25 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import clsx from  'clsx';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
+import {RenderList, RenderTable} from '../../../components/molecules/web';
+import {schoolOfBusinessManagementAndAccountancy} from '../../../data/web/Academics';
 
-import { makeStyles } from '@material-ui/core/styles';
-import RenderList from '../../shared/others/renderList';
-import RenderTable from '../../shared/others/renderTable';
-import { menus } from '../../data/navlinks';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
-import {
-    objectives,
-    courses,
-    facultyAndStaff
-} from '../../data/academics/schoolOfBusinessManagementAndAccountancy';
 
-const useStyles = makeStyles({
-    bold: {
-        fontWeight: 600
-    },
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
-});
+const SchoolOfBusinessManagementAndAccountancy = () => { 
 
-const SchoolOfBusinessManagementAndAccountancy = () => {
-
-    const {bold, paragraph} = useStyles();
+    const {objectives, courses, facultyAndStaff} = schoolOfBusinessManagementAndAccountancy;
 
     return (
-        <Grid container>
-            <SharedLayout data={menus.academics.items} title='School of Business Management & Accountancy' banner={AcademicsBannerObj}>
-                <Typography variant='subtitle1' className={paragraph}>
-                    The School of Business Management and Accountancy (SBMA) is committed to excellence and dynamism in teaching-learning-research processes across all areas of discipline in business and public. It seeks to produce socially responsible and service-oriented graduates, imbued with the DWCL core values.
-                </Typography>
+        <BaseWithBannerAndOverview data={navlinks.academics.items} title='School of Business Management and Accountancy' banner={banners.AcademicsBannerObj}>
+            <Paragraph>
+                The School of Business Management and Accountancy (SBMA) is committed to excellence and dynamism in teaching-learning-research processes across all areas of discipline in business and public. It seeks to produce socially responsible and service-oriented graduates, imbued with the DWCL core values.
+            </Paragraph>
 
-                <RenderList header='Specific Objectives:' data={objectives} />
-                <RenderList header='Courses Offered:' data={courses} />
-                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
-            </SharedLayout>
-        </Grid>
+            <RenderList header='Specific Objectives:' data={objectives} />
+            <RenderList header='Courses Offered:' data={courses} />
+            <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
+        </BaseWithBannerAndOverview>
     )
 }
 

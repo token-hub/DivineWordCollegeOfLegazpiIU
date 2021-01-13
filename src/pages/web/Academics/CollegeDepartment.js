@@ -1,19 +1,16 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { menus } from '../../data/navlinks';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
 
-const CollegeDepartment = () => {
+const CollegeDepartment = () => { 
+
     return (
-        <Grid container>
-            <SharedLayout data={menus.academics.items} title='College' banner={AcademicsBannerObj}>
-                <Typography variant='subtitle1'>
-                    The Divine Word College of Legazpi offers different courses that prospective students can choose and are relevant and responsive to the demands of business and industry.
-                </Typography>
-            </SharedLayout>
-        </Grid>
+        <BaseWithBannerAndOverview data={navlinks.academics.items} title='College' banner={banners.AcademicsBannerObj}>
+            <Paragraph>
+                The Divine Word College of Legazpi offers different courses that prospective students can choose and are relevant and responsive to the demands of business and industry.
+            </Paragraph>
+        </BaseWithBannerAndOverview>
     )
 }
 

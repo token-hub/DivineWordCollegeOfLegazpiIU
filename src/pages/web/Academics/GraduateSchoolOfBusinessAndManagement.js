@@ -1,49 +1,27 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import clsx from  'clsx';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
+import {RenderList, RenderTable} from '../../../components/molecules/web';
+import {graduateSchoolOfBusinessAndManagement} from '../../../data/web/Academics';
 
-import { makeStyles } from '@material-ui/core/styles';
-import RenderList from '../../shared/others/renderList';
-import RenderTable from '../../shared/others/renderTable';
-import { menus } from '../../data/navlinks';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
-import {
-    objectives,
-    programs, 
-    requirements,
-    facultyAndstaff
-} from '../../data/academics/graduateSchoolOfBusinessAndManagement';
 
-const useStyles = makeStyles({
-    bold: {
-        fontWeight: 600
-    },
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
-});
+const GraduateSchoolOfBusinessAndManagement = () => { 
 
-const GraduateSchoolOfBusinessAndAccountancy = () => {
-
-    const {bold, paragraph} = useStyles();
+    const {objectives, programs, requirements, facultyAndStaff} = graduateSchoolOfBusinessAndManagement;
 
     return (
-        <Grid container>
-            <SharedLayout data={menus.academics.items} title='Graduate School of Business and Management' banner={AcademicsBannerObj}>
-                <Typography variant='subtitle1' className={paragraph}>
-                    Being the highest level in the institution, the Graduate School of Business and Management aims to develop leadership and expertise in business, management and community development as a competent human resource base, needed for regional and national development.
-                </Typography>
+        <BaseWithBannerAndOverview data={navlinks.academics.items} title='Graduate School of Business and Management' banner={banners.AcademicsBannerObj}>
+            <Paragraph>
+                Being the highest level in the institution, the Graduate School of Business and Management aims to develop leadership and expertise in business, management and community development as a competent human resource base, needed for regional and national development.
+            </Paragraph>
 
-                <RenderList header='Specific objectives:' data={objectives} />
-                <RenderList header='Programs Offered:' data={programs} />
-                <RenderList header='Admission Requirements' data={requirements} />
-
-                <RenderTable tableBody={facultyAndstaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
-            </SharedLayout>
-        </Grid>
+            <RenderList header='Specific objectives:' data={objectives} />
+            <RenderList header='Programs Offered:' data={programs} />
+            <RenderList header='Admission Requirements' data={requirements} />
+            <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)' />
+        </BaseWithBannerAndOverview>
     )
 }
 
-export default GraduateSchoolOfBusinessAndAccountancy
+export default GraduateSchoolOfBusinessAndManagement

@@ -27,6 +27,19 @@ import {
 	GraduateSchool,
 	Scholarship
 } from './pages/web/Admission';
+import {
+	GradeSchoolDepartment,
+	JuniorHighSchoolDepartment,
+	FreeSecondaryDistanceProgramDepartment,
+	SeniorHighSchoolDepartment,
+	CollegeDepartment,
+	SchoolOfNursing,
+	SchoolOfHospitalityManagement,
+	SchoolOfEducationArtsAndSciences,
+	SchoolOfEngineeringAndComputerStudies,
+	SchoolOfBusinessManagementAndAccountancy,
+	GraduateSchoolOfBusinessAndManagement
+} from './pages/web/Academics';
 
 import Home2 from './components2/web/home';
 // about us pages imports
@@ -214,9 +227,9 @@ const App = props => {
 				<Route path="/admission/scholarship" exact component={Scholarship} />
 
 				{/* Acadamics Pages */}
-				{/* <Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />
+				<Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />
 				<Route path="/academics/junior-high-school-department" exact component={JuniorHighSchoolDepartment} />
-				<Route path="/academics/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgramDeparment} />
+				<Route path="/academics/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgramDepartment} />
 				<Route path="/academics/senior-high-school-department" exact component={SeniorHighSchoolDepartment} />
 				<Route path="/academics/college" exact component={CollegeDepartment} />
 				<Route path="/academics/school-of-nursing" exact component={SchoolOfNursing} />
@@ -224,7 +237,7 @@ const App = props => {
 				<Route path="/academics/school-of-education-arts-and-sciences" exact component={SchoolOfEducationArtsAndSciences} />
 				<Route path="/academics/school-of-engineering-and-computer-studies" exact component={SchoolOfEngineeringAndComputerStudies} />
 				<Route path="/academics/school-of-business-management-and-accountancy" exact component={SchoolOfBusinessManagementAndAccountancy} />
-				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} /> */}
+				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} />
 
 
 				{/* Student services Pages */}

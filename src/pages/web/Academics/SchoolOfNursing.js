@@ -1,51 +1,30 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import clsx from  'clsx';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
+import {RenderList, RenderTable} from '../../../components/molecules/web';
+import {schoolOfNursing} from '../../../data/web/Academics';
 
-import { makeStyles } from '@material-ui/core/styles';
-import RenderList from '../../shared/others/renderList';
-import { menus } from '../../data/navlinks';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
-import {
-    objectives, 
-    courses,
-    facultyAndStaff
-} from '../../data/academics/schoolOfNursing';
-import RenderTable from '../../shared/others/renderTable/RenderTable';
 
-const useStyles = makeStyles({
-    bold: {
-        fontWeight: 600
-    },
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
-});
+const SchoolOfNursing = () => { 
 
-const SchoolOfNursing = () => {
-
-    const {bold, paragraph} = useStyles();
+    const {objectives, courses, facultyAndStaff} = schoolOfNursing;
 
     return (
-        <Grid container>
-            <SharedLayout data={menus.academics.items} title='School of Nursing' banner={AcademicsBannerObj}>
-                <Typography variant='subtitle1' className={paragraph} >
-                    The School of Nursing (SON) aims to develop highly competent beginning nurse clinicians able to work in any healthcare setting and cater to various clientele: individual, family, and community.
-                </Typography>
-               
-                <RenderList header='Specific Objectives:' data={objectives} />
-                <RenderList header='Course Offered:' data={courses} />
-        
+        <BaseWithBannerAndOverview data={navlinks.academics.items} title='School of Nursing' banner={banners.AcademicsBannerObj}>
+            <Paragraph>
+                The School of Nursing (SON) aims to develop highly competent beginning nurse clinicians able to work in any healthcare setting and cater to various clientele: individual, family, and community.
+            </Paragraph>
 
-                <Typography variant='subtitle1' color='primary' className={clsx(paragraph, bold)}>
-                    List of Faculty and Staff (S.Y. 2019-2020)
-                </Typography>
+            <RenderList header='Specific Objectives:' data={objectives} />
+            <RenderList header='Course Offered:' data={courses} />
 
-                <RenderTable tableBody={facultyAndStaff} size='small' />
-            </SharedLayout>
-        </Grid>
+            <Paragraph color='primary' varaint='h6' bold>
+                List of Faculty and Staff (S.Y. 2019-2020)
+            </Paragraph>
+
+            <RenderTable tableBody={facultyAndStaff} size='small' />
+        </BaseWithBannerAndOverview>
     )
 }
 

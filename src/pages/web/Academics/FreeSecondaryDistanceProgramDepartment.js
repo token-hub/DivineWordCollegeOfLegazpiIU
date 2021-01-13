@@ -1,22 +1,18 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { menus } from '../../data/navlinks';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
 
-const FreeSecondaryDisntaceProgramDepartment = () => {
+const FreeSecondaryDistanceProgramDepartment = () => { 
+
     return (
-        <Grid container>
-            <SharedLayout data={menus.academics.items} title='Free Secondary Distance Program' banner={AcademicsBannerObj}>
-                <Typography variant='subtitle1'>
-                    Please visit us again as we are currently updating information on this page. <br />
-                    Thank you.
-                </Typography>
-
-            </SharedLayout>
-        </Grid>
+        <BaseWithBannerAndOverview data={navlinks.academics.items} title='Free Secondary Distance Program' banner={banners.AcademicsBannerObj}>
+            <Paragraph>
+                Please visit us again as we are currently updating information on this page. <br />
+                Thank you.
+            </Paragraph>
+        </BaseWithBannerAndOverview>
     )
 }
 
-export default FreeSecondaryDisntaceProgramDepartment
+export default FreeSecondaryDistanceProgramDepartment

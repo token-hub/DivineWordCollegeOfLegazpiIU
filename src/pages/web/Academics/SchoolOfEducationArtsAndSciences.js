@@ -1,43 +1,23 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import clsx from  'clsx';
-import Typography from '@material-ui/core/Typography';
+import React from 'react'
+import {BaseWithBannerAndOverview} from '../../../components/templates/web';
+import {navlinks, banners} from '../../../data/web';
+import {Paragraph} from '../../../components/atoms/web';
+import {RenderList, RenderTable} from '../../../components/molecules/web';
+import {schoolOfEducationArtsAndSciences} from '../../../data/web/Academics';
 
-import { makeStyles } from '@material-ui/core/styles';
-import RenderList from '../../shared/others/renderList';
-import { menus } from '../../data/navlinks';
-import SharedLayout from '../../shared/others/sharedLayout';
-import { AcademicsBannerObj } from '../../data/banners';
 
-import {
-    courses, 
-    facultyAndStaff
-} from '../../data/academics/schoolOfEducationArtsAndSciences';
-import RenderTable from '../../shared/others/renderTable/RenderTable';
+const SchoolOfEducationArtsAndSciences = () => { 
 
-const useStyles = makeStyles({
-    bold: {
-        fontWeight: 600
-    },
-    paragraph: {
-        marginBottom: '1.5rem'
-    },
-});
-
-const SchoolOfEducationArtsAndSciences = () => {
-
-    const {bold, paragraph} = useStyles();
+    const {courses, facultyAndStaff} = schoolOfEducationArtsAndSciences;
 
     return (
-        <Grid container>
-            <SharedLayout data={menus.academics.items} title='School of Education, Arts and Sciences' banner={AcademicsBannerObj}>
-                <RenderList header='Courses Offered:' data={courses} />
-                <Typography variant='subtitle1' className={paragraph}>
-                    Non Degree courses: Certificate in College Teaching (CCT)
-                </Typography>
-                <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)'/>
-            </SharedLayout>
-        </Grid>
+        <BaseWithBannerAndOverview data={navlinks.academics.items} title='School of Education Arts and Sciences' banner={banners.AcademicsBannerObj}>
+            <RenderList header='Courses Offered:' data={courses} />
+            <Paragraph>
+                Non Degree courses: Certificate in College Teaching (CCT)
+            </Paragraph>
+            <RenderTable tableBody={facultyAndStaff} size='small' header='List of Faculty and Staff (S.Y. 2019-2020)'/>
+        </BaseWithBannerAndOverview>
     )
 }
 

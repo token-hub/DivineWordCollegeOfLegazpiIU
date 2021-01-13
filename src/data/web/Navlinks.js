@@ -4,7 +4,7 @@ const colleges = [
     setObject('SCHOOL OF NURSING', '/academics/school-of-nursing'),
     setObject('SCHOOL OF HOSPITALITY MANAGEMENT', '/academics/school-of-hospitality-management'),
     setObject('SCHOOL OF EDUCATION, ARTS AND SCIENCES', '/academics/school-of-education-arts-and-sciences'),
-    setObject('SCHOOL OF ENGINERRING AND COMPUTER STUDIES', '/academics/school-of-engineering-and-computer-studies'),
+    setObject('SCHOOL OF ENGINEERING AND COMPUTER STUDIES', '/academics/school-of-engineering-and-computer-studies'),
     setObject('SCHOOL OF BUSINESS MANAGEMENT AND ACCOUNTANCY', '/academics/school-of-business-management-and-accountancy'),
 ];
 
