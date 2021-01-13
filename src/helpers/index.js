@@ -44,8 +44,8 @@ const isBlock = (item, className, className2) => {
     return item ? clsx(className, className2) : className;
 }
 
-const setUpdates = (month, day, title, subtitle = null, link = '#', color='inherit') => {
-    return {month, day, title, subtitle, link, color};
+const setUpdates = (month, day, title, subtitle = null, link = '#') => {
+    return {month, day, title, subtitle, link};
 }
 
 const renderIconFromObject = (key, object) => {

@@ -7,19 +7,22 @@ import { Paragraph, ListItemIconWithText } from '../../atoms/web';
 const useStyles = makeStyles({
     marginBottom : {
         marginBottom: '1.5rem'
+    },
+    bold: {
+        fontWeight: 600,
     }
 });
 
 const RenderList = ({header = '', color='inherit', variant='subtitle1', data, dense = false}) => {
  
-    const {marginBottom} = useStyles();
+    const {marginBottom, bold} = useStyles();
+
+    let nestedCount = 0;
+    let childrenCount = 0;
 
     const isObject = val => {
         return val instanceof Object;
     }
-
-    let nestedCount = 0;
-    let childrenCount = 0;
 
     const isArray = val => {
         return Array.isArray(val) && !null;
@@ -29,11 +32,41 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
         return !isObject(data) && !isArray(data);
     }
 
-    const listItem = (data) => {
+    const listItem = data => {
         if (isObject(data)) {
             return renderListItem(data, true);
         }
         return <ListItemIconWithText text={data} />
+    }
+
+    const isDense = (dense, text) => {
+        return dense 
+        ?  text && <ListItemIconWithText text={text} />
+        :  <Typography variant='h6' color='primary' className={bold} >{text}</Typography>
+    }
+
+    const isDotIcon = (dotIcon, dense, text, currentVal) => {
+        return dotIcon 
+        ? listItem(currentVal, null)
+        : isDense(dense, text)
+    }
+
+    const isArrayAndNestedItem = (childrenCount, array) => {
+        return childrenCount > 0 
+            ? array.map( (val, index) => (<Fragment key={index}>{mapObjectListItem(val, listItem, index)}</Fragment>) ) 
+            : array.map( (val, index) => (<Fragment key={index}>{listItem(val, index)}</Fragment>) )
+    }
+
+    const isValueAllStringOrNumber = array => {
+        const arrLength = array.length;
+        let stringNumCount = 0;
+        
+        for(let count in array ) {
+            if (isStringOrNumber(count)) {
+                stringNumCount++;
+            }
+        }
+        return stringNumCount === arrLength;
     }
 
     const renderListItem = (data, dotIcon = false) => {
@@ -42,30 +75,23 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
         if (isStringOrNumber(data)) {
             list = listItem(data)
         }  else if (isArray(data)) {
-            list = data.map( (val, index) => (
-                <Fragment key={index}>{ isStringOrNumber(val) ? listItem(val) : renderListItem(val)} </Fragment>
-            ))
+            list = data.map( (val, index) => 
+                <Fragment key={index}>{ isStringOrNumber(val) ? listItem(val) : renderListItem(val)} </Fragment> )
         } else {
             const {item, value} = data;
+            const setMargin = dense ? null : marginBottom;
             childrenCount++;
-           list = <>
-               {dotIcon 
-                    ? listItem(value, null)
-                    : dense 
-                        ?  item && <ListItemIconWithText text={item} />
-                        :  <Paragraph variant='h6' color='primary' bold>{item}</Paragraph>
-               }
+            list = <div className={setMargin}>
+               {isDotIcon(dotIcon, dense, item, value)}
                 {value !== null
                     ?  isArray(value)
-                        ?   childrenCount > 0 
-                ? value.map( (val, index) => (<Fragment key={index}>{mapObjectListItem(val, listItem, index)}</Fragment>) ) 
-                : value.map( (val, index) => (<Fragment key={index}>{listItem(val, index)}</Fragment>) )
+                        ?  isArrayAndNestedItem(childrenCount, value)
                         : (isObject(value) && !isArray(value))
                             ?   mapObjectListItem(value, renderListItem)
                             :   listItem(value)
                     : ''
                 }
-            </>
+            </div>
         }
 
         return list   
@@ -75,31 +101,13 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
         let padding = {};
         let list = '';
         nestedCount++;
-
-        const arrLength = array.length;
-        let stringNumCount = 0;
-        
-        for(let count in array ) {
-            if (isStringOrNumber(count)) {
-                stringNumCount++;
-            }
-        }
          
-        // check if the array given is all string/number type
-        if (stringNumCount === arrLength) {
-            list = (
-                <List disablePadding>
-                    {renderListItem(array)}
-                </List>
-            )
+        if (isValueAllStringOrNumber(array)) {
+            list = <List disablePadding>{renderListItem(array)}</List>
         } else {
             list = array.map( (data, index) => { 
-                if (isArray(data['value'])) padding = {paddingLeft: `${nestedCount++}rem`};
-                return (
-                    <List key={index} disablePadding>
-                        {renderListItem(data)}
-                    </List>
-                )
+                // if (isArray(data['value'])) padding = {paddingLeft: `${nestedCount++}rem`};
+                return <List key={index} disablePadding style={{ marginBottom: '4rem' }} > {renderListItem(data)} </List> 
             });
         }
 
@@ -109,16 +117,12 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
     const mapObjectListItem = (obj, callback) => {
         const applyPadding =  obj.item !== '' ? `${nestedCount}rem` : '';
         
-        return  (
-            <List style={{ paddingLeft: applyPadding }} disablePadding>
-                {callback(obj)}
-            </List>
-        )
+        return <List style={{ paddingLeft: applyPadding }} disablePadding>{callback(obj)} </List>
     }
 
     return (
         <div className={marginBottom}>
-            <Paragraph variant='h6' color='primary' bold>{header}</Paragraph>
+            <Typography variant='h6' color='primary' className={bold}>{header}</Typography>
             {mapListItem(data)}
         </div>
     );

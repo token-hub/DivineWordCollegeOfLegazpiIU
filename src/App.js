@@ -40,6 +40,23 @@ import {
 	SchoolOfBusinessManagementAndAccountancy,
 	GraduateSchoolOfBusinessAndManagement
 } from './pages/web/Academics';
+import {
+	CommunityExtensionServices,
+	StudentAffairsOrganization,
+	GradeSchoolSao,
+	JuniorHighSchoolSao,
+	SeniorHighSchoolSao,
+	CollegeSao,
+	Athletics,
+	Publication,
+	CampusMinistry,
+	SerbisyongDivine,
+	Registrar,
+	Library,
+	Research,
+	Clinic,
+	Canteen
+} from './pages/web/StudentServices';
 
 import Home2 from './components2/web/home';
 // about us pages imports
@@ -242,7 +259,7 @@ const App = props => {
 
 				{/* Student services Pages */}
 				{/* <Route path="/student-services" exact component={StudentServices} /> */}
-				{/* <Route path="/student-services/community-extension-services" exact component={CommunityExtensionServices} />
+				<Route path="/student-services/community-extension-services" exact component={CommunityExtensionServices} />
 				<Route path="/student-services/student-affairs-organization" exact component={StudentAffairsOrganization} />
 				<Route path="/student-services/grade-school" exact component={GradeSchoolSao} />
 				<Route path="/student-services/junior-high-school" exact component={JuniorHighSchoolSao} />
@@ -256,7 +273,7 @@ const App = props => {
 				<Route path="/student-services/library" exact component={Library} />
 				<Route path="/student-services/research" exact component={Research} />
 				<Route path="/student-services/clinic" exact component={Clinic} />
-				<Route path="/student-services/canteen" exact component={Canteen} /> */}
+				<Route path="/student-services/canteen" exact component={Canteen} />
 
 				{/* <Route path="/career" exact component={Career} />
 				<Route path="/gallery" exact component={Gallery} /> */}

@@ -21,13 +21,8 @@ const NavMenuItem = ({ link = '#', title, ...rest }) => {
 
     const {item} = useStyles();
 
-    return (
-        <>
-            <MenuItem dense={true} component='a' href={link} classes={{ root:item }} {...rest}>
-                {title}
-            </MenuItem>
-        </>
-    )
+    return <MenuItem dense={true} component='a' href={link} classes={{ root:item }} {...rest}>{title} </MenuItem>
+    
 }
 
 export default NavMenuItem

@@ -39,15 +39,13 @@ const useStyles = makeStyles(theme => ({
     },
     header: {
         "&:hover" : {
-            color: 'gray',
             fontWeight: 600,
-            fontStyle: 'italic'
          }
     }
  }));
 
 const UpdateContainer = ({ month, day, title, subtitle = null, link = '#', color = 'inherit', width ='100%', dateOverwrite }) => {
-
+    
     const { announcementContent, content, date, header} = useStyles({width: width});
 
     return (
