@@ -2,8 +2,15 @@ import React, {createContext, useEffect, useState} from 'react'
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import apiClient from './services/api';
 
-import {Home} from './pages/web';
+import {
+	Home,
+	Career,
+	Gallery,
+	Alumni
+} from './pages/web';
 import {
     History,
     Administrators,
@@ -57,78 +64,14 @@ import {
 	Clinic,
 	Canteen
 } from './pages/web/StudentServices';
+import {
+	Updates,
+	Calendar,
+	Announcements,
+	NewsAndEvents,
+} from './pages/web/Updates';
 
-import Home2 from './components2/web/home';
-// about us pages imports
-// import History from './components2/web/aboutUs/history';
-// import TheSeal from './components/web/aboutUs/theSeal';
-// import MissionVisionGoal from './components/web/aboutUs/missionVisionGoal';
-// import TheHymn from './components/web/aboutUs/theHymn';
-// import TheJingle from './components/web/aboutUs/theJingle';
-// import StArnoldsPrayer from './components/web/aboutUs/stArnoldsPrayer';
-// import Administrators from './components/web/aboutUs/administrators';
-// import Facilities from './components/web/aboutUs/facilities';
-// import OrganizationalStructure from './components/web/aboutUs/organizationalStructure';
-// import AwardsAndRecognition from './components/web/aboutUs/awardsAndRecognition';
-// admission pages imports
-import Admission2 from './components2/web/admission';
-import OnlineEnrollment2 from './components2/web/admission/onlineEnrollment';
-// import GradeSchool from './components/web/admission/gradeSchool';
-// import JuniorHighSchool from './components/web/admission/juniorHighSchool';
-// import FreeSecondaryDistanceProgram from './components/web/admission/freeSecondaryDistanceProgram';
-// import SeniorHighSchool from './components/web/admission/seniorHighSchool';
-// import College from './components/web/admission/college';
-// import GraduateSchool from './components/web/admission/graduateSchool';
-// import Scholarship from './components/web/admission/scholarship';
-// academics pages imports
-// import GradeSchoolDepartment from './components/web/academics/gradeSchoolDepartment';
-// import JuniorHighSchoolDepartment from './components/web/academics/juniorHighSchoolDepartment';
-// import FreeSecondaryDistanceProgramDeparment from './components/web/academics/freeSecondaryDistanceProgramDepartment';
-// import SeniorHighSchoolDepartment from './components/web/academics/seniorHighSchoolDepartment';
-// import CollegeDepartment from './components/web/academics/collegeDepartment';
-// import SchoolOfNursing from './components/web/academics/schoolOfNursing';
-// import SchoolOfHospitalityManagement from './components/web/academics/schoolOfHospitalityManagement';
-// import SchoolOfEducationArtsAndSciences from './components/web/academics/schoolOfEducationArtsAndSciences';
-// import SchoolOfEngineeringAndComputerStudies from './components/web/academics/schoolOfEngineeringAndComputerStudies';
-// import SchoolOfBusinessManagementAndAccountancy from './components/web/academics/schoolOfBusinessManagementAndAccountancy';
-// import GraduateSchoolOfBusinessAndManagement from './components/web/academics/graduateSchoolOfBusinessAndManagement';
-// student services pages imports
-// import CommunityExtensionServices from './components/web/studentServices/communityExtensionServices';
-// import StudentAffairsOrganization from './components/web/studentServices/studentAffairsOrganization';
-// import GradeSchoolSao from './components/web/studentServices/gradeSchoolSao';
-// import JuniorHighSchoolSao from './components/web/studentServices/juniorHighSchoolSao';
-// import SeniorHighSchoolSao from './components/web/studentServices/seniorHighSchoolSao';
-// import CollegeSao from './components/web/studentServices/collegeSao';
-// import Athletics from './components/web/studentServices/athletics';
-// import Publication from './components/web/studentServices/publication';
-// import CampusMinistry from './components/web/studentServices/campusMinistry';
-// import SerbisyongDivine from './components/web/studentServices/serbisyongDivine';
-// import Registrar from './components/web/studentServices/registrar';
-// import Library from './components/web/studentServices/library';
-// import Research from './components/web/studentServices/research';
-// import Clinic from './components/web/studentServices/clinic';
-// import Canteen from './components/web/studentServices/canteen';
 
-// import Career from './components/web/career';
-// import Gallery from './components/web/gallery';
-
-// updates services pages imports
-// import Updates from './components/web/updates';
-// import Calendar from './components/web/updates/calendar';
-// import Announcement from './components/web/updates/announcement';
-// import NewsAndEvents from './components/web/updates/newsAndEvents';
-
-// import ContactUs from './components/web/contactUs';
-// import Alumni from './components/web/alumni';
-
-// dashbaord pages imports
-// import Login from './components/dashboard/authentication/login';
-// import Register from './components/dashboard/authentication/register';
-// import HomeDashboard from './components/dashboard/home';
-// import Roles from './components/dashboard/roles';
-// import AnnouncementDashboard from './components/dashboard/announcement';
-import { makeStyles } from '@material-ui/core/styles';
-import apiClient from './services/api';
 
 export const DashboardContext = createContext();
 
@@ -216,7 +159,6 @@ const App = props => {
 		<div className={app}>
 			<Switch>
 				<Route path="/" exact component={Home} />
-				<Route path="/home2" exact component={Home2} />
 				
 				{/* About Us Pages */}
 				 <Route path="/about-us/history" exact component={History} />
@@ -231,9 +173,7 @@ const App = props => {
 				<Route path="/about-us/awards-&-recognition" exact component={AwardsAndRecognition} />
 
 				{/* Admission Pages */}
-				<Route path="/admission2" exact component={Admission2} />
 				<Route path="/admission" exact component={Admission} />
-				<Route path="/admission/online-enrollment2" exact component={OnlineEnrollment2} />
 				<Route path="/admission/online-enrollment" exact component={OnlineEnrollment} />
 				<Route path="/admission/grade-school" exact component={GradeSchool} />
 				<Route path="/admission/junior-high-school" exact component={JuniorHighSchool} />
@@ -256,7 +196,6 @@ const App = props => {
 				<Route path="/academics/school-of-business-management-and-accountancy" exact component={SchoolOfBusinessManagementAndAccountancy} />
 				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} />
 
-
 				{/* Student services Pages */}
 				{/* <Route path="/student-services" exact component={StudentServices} /> */}
 				<Route path="/student-services/community-extension-services" exact component={CommunityExtensionServices} />
@@ -275,17 +214,17 @@ const App = props => {
 				<Route path="/student-services/clinic" exact component={Clinic} />
 				<Route path="/student-services/canteen" exact component={Canteen} />
 
-				{/* <Route path="/career" exact component={Career} />
-				<Route path="/gallery" exact component={Gallery} /> */}
+				<Route path="/career" exact component={Career} />
+				<Route path="/gallery" exact component={Gallery} />
 
 				{/* Updates Pages */}
-				{/* <Route path="/updates" exact component={Updates} />
+				<Route path="/updates" exact component={Updates} />
 				<Route path="/updates/calendar" exact component={Calendar} />
-				<Route path="/updates/announcement" exact component={Announcement} />
+				<Route path="/updates/announcement" exact component={Announcements} />
 				<Route path="/updates/news-and-events" exact component={NewsAndEvents} />
 
-				<Route path="/contact-us" exact component={ContactUs} />
-				<Route path="/alumni" exact component={Alumni} />	 */}
+				{/*<Route path="/contact-us" exact component={ContactUs} />*/}
+				<Route path="/alumni" exact component={Alumni} />	 
 
 				{/* ============= [ Dashboard pages ] ============= */}
 				{/* <DashboardContext.Provider value={{dashboardProvider}}>

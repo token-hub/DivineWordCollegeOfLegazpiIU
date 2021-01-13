@@ -4,8 +4,8 @@ import {newsAndEventsCards} from './NewsAndEventsCards';
 import {announcements} from './Announcements';
 import {ourPortals} from './OurPortals';
 import {ourQuicklinks} from './OurQuicklinks';
-import {banners} from './Banners'
-import {updates} from './Updates';
+import {banners} from './Banners';
+import {alumni} from './Alumni';
 
 export {
     navlinks,
@@ -15,5 +15,5 @@ export {
     ourPortals,
     ourQuicklinks,
     banners,
-    updates
+    alumni
 }

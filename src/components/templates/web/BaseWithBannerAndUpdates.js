@@ -1,9 +1,8 @@
 import React from 'react'
-import {Base} from '../../templates/web';
 import Grid from '@material-ui/core/Grid';
-import {Banner, SharedGrid} from '../../../components/molecules/web';
 import {makeStyles} from '@material-ui/core/styles';
 import {UpdatesListContainer} from '../../../components/organisms/web';
+import {BaseWithBanner} from './';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,20 +32,15 @@ const BaseWithBannerAndUpdates = ({banner, children}) => {
 
     const {root, left, right} = useStyles();
 
-    const {img, alt} = banner;
-
     return (
-        <Base>
-            <Banner img={img} alt={alt} />
-            <SharedGrid root={root}>
-                <Grid item md={8} className={left} >
-                    { children }
-                </Grid>
-                <Grid item md={4} className={right}> 
-                    <UpdatesListContainer />
-                </Grid>
-            </SharedGrid>
-        </Base>
+        <BaseWithBanner banner={banner} root={root}>
+            <Grid item md={8} className={left} >
+                { children }
+            </Grid>
+            <Grid item md={4} className={right}> 
+                <UpdatesListContainer />
+            </Grid>
+        </BaseWithBanner>
     )
 }
 

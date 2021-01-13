@@ -10,6 +10,8 @@ import vpaa from './others/VPAA.jpg';
 import vpa from './others/VPA.jpg';
 import vpf from './others/VPF.jpg';
 import orgchart from './others/ORGCHART.jpg';
+import jobs180 from './others/jobs180.jpg';
+import jobstreet from './others/jobstreet.jpg';
 
 import a1 from './facilities/1COL-SHS.png';
 import a2 from './facilities/2JHS-GS.png';
@@ -100,5 +102,7 @@ export {
     facilities,
     orgChart,
     president,
-    dwclLogo
+    dwclLogo,
+    jobs180,
+    jobstreet
 }

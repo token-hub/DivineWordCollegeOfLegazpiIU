@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
     header: {
         "&:hover" : {
-            fontWeight: 600,
+            fontStyle: 'italic'
          }
     }
  }));

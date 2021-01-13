@@ -17,6 +17,8 @@ import ListContainer from './ListContainer';
 import RenderTable from './RenderTable';
 import ImageWithParagraph from './ImageWithParagraph';
 import RenderList from './RenderList';
+import Pagination from './Pagination';
+import RenderCalendar from './RenderCalendar';
 
 export {
     HomeHeaderLeft,
@@ -37,5 +39,7 @@ export {
     ListContainer,
     RenderTable,
     ImageWithParagraph,
-    RenderList
+    RenderList,
+    Pagination,
+    RenderCalendar
 }

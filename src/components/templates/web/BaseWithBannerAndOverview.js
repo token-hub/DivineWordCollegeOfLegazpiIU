@@ -1,9 +1,8 @@
 import React from 'react'
-import {Base} from '../../templates/web';
 import Grid from '@material-ui/core/Grid';
-import {Banner, SharedGrid, ListContainer} from '../../molecules/web';
+import {ListContainer} from '../../molecules/web';
 import {makeStyles} from '@material-ui/core/styles';
-import {BannerWithOverviewMain} from '../../templates/web';
+import {BannerWithOverviewMain, BaseWithBanner} from './';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,12 +31,8 @@ const BaseWithBannerAndOverview = ({title, banner, data, children}) => {
 
     const {root, overview, main} = useStyles();
 
-    const {img, alt} = banner;
-
     return (
-        <Base>
-            <Banner img={img} alt={alt} />
-            <SharedGrid root={root}>
+        <BaseWithBanner banner={banner} root={root}>
             <Grid item className={overview} >
                 <ListContainer data={data} header='OVERVIEW' type='overview' />
             </Grid>
@@ -47,8 +42,7 @@ const BaseWithBannerAndOverview = ({title, banner, data, children}) => {
                     {children}
                 </BannerWithOverviewMain>
             </Grid>
-            </SharedGrid>
-        </Base>
+        </BaseWithBanner>
     )
 }
 

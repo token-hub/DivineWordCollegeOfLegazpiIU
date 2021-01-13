@@ -1,6 +1,6 @@
 import React from 'react'
 import {ListContainer} from '../../molecules/web';
-import {updates} from '../../../data/web';
+import {updates} from '../../../data/web/Updates';
 
 const UpdatesListContainer = () => {
 

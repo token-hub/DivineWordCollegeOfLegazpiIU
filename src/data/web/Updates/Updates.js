@@ -1,4 +1,4 @@
-import { setListContent, setUpdates } from '../../helpers';
+import { setListContent, setUpdates } from '../../../helpers';
 
 const lastestPost = [
     setListContent('LECTURE AND WORKSHOP ON VARIOUS INSTRUCTIONAL TECHNOLOGIES', null, 'July 17, 2020 | 09:20 AM'),
@@ -11,7 +11,7 @@ const categories = [
     setListContent('News and Events', '/updates/news-and-events'),
 ]
 
-const dwclUpdates = [
+const updatesData = [
     setUpdates('Jul', '17','LECTURE AND WORKSHOP ON VARIOUS INSTRUCTIONAL TECHNOLOGIES', 'The Divine Word College of Legazpi commits itself to providing quality education to its clientele'),
     setUpdates('Jul', '17','FACULTY TRAINING ON DIGITAL TOOLS FOR ONLINE CLASSES', 'The Divine Word College of Legazpi commits itself to providing quality education to its clientele'),
     setUpdates('Jul', '17', 'MODES OF PAYMENT', 'BE A DIVINIAN, BE A WITNESS TO THE WORD!'),
@@ -41,7 +41,7 @@ const newsAndEvents = [
 export const updates = {
     lastestPost,
     categories,
-    dwclUpdates,
+    updatesData,
     announcement,
     newsAndEvents
 }
