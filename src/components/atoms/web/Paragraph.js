@@ -12,14 +12,14 @@ const useStyles = makeStyles({
     }
 })
 
-const Paragraph = ({ variant = 'subtitle1', bold,children, ...rest }) => {
+const Paragraph = ({ variant = 'subtitle1', bold, align='justify' ,children, ...rest }) => {
 
     const {paragraph, boldText} = useStyles();
     
     const setClass = bold ? clsx(paragraph, boldText) : paragraph;
 
     return (
-        <Typography variant={variant} className={setClass} {...rest}>{children}</Typography>
+        <Typography variant={variant} className={setClass} align={align} {...rest}>{children}</Typography>
     )
 }
 

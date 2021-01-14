@@ -19,6 +19,9 @@ import ImageWithParagraph from './ImageWithParagraph';
 import RenderList from './RenderList';
 import Pagination from './Pagination';
 import RenderCalendar from './RenderCalendar';
+import RenderUpdateForm from './RenderUpdateForm';
+import GoogleMap from './GoogleMap';
+import GetInTouch from './GetInTouch';
 
 export {
     HomeHeaderLeft,
@@ -41,5 +44,8 @@ export {
     ImageWithParagraph,
     RenderList,
     Pagination,
-    RenderCalendar
+    RenderCalendar,
+    RenderUpdateForm,
+    GoogleMap,
+    GetInTouch
 }

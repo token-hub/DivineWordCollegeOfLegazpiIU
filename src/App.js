@@ -9,7 +9,8 @@ import {
 	Home,
 	Career,
 	Gallery,
-	Alumni
+	Alumni,
+	ContactUs
 } from './pages/web';
 import {
     History,
@@ -71,7 +72,7 @@ import {
 	NewsAndEvents,
 } from './pages/web/Updates';
 
-
+import ContactUs2 from './components2/web/contactUs';
 
 export const DashboardContext = createContext();
 
@@ -223,7 +224,8 @@ const App = props => {
 				<Route path="/updates/announcement" exact component={Announcements} />
 				<Route path="/updates/news-and-events" exact component={NewsAndEvents} />
 
-				{/*<Route path="/contact-us" exact component={ContactUs} />*/}
+				<Route path="/contact-us" exact component={ContactUs} />
+				<Route path="/contact-us2" exact component={ContactUs2} />
 				<Route path="/alumni" exact component={Alumni} />	 
 
 				{/* ============= [ Dashboard pages ] ============= */}

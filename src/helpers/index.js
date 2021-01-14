@@ -51,7 +51,7 @@ const setUpdates = (month, day, title, subtitle = null, link = '#') => {
 const renderIconFromObject = (key, object) => {
     const Icon = object[key];
 
-    return Icon ? <Icon /> : '';
+    return Icon ? <><Icon color='primary' /><br /><br /><br /></> : '';
 }
 
 const setCard = (link, title, image) => {

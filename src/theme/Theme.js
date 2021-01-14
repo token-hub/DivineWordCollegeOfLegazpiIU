@@ -43,11 +43,14 @@ const theme = createMuiTheme({
             fontSize: "1.3rem"
           }
         },
+        h3: {
+          fontSize: "3rem",
+          [breakpoints.down("xs")]: {
+            fontSize: "1.4rem"
+          }
+        },
         subtitle1: {
           fontSize: "1rem",
-          [breakpoints.down("xs")]: {
-            fontSize: ".75rem"
-          }
         },
       }
     }

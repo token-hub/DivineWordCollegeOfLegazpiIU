@@ -3,6 +3,7 @@ import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Paragraph, ListItemIconWithText } from '../../atoms/web';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles({
     marginBottom : {
@@ -10,12 +11,16 @@ const useStyles = makeStyles({
     },
     bold: {
         fontWeight: 600,
-    }
+    },
+    icon: {
+        fontSize: '.5rem',
+        marginRight: '.5rem'
+    },
 });
 
 const RenderList = ({header = '', color='inherit', variant='subtitle1', data, dense = false}) => {
  
-    const {marginBottom, bold} = useStyles();
+    const {marginBottom, bold, icon} = useStyles();
 
     let nestedCount = 0;
     let childrenCount = 0;
@@ -36,7 +41,9 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
         if (isObject(data)) {
             return renderListItem(data, true);
         }
-        return <ListItemIconWithText text={data} />
+        return <ListItemIconWithText text={data}> 
+            <FiberManualRecordIcon className={icon} />
+        </ListItemIconWithText>
     }
 
     const isDense = (dense, text) => {

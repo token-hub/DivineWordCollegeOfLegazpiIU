@@ -6,6 +6,7 @@ import {ourPortals} from './OurPortals';
 import {ourQuicklinks} from './OurQuicklinks';
 import {banners} from './Banners';
 import {alumni} from './Alumni';
+import {contactUs} from './ContactUs';
 
 export {
     navlinks,
@@ -15,5 +16,6 @@ export {
     ourPortals,
     ourQuicklinks,
     banners,
-    alumni
+    alumni,
+    contactUs
 }
