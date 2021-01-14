@@ -1,10 +1,8 @@
-import React, {useContext} from 'react'
-import { useHistory } from "react-router-dom";
+import React from 'react'
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import DashboardLayout from '../shared/dashboardLayout';
 import {dwclLogo} from '../data/images';
-import {DashboardContext} from '../../../App';
 
 const useStyles = makeStyles({
     container: {
@@ -24,26 +22,19 @@ const useStyles = makeStyles({
 
 const Home = () => {
 
-    const history = useHistory();
-
     const {imgContainer, container, logo} = useStyles();
-
-    const {dashboardProvider: {loggedIn}} = useContext(DashboardContext);
-
-    if (loggedIn) {
-        return (
-            <DashboardLayout>
-                <Grid container className={container} justify='center' alignItems='center'>
-                    <Grid item className={imgContainer}>
-                        <img src={dwclLogo} alt='DWCL Logo' className={logo}/>
-                    </Grid>
+ 
+    return (
+        <DashboardLayout>
+            <Grid container className={container} justify='center' alignItems='center'>
+                <Grid item className={imgContainer}>
+                    <img src={dwclLogo} alt='DWCL Logo' className={logo}/>
                 </Grid>
-              
-            </DashboardLayout>
-        )
-    } else {
-        return <>{history.push('login')}</>
-    }
+            </Grid>
+            
+        </DashboardLayout>
+    )
+    
 }
 
 export default Home

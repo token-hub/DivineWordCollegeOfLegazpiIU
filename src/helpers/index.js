@@ -48,10 +48,13 @@ const setUpdates = (month, day, title, subtitle = null, link = '#') => {
     return {month, day, title, subtitle, link};
 }
 
-const renderIconFromObject = (key, object) => {
+const renderIconFromObject = (key, object, color='inherit', breakLines = false) => {
     const Icon = object[key];
 
-    return Icon ? <><Icon color='primary' /><br /><br /><br /></> : '';
+    return Icon && <>
+                <Icon color={color} /> 
+                {breakLines && <><br /><br /><br /></> }
+            </> 
 }
 
 const setCard = (link, title, image) => {

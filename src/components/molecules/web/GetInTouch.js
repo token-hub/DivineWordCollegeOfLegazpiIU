@@ -15,7 +15,7 @@ const GetInTouch = () => {
                     <Paragraph>Please contact us through:</Paragraph>
                     {contacts.map( (val ,index) => {
                             return <ListItemIconWithText key={index} text={contactsText[val]}>
-                                {renderIconFromObject(val, contactIcon)}
+                                {renderIconFromObject(val, contactIcon, 'primary', true)}
                             </ListItemIconWithText>
                         }) 
                     }

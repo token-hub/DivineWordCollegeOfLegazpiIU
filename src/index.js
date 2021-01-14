@@ -8,6 +8,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 // import { HashRouter as Router, } from 'react-router-dom';
 import { BrowserRouter as Router, } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import {DashboardProvider} from './contexts';
 
 ReactDOM.render(
   // <Router basename='/dwc-legazpi.edu'>
@@ -15,7 +16,9 @@ ReactDOM.render(
     {/* <React.StrictMode> */}
       <ThemeProvider theme={Theme}>
         <CssBaseline />
-        <App />
+        <DashboardProvider>
+          <App />
+        </DashboardProvider>
       </ThemeProvider>
     {/* </React.StrictMode>, */}
   </Router>,

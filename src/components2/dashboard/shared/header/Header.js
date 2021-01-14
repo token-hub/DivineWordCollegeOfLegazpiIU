@@ -12,7 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import Toolbar from '@material-ui/core/Toolbar';
-import { DashboardContext } from '../../../../App';
+// import { DashboardContext } from '../../../../App';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -63,7 +63,7 @@ const Header = () => {
 
     const {bold, header, image, left, headerTitle, right, noPadding, appBar} = useStyles();
 
-    const {dashboardProvider: {user: {name}, handleLogout}} = useContext(DashboardContext);
+    // const {dashboardProvider: {user: {name}, handleLogout}} = useContext(DashboardContext);
   
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -83,7 +83,7 @@ const Header = () => {
                 <Typography variant='h6' className={clsx(bold, headerTitle)}> DWCL Panel</Typography>
             </Grid>
             <Grid item className={right}>
-                <Typography variant='h6' className={clsx(bold, headerTitle)}> {name} </Typography>
+                <Typography variant='h6' className={clsx(bold, headerTitle)}> Admin </Typography>
                     <ListItem
                       style={{ width: 'initial' }}
                      aria-controls="user" 
@@ -106,10 +106,10 @@ const Header = () => {
                     >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuItem onClick={() => console.log('handle logout')}>Logout</MenuItem>
                 </Menu>
             </Grid>
-        </Toolbar>
+        </Toolbar> 
       </AppBar>
     )
 }

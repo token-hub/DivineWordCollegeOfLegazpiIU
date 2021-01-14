@@ -1,9 +1,8 @@
-import React, {createContext, useEffect, useState} from 'react'
+import React, {useContext} from 'react'
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
-import { useHistory } from "react-router-dom";
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import apiClient from './services/api';
+import {DashboardContext} from './contexts';
 
 import {
 	Home,
@@ -71,10 +70,15 @@ import {
 	Announcements,
 	NewsAndEvents,
 } from './pages/web/Updates';
+import {
+	Login,
+	Register
+} from './pages/dashboard/Authentication';
+import {
+	HomeDashboard
+} from './pages/dashboard';
 
-import ContactUs2 from './components2/web/contactUs';
-
-export const DashboardContext = createContext();
+import HomeDashboard2 from './components2/dashboard/home';
 
 const useStyles = makeStyles({
     app: {
@@ -85,76 +89,10 @@ const useStyles = makeStyles({
 });
 
 const App = props => {
-
-	const history = useHistory();
-	const storageUserKey = 'user';
-
-	const setUserToStorage = (key, val) => {
-		localStorage.setItem(key, JSON.stringify(val));
-	}
-
-	const getUserFromStorage = key => {
-		return JSON.parse(localStorage.getItem(key))
-	}
 	
-	const userInitialState =  getUserFromStorage(storageUserKey) || {};
-
-	const [user, setUser] = useState(userInitialState);
-	const [loggedIn, setLoggedIn] = useState(false);
-
-	const [inputState, setinputState] = useState({
-		username: '',
-		password: ''
-	})
-
-	const handleLogin = e => {
-		e.preventDefault();
-
-		apiClient.get('/sanctum/csrf-cookie')
-        .then(res => {
-            apiClient.post('/login', inputState)
-            .then( res => {
-				apiClient.get('/api/user')
-				.then(response => {
-					setUserToStorage(storageUserKey, response.data)
-					setUser(getUserFromStorage(storageUserKey));
-					history.push('home')
-				})
-        })
-		.catch(e => console.log(e) )
-
-		setLoggedIn(true);
-	})
-}
-	const handleLogout = e => {
-		e.preventDefault();
-
-		apiClient.post('/logout').
-        then( () => {
-			localStorage.clear();
-			history.push('login')
-        } )
-	}
-
-	const handleInputChange = e => {
-		const { name, value } = e.target;
-		
-		setinputState( prevState => ({
-			...prevState,
-			[name]: value
-		}) )
-	}
-
-	const dashboardProvider = {
-		loggedIn,
-		handleLogin,
-		handleLogout,
-		handleInputChange,
-		inputState,
-		user
-	}
-
 	const { app } = useStyles();
+	const {loggedIn} = useContext(DashboardContext);
+
 
 	return (
 		<div className={app}>
@@ -225,18 +163,19 @@ const App = props => {
 				<Route path="/updates/news-and-events" exact component={NewsAndEvents} />
 
 				<Route path="/contact-us" exact component={ContactUs} />
-				<Route path="/contact-us2" exact component={ContactUs2} />
+
 				<Route path="/alumni" exact component={Alumni} />	 
 
 				{/* ============= [ Dashboard pages ] ============= */}
-				{/* <DashboardContext.Provider value={{dashboardProvider}}>
-					<Route path="/dashboard/login" exact component={Login} />
-					<Route path="/dashboard/register" exact component={Register} />
-					<Route path="/dashboard/home" exact component={HomeDashboard} />
-					<Route path="/dashboard/roles" exact component={Roles} />
-					<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />
-				</DashboardContext.Provider> */}
-			
+				<Route path="/dashboard/login" exact component={Login} />
+				<Route path="/dashboard/register" exact component={Register} />
+				<Route path="/dashboard/home2" exact component={HomeDashboard2} />
+				<Route path="/dashboard/home" exact>
+					{loggedIn ? <Redirect to="/dashboard" /> : <HomeDashboard />}
+				</Route>
+				{/*<Route path="/dashboard/roles" exact component={Roles} />
+				<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
+		
 			</Switch>
 		</div>
 	);
