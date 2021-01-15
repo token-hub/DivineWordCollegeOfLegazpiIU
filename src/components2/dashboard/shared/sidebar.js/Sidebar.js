@@ -16,7 +16,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 
 import {
    renderIconFromObject,
-   TextTransformCamelCase,
+   textTransformCamelCase,
    isCurrentPage,
    isHomePage,
    stringTransform
@@ -38,13 +38,11 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerContainer: {
       overflow: 'auto',
+      marginTop: '1rem',
+      padding: '0 1rem'
     },
     toolbar: {
       minHeight: '80px',
-    },
-    sidebarGroup: {
-      marginTop: '1rem',
-      padding: '0 1rem'
     },
     muiButton: {
       marginBottom: ".5rem",
@@ -88,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Sidebar = () => {
 
-    const {drawer, drawerPaper, drawerContainer, toolbar, sidebarGroup, muiButton, muiButtonIndented, listButton, muiButtonCurrent, muiButtonIndentedCurrent} = useStyles();
+    const {drawer, drawerPaper, drawerContainer, toolbar,  muiButton, muiButtonIndented, listButton, muiButtonCurrent, muiButtonIndentedCurrent} = useStyles();
   
     let initialState = {};
   
@@ -116,7 +114,7 @@ const Sidebar = () => {
       >
         <Toolbar classes={{ regular: toolbar }} />
         <div className={drawerContainer}>
-          <div className={sidebarGroup}>
+
             <div style={{ padding: '0 1.2rem' }}>
               <Typography variant='h6' color='secondary'>
               DASHBOARD
@@ -135,8 +133,9 @@ const Sidebar = () => {
                 }
                 return (
                   <div key={index}>
+
                     <ListItem button component='a' href={link} classes={{ button: setMuiButton }}  key={title}>
-                      <ListItemIcon>{renderIconFromObject(TextTransformCamelCase(title), menuIconObject)}</ListItemIcon>
+                      <ListItemIcon>{renderIconFromObject(textTransformCamelCase(title), menuIconObject)}</ListItemIcon>
                       <ListItemText primary={title} />
                       {notEmptySublinks ?
                         <ListItemSecondaryAction onClick={ () => handleListDrawerClick(title) }>
@@ -146,27 +145,28 @@ const Sidebar = () => {
                         </ListItemSecondaryAction> : ''
                       }
                     </ListItem>
+
                    {
                     <Collapse in={sidebarItem[title]} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
-                          { notEmptySublinks ?
-                              sublinks.map(({title, link}, index) => {
+                        {notEmptySublinks ?
+                            sublinks.map(({title, link}, index) => {
 
-                                let setMuiButtonIndented = muiButtonIndented;
-                                
-                                if (isCurrentPage(path, stringTransform(title).toLowerCase())) {
-                                  setMuiButtonIndented = muiButtonIndentedCurrent;
-                                  initialState = {[sublink]: true};
-                                }
+                              let setMuiButtonIndented = muiButtonIndented;
+                              
+                              if (isCurrentPage(path, stringTransform(title).toLowerCase())) {
+                                setMuiButtonIndented = muiButtonIndentedCurrent;
+                                initialState = {[sublink]: true};
+                              }
 
-                                return (
-                                  <ListItem button component='a' href={link} classes={{ button: setMuiButtonIndented }}  key={index}>
-                                      <ListItemIcon>{renderIconFromObject(TextTransformCamelCase(title), menuIconObject)}</ListItemIcon>
-                                      <ListItemText primary={title} />
-                                  </ListItem>
-                              )
-                            }) : ''
-                          }
+                              return (
+                                <ListItem button component='a' href={link} classes={{ button: setMuiButtonIndented }}  key={index}>
+                                    <ListItemIcon>{renderIconFromObject(textTransformCamelCase(title), menuIconObject)}</ListItemIcon>
+                                    <ListItemText primary={title} />
+                                </ListItem>
+                            )
+                          }) : ''
+                        }
                       </List>
                     </Collapse>
                    }
@@ -174,7 +174,7 @@ const Sidebar = () => {
                 )
               })}
             </List>
-          </div>
+     
         </div>
       </Drawer>
     )

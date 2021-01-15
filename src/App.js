@@ -1,8 +1,7 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import './App.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import {DashboardContext} from './contexts';
 import PrivateRoute from './pages';
 
 import {
@@ -76,7 +75,8 @@ import {
 	Register
 } from './pages/dashboard/Authentication';
 import {
-	HomeDashboard
+	HomeDashboard,
+	Roles
 } from './pages/dashboard';
 
 import HomeDashboard2 from './components2/dashboard/home';
@@ -92,8 +92,6 @@ const useStyles = makeStyles({
 const App = props => {
 	
 	const { app } = useStyles();
-	const {loggedIn} = useContext(DashboardContext);
-
 
 	return (
 		<div className={app}>
@@ -173,10 +171,11 @@ const App = props => {
 				<PrivateRoute>	
 					<Route path="/dashboard/home2" exact component={HomeDashboard2} />
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
+					<Route path="/dashboard/roles" exact component={Roles} />
 				</PrivateRoute>
 				
-				{/*<Route path="/dashboard/roles" exact component={Roles} />
-				<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
+			
+				{/*<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
 		
 			</Switch>
 		</div>

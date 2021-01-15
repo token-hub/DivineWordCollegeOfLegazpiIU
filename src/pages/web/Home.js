@@ -14,7 +14,7 @@ import {
 
 const Home = () => {
     return (
-        <Base >
+        <Base>
             <CoverPages />
             <Hidden smDown>
                 <Slider data={sliderImages} />

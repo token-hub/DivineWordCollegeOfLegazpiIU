@@ -39,7 +39,7 @@ const menuIconObject = {
     logs: RestoreIcon
 }
 
-export const appbar = {
+export const sidebar = {
     menus,
     menuIconObject
 }

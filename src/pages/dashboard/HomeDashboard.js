@@ -4,7 +4,7 @@ import {BaseWithHeaderAndSidebar} from '../../components/templates/dashboard';
 const HomeDashboard = () => {
     return (
         <BaseWithHeaderAndSidebar>
-            
+
         </BaseWithHeaderAndSidebar>
     )
 }

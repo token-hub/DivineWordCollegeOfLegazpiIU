@@ -36,7 +36,7 @@ const isNeedTextTransform = (type, text) => {
     return type === 'overview' ? capitalizeAllFirstLetter(text) : text;
 }
 
-const TextTransformCamelCase = text => {
+const textTransformCamelCase = text => {
     return text.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
 }
 
@@ -78,7 +78,7 @@ export {
     isBlock,
     setUpdates,
     renderIconFromObject,
-    TextTransformCamelCase,
+    textTransformCamelCase,
     setCard,
     setImageWithParagraph
 }

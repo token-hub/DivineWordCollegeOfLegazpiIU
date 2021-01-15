@@ -6,15 +6,13 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
     paragraph: {
         // marginBottom: '1.5rem',
-        paddingLeft: '1rem',
-        color: 'white'
     },
     boldText: {
         fontWeight: 600
     }
 })
 
-const Paragraph = ({ variant = 'subtitle1', bold, align='justify' ,children, ...rest }) => {
+const Paragraph = ({ variant = 'subtitle1', bold, align='justify', children, ...rest }) => {
 
     const {paragraph, boldText} = useStyles();
     

@@ -5,16 +5,19 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     fontFamily: {
-        fontFamily: 'Nunito, sans-serif'
+        fontFamily: 'Nunito, sans-serif',
     },
+    background: {
+        backgroundColor: '#E3E3FE'
+    }
 }))
 
 const Base = ({ root, children }) => {
 
-    const { fontFamily } = useStyles();
+    const {fontFamily, background} = useStyles();
 
     return (
-        <Grid container className={clsx(root, fontFamily)}>
+        <Grid container className={clsx(root, fontFamily, background)}>
             {children}
         </Grid>
     )
