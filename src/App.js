@@ -80,6 +80,7 @@ import {
 } from './pages/dashboard';
 
 import HomeDashboard2 from './components2/dashboard/home';
+import Roles2 from './components2/dashboard/roles';
 
 const useStyles = makeStyles({
     app: {
@@ -172,6 +173,7 @@ const App = props => {
 					<Route path="/dashboard/home2" exact component={HomeDashboard2} />
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
 					<Route path="/dashboard/roles" exact component={Roles} />
+					<Route path="/dashboard/roles2" exact component={Roles2} />
 				</PrivateRoute>
 				
 			
