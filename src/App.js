@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {DashboardContext} from './contexts';
+import PrivateRoute from './pages';
 
 import {
 	Home,
@@ -169,10 +170,11 @@ const App = props => {
 				{/* ============= [ Dashboard pages ] ============= */}
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
-				<Route path="/dashboard/home2" exact component={HomeDashboard2} />
-				<Route path="/dashboard/home" exact>
-					{loggedIn ? <Redirect to="/dashboard" /> : <HomeDashboard />}
-				</Route>
+				<PrivateRoute>	
+					<Route path="/dashboard/home2" exact component={HomeDashboard2} />
+					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
+				</PrivateRoute>
+				
 				{/*<Route path="/dashboard/roles" exact component={Roles} />
 				<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
 		

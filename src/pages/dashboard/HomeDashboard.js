@@ -1,10 +1,11 @@
 import React from 'react'
+import {BaseWithHeaderAndSidebar} from '../../components/templates/dashboard';
 
 const HomeDashboard = () => {
     return (
-        <div>
+        <BaseWithHeaderAndSidebar>
             
-        </div>
+        </BaseWithHeaderAndSidebar>
     )
 }
 

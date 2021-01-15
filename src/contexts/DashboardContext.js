@@ -47,13 +47,23 @@ const DashboardProvider = ({ children }) => {
 	    })
     }
 
+    const handleLogout = e => {
+        e.preventDefault();
+
+        Api.post('/logout ')
+        .then(()=>{
+            history.push('login')
+        })
+    }
+
     const provider = {
         handleLogin,
         user,
         loggedIn,
         handleInputChange,
         inputState,
-        updateInitialInputState
+        updateInitialInputState,
+        handleLogout
     }
 
     useEffect( () => {

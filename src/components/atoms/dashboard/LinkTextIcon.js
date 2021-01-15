@@ -21,14 +21,14 @@ const useStyles = makeStyles({
     },
 })
 
-const LinkTextIcon = ({ link = '#', title = '', textColor='inherit', children }) => {
+const LinkTextIcon = ({ link = '#', title = '', textColor='inherit', children, ...rest }) => {
 
     const {noPadding, hovered, listIcon} = useStyles();
    
     const setStyle = link !== '#' ? clsx(noPadding, hovered) : noPadding;
 
     return (
-        <ListItem component='a' href={link} classes={{ root: setStyle }}>
+        <ListItem component='a' href={link} classes={{ root: setStyle }}  {...rest}>
              <ListItemIcon classes={{ root:listIcon }}>
                { children }
             </ListItemIcon>

@@ -5,7 +5,9 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
     paragraph: {
-        marginBottom: '1.5rem',
+        // marginBottom: '1.5rem',
+        paddingLeft: '1rem',
+        color: 'white'
     },
     boldText: {
         fontWeight: 600
