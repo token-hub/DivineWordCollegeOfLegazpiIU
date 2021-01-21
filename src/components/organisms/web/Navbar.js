@@ -89,14 +89,14 @@ const Navbar = () => {
                             </LinkTextNavlink>
 
                             {items !== undefined &&
-                                    <NavMenu {...bindMenu(getState)} >
-                                        <NavMenuItem key="placeholder" style={{display: "none"}} />
-                                        {
-                                            items.map(({title, link}, index) => (
-                                                <NavMenuItem link={link} key={index}title={title}></NavMenuItem>
-                                            ))  
-                                        }
-                                    </NavMenu> 
+                                <NavMenu {...bindMenu(getState)} >
+                                    <NavMenuItem key="placeholder" style={{display: "none"}} />
+                                    {
+                                        items.map(({title, link}, index) => (
+                                            <NavMenuItem link={link} key={index}title={title}></NavMenuItem>
+                                        ))  
+                                    }
+                                </NavMenu> 
                                 }
                         </Grid>
                     )

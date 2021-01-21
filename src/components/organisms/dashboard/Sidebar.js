@@ -77,7 +77,6 @@ const Sidebar = () => {
                           Object.assign(initialState, {[title]: false})
                           sublink = menus[index].title;
                         }
-                        console.log(muiButton);
                         return (
                           <div key={index}>
                             <LinkTextIconSidebar               

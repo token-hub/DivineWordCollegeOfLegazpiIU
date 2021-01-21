@@ -43,7 +43,7 @@ const LoginForm = () => {
             <div className={button}>
                 <Button type='submit' variant="contained" fullWidth size='large' color='secondary'>Login</Button>
                 <Grid container direction='row' justify='center'>
-                    <Button variant="text" href='#'  size='small' color='secondary'>Forgot password?</Button>
+                    <Button variant="text" href='/dashboard/password/reset'  size='small' color='secondary'>Forgot password?</Button>
                     <Typography color='primary' style={{ paddingTop: '2px' }}>/</Typography>
                     <Button variant="text" href='/dashboard/register' size='small' color='secondary'>Register</Button>
                 </Grid>

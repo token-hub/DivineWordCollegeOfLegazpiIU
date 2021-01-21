@@ -3,7 +3,6 @@ import clsx from  'clsx';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -19,11 +18,14 @@ const useStyles = makeStyles({
         minWidth: 0,
         color: 'white',
     },
+    paddingLeft: {
+        paddingLeft: '.5rem'
+    }
 })
 
 const LinkTextIcon = ({ link = '#', title = '', children }) => {
 
-    const {noPadding, hovered, listIcon} = useStyles();
+    const {noPadding, hovered, listIcon, paddingLeft} = useStyles();
 
     const setStyle = link !== '#' ? clsx(noPadding, hovered) : noPadding;
 
@@ -32,7 +34,7 @@ const LinkTextIcon = ({ link = '#', title = '', children }) => {
              <ListItemIcon classes={{ root:listIcon }}>
                { children }
             </ListItemIcon>
-            <ListItemText primary={title} />
+            <ListItemText className={paddingLeft} primary={title} />
         </ListItem>
     )
 }

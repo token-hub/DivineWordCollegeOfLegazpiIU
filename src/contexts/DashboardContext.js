@@ -20,7 +20,7 @@ const DashboardProvider = ({ children }) => {
     
     const handleInputChange = e => {
 		const { name, value } = e.target;
-		
+
 		setinputState( prevState => ({
 			...prevState,
 			[name]: value
@@ -29,7 +29,6 @@ const DashboardProvider = ({ children }) => {
 
     const handleLogin = e => {
 		e.preventDefault();
-
 		Api.get('/sanctum/csrf-cookie')
         .then( () => {
             Api.post('/login', inputState)
@@ -50,9 +49,20 @@ const DashboardProvider = ({ children }) => {
     const handleLogout = e => {
         e.preventDefault();
 
-        Api.post('/logout ')
+        Api.post('/logout')
         .then(()=>{
             history.push('login')
+        })
+    }
+
+    const handlePasswordReset = e => {
+        e.preventDefault();
+        Api.get('/sanctum/csrf-cookie')
+        .then( () => {
+            Api.post('/password/email', inputState)
+            .then(()=>{
+                history.push('/dashboard/login');
+            })
         })
     }
 
@@ -63,7 +73,8 @@ const DashboardProvider = ({ children }) => {
         handleInputChange,
         inputState,
         updateInitialInputState,
-        handleLogout
+        handleLogout,
+        handlePasswordReset
     }
 
     useEffect( () => {

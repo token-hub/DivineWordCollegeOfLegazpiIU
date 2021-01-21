@@ -45,8 +45,8 @@ const HomeHeader = () => {
     
     return (
         <Grid container justify="center" className={header}>
-            <Grid item sm={false} md={1} xl={3}></Grid>
-            <Grid container item direction="column" sm={12} md={10} xl={6} className={headerContent}>
+            <Grid item sm={false} md={1} xl={2}></Grid>
+            <Grid container item direction="column" sm={12} md={10} xl={8} className={headerContent}>
                 <Grid container item alignItems="center" className={headerLeft}>
                     <HomeHeaderRight />
                 </Grid>
@@ -57,7 +57,7 @@ const HomeHeader = () => {
                     </Grid>
                 </Hidden>
             </Grid>
-            <Grid item sm={false} md={1} xl={3}></Grid>
+            <Grid item sm={false} md={1} xl={2}></Grid>
         </Grid>
     )
 }

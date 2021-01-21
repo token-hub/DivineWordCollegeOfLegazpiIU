@@ -1,6 +1,7 @@
 import {setObjectGen} from '../../../helpers';
 
 const inputFields = [
+    setObjectGen('Name', 'text'),
     setObjectGen('Username', 'text'),
     setObjectGen('Email', 'email'),
     setObjectGen('Password', 'password'),

@@ -16,12 +16,12 @@ const useStyles = makeStyles({
     },
 })
 
-const RenderForm = ({ inputFields, buttonTitle }) => {
+const RenderForm = ({ inputFields, buttonTitle, handleSubmit }) => {
 
     const {fields, button} = useStyles();
 
     return (
-        <form onSubmit={() => {}}>
+        <form onSubmit={handleSubmit}>
             <div className={fields}>
                 <RenderTextfield data={inputFields} />
             </div>

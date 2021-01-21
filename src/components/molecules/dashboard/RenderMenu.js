@@ -53,6 +53,7 @@ const RenderMenu = () => {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                disableScrollLock={true}
                 getContentAnchorEl={null}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 transformOrigin={{ vertical: -10, horizontal: "center" }}

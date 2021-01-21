@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
 import {DashboardContext} from '../../../contexts';
+import {stringTransform} from '../../../helpers';
 
 const useStyles = makeStyles({
     input: {
@@ -19,12 +20,13 @@ const RenderTextfield = ({ data }) => {
         <>
             {
                 data.map( ({item, value}, index) => {
-                    updateInitialInputState(item.toLowerCase());
+                    updateInitialInputState( item.toLowerCase());
 
                     return <TextField 
                             key={index}
                             id={item}
                             label={item}
+                            // name={stringTransform(item, '', '_').toLowerCase()}
                             name={item.toLowerCase()}
                             onChange={handleInputChange}
                             required={true}

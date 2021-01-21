@@ -15,15 +15,17 @@ const OnlineEnrollment = () => {
         <BaseWithBannerAndOverview data={navlinks.admission.items} title='Online Enrollment' banner={banners.AdmissionBannerObj}>
             <RenderList header='BASIC EDUCATION' data={edu} />
                
-            <Typography color='primary'>ONLINE</Typography>
-            <LinkTextIcon link='https://online.dwc-legazpi.edu/' title='Online Enrollment'>
-                <LanguageIcon color='primary' />
-            </LinkTextIcon> <br />
+            <div style={{ marginBottom: '1rem' }} >
+                <Typography color='primary' style={{ fontWeight: 600 }} >ONLINE</Typography>
+                <LinkTextIcon link='https://online.dwc-legazpi.edu/' title='Online Enrollment'>
+                    <LanguageIcon color='primary' />
+                </LinkTextIcon> <br />
 
-            <Typography color='primary'>ON-SITE</Typography>
-            <LinkTextIcon title='Washington drive, Legazpi'>
-                <CommuteIcon color='primary' />
-            </LinkTextIcon>
+                <Typography color='primary' style={{ fontWeight: 600 }} >ON-SITE</Typography>
+                <LinkTextIcon title='Washington drive, Legazpi'>
+                    <CommuteIcon color='primary' />
+                </LinkTextIcon>
+            </div>
 
             <RenderList data={[sched[0]]} />
             <RenderList data={[sched[1]]} />

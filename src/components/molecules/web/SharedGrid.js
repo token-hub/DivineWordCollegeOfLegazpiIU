@@ -6,11 +6,11 @@ const SharedGrid = ({ root, children,  full = false }) => {
 
     return (
         <Grid container className={root} >
-            <Grid item sm={false} md={1} xl={3}></Grid>
-            <Grid container item sm={12} md={setMd} xl={6} justify='center'>
+            <Grid item sm={false} md={1} xl={2}></Grid>
+            <Grid container item sm={12} md={setMd} xl={8} justify='center'>
                 { children }
             </Grid>
-            <Grid item sm={false} md={1} xl={3}></Grid>
+            <Grid item sm={false} md={1} xl={2}></Grid>
         </Grid>
     )
 }
