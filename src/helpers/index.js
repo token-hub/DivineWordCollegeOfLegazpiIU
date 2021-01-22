@@ -32,6 +32,41 @@ const setObjectGen = (item = null, value = null, link = null) => {
     return {item, value};
 }
 
+
+/*
+    setObjects(['key', 'value'], [['email', 'johnsuyang@gmail.com'], ['email', 'johnsuyang2118@gmail.com']] )
+    
+    [
+        {key: email, value: johnsuyang.com},
+        {key: email, value: johnsuyang2118.com}
+    ]
+    
+*/
+const setObjects = (keys = [], values = []) => {
+    let newObject = [];
+    let object = {};
+   
+    values.forEach( value => {
+        value.forEach((val, valueIndex) => {
+            keys.forEach( (key, keyIndex) => {
+                // checking if the current index value of the previous array (value)
+                // is equal to the current index value of the keys array
+                // because, the length of the keys must be equal to the length of the values(value -> previous array) array
+                if (keyIndex === valueIndex) {
+                    object = {...object, [keys[keyIndex]]: val};
+                }
+            })
+        });
+
+        // this push must be at the very first loop,
+        // in order to get the same count of the array values
+        newObject.push(object);
+    });
+
+    return newObject;
+}
+
+
 const isNeedTextTransform = (type, text) => {
     return type === 'overview' ? capitalizeAllFirstLetter(text) : text;
 }
@@ -80,5 +115,6 @@ export {
     renderIconFromObject,
     textTransformCamelCase,
     setCard,
-    setImageWithParagraph
+    setImageWithParagraph,
+    setObjects
 }

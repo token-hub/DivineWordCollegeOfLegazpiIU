@@ -1,8 +1,8 @@
-import {setObjectGen} from '../../../helpers';
+import {setObjects} from '../../../helpers';
 
-const data = [
-    setObjectGen('Username', 'text'),
-    setObjectGen('Password', 'password'),
-]
+const data = setObjects(['name', 'type', 'value'], [
+    ['username', 'text', ''],
+    ['password', 'password', '']
+]);
 
 export const login = {data}

@@ -14,10 +14,10 @@ const DashboardProvider = ({ children }) => {
 
     const history = useHistory();
  
-    const updateInitialInputState = val => {
-        Object.assign(inputInitialState, {[val]: ''});
+    const updateInitialInputState = (key, value = '') => {
+        Object.assign(inputInitialState, {[key]: value});
     }
-    
+
     const handleInputChange = e => {
 		const { name, value } = e.target;
 
@@ -55,11 +55,28 @@ const DashboardProvider = ({ children }) => {
         })
     }
 
-    const handlePasswordReset = e => {
+    const handleSendPasswordResetLink = e => {
         e.preventDefault();
         Api.get('/sanctum/csrf-cookie')
         .then( () => {
             Api.post('/password/email', inputState)
+            .then(()=>{
+                history.push('/dashboard/login');
+            })
+        })
+    }
+
+    const handlePasswordReset = e => {
+        e.preventDefault();
+
+        // Api.post('/password/reset', inputState)
+        // .then(()=>{
+        //     history.push('/dashboard/login');
+        // })
+
+        Api.get('/sanctum/csrf-cookie')
+        .then( () => {
+            Api.post('/password/reset', inputState)
             .then(()=>{
                 history.push('/dashboard/login');
             })
@@ -74,6 +91,7 @@ const DashboardProvider = ({ children }) => {
         inputState,
         updateInitialInputState,
         handleLogout,
+        handleSendPasswordResetLink,
         handlePasswordReset
     }
 

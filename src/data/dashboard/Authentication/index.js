@@ -3,5 +3,5 @@ import {register} from './Register';
 
 export {
     login,
-    register
+    register,
 }

@@ -73,7 +73,7 @@ import {
 import {
 	Login,
 	Register,
-	PasswordReset
+	ManagePasswordReset
 } from './pages/dashboard/Authentication';
 import {
 	HomeDashboard,
@@ -170,7 +170,7 @@ const App = props => {
 				{/* ============= [ Dashboard pages ] ============= */}
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
-				<Route path="/dashboard/password/reset" exact component={PasswordReset} />
+				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
 				<PrivateRoute>	
 					<Route path="/dashboard/home2" exact component={HomeDashboard2} />
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
