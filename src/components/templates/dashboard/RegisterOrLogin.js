@@ -9,11 +9,11 @@ const useStyles = makeStyles(theme => ({
     root: {
         backgroundColor: theme.palette.secondary.dark,
         minHeight: '100vh',
-        height: 'auto', 
+        height: 'auto',  
     },
     container: {
         width: '100%',
-        height: 'auto',   
+        height: 'auto',
     },
     content: {
         padding: '1rem 2rem',
@@ -51,22 +51,22 @@ const RegisterOrLogin = ({topTitle, topLink = '#', mainTitle, children }) => {
         <Base root={root}>
             <Grid item md={3} />
             <Grid container alignItems='center' item md={6}>
-                    <Grid container direction='row' alignItems='center' justify='center' className={container}>
-                        <Grid item xs={10} md={8} xl={6} className={content}>
-                            <Grid item className={top}>
-                                <LinkTextIcon title={topTitle} link={topLink} textColor='#525257'>
-                                    <ChevronLeftIcon className={icon} />
-                                </LinkTextIcon>
-                            </Grid>
-                            <Grid item className={mainText}>
-                                <Paragraph color='secondary' variant='h5'>{mainTitle}</Paragraph>
-                            </Grid>
-                            <Grid item className={bottom}>
-                                {children}
-                            </Grid>
+                <Grid container direction='row' alignItems='center' justify='center' className={container}>
+                    <Grid item xs={10} md={8} xl={6} className={content}>
+                        <Grid item className={top}>
+                            <LinkTextIcon title={topTitle} link={topLink} textColor='#525257'>
+                                <ChevronLeftIcon className={icon} />
+                            </LinkTextIcon>
+                        </Grid>
+                        <Grid item className={mainText}>
+                            <Paragraph color='secondary' variant='h5'>{mainTitle}</Paragraph>
+                        </Grid>
+                        <Grid item className={bottom}>
+                            {children}
                         </Grid>
                     </Grid>
                 </Grid>
+            </Grid>
             <Grid item md={3} />
         </Base>
     )

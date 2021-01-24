@@ -4,9 +4,13 @@ import {makeStyles} from '@material-ui/core/styles';
 import {BaseWithHeaderAndSidebar} from '../../components/templates/dashboard';
 import {DWCLLogo} from '../../assets/images/others';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     container: {
         height: '75vh',
+
+        [theme.breakpoints.only('xl')] : {
+            height: '80vh',
+        }
     },
     logo: {
         height: '100%',
@@ -15,10 +19,10 @@ const useStyles = makeStyles({
     },
     imgContainer: {
         height: '40vh',
-        width: '350px',
-        opacity: '.4'
+        width: '30%',
+        opacity: '.4',
     }
-});
+}));
 
 const HomeDashboard = () => {
 

@@ -1,9 +1,8 @@
 import React from 'react'
 import './App.css';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import {Route, Switch} from 'react-router-dom';
+import {makeStyles} from '@material-ui/core/styles';
 import PrivateRoute from './pages';
-
 import {
 	Home,
 	Career,
@@ -171,14 +170,14 @@ const App = props => {
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
 				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
+				
 				<PrivateRoute>	
 					<Route path="/dashboard/home2" exact component={HomeDashboard2} />
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
 					<Route path="/dashboard/roles" exact component={Roles} />
 					<Route path="/dashboard/roles2" exact component={Roles2} />
 				</PrivateRoute>
-				
-			
+								
 				{/*<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
 		
 			</Switch>

@@ -5,9 +5,12 @@ import {LoginForm} from '../../../components/organisms/dashboard';
 const Login = () => {
       
     return (
-        <RegisterOrLogin topTitle='Return to website' mainTitle='SIGN IN' link='/'>
-            <LoginForm />
-        </RegisterOrLogin>
+        <div style={{ height: '100vh', overflowY: 'hidden' }}>
+            <RegisterOrLogin topTitle='Return to website' mainTitle='SIGN IN' link='/'>
+                <LoginForm />
+            </RegisterOrLogin>
+        </div>
+
     )
 }
 
