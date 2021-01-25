@@ -1,4 +1,5 @@
 import React, {useContext}  from 'react'
+import {useLocation} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -27,9 +28,17 @@ const useStyles = makeStyles({
 const LoginForm = () => {
     const {fields, button} = useStyles();
 
+    const location = useLocation();
+    const query = new URLSearchParams(location.search);
+    const messages = query.get('messages');
+
     const {data} = login;
 
-    const {handleLogin} = useContext(DashboardContext);
+    const {handleLogin, handleSnackbar} = useContext(DashboardContext);
+
+    if (messages) {
+        handleSnackbar(messages, 'success');
+    }
 
     return (
         <form onSubmit={handleLogin}>

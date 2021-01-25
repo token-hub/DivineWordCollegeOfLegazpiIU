@@ -8,5 +8,5 @@ const getDataFromStorage = key => {
 
 export {
     setDataToStorage,
-    getDataFromStorage
+    getDataFromStorage,
 }

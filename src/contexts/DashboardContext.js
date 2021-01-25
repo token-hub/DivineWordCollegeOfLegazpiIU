@@ -2,13 +2,14 @@ import React, {createContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {Api} from '../services';
 import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
+import {useSnackbarHandler} from '../hooks';
 import {initialStates} from './';
-import {useSnackbar} from 'notistack';
-
 const DashboardContext = createContext();
 
 const DashboardProvider = ({ children }) => {
-    const {enqueueSnackbar} = useSnackbar();
+
+    const handleSnackbar = useSnackbarHandler();
+
     const {userInitialState, inputInitialState, storageUserKey} = initialStates;
 
     const [loggedIn, setLoggedIn] = useState(false);
@@ -31,11 +32,6 @@ const DashboardProvider = ({ children }) => {
 			[name]: value
 		}) )
     }
-    
-    const handleSnackbar = (message, variant = 'default') => {
-        // variant could be success, error, warning, info, or default
-        enqueueSnackbar(message, {variant});
-    };
 
     const handleLogin = e => {
         e.preventDefault();
@@ -52,13 +48,12 @@ const DashboardProvider = ({ children }) => {
                     history.push('home');
                     handleSnackbar('Successfully Logged in', 'success');
                     setInputState(inputInitialState);
-				})
+                })
+                setLoggedIn(true);
         })
 		.catch(() => handleSnackbar('Something went wrong', 'error'))
-
-        setLoggedIn(true);
+        })
         setIsLoading(false);
-	    })
     }
 
     const handleLogout = e => {
@@ -99,6 +94,23 @@ const DashboardProvider = ({ children }) => {
         })
     }
 
+    const handleRegister = e => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        Api.get('/sanctum/csrf-cookie')
+            .then(() => {
+                Api.post('/register', inputState)
+                .then(() => {
+                    history.push('login');
+                    setInputState(inputInitialState);
+                    handleSnackbar('Please check your email to activate your account', 'info');
+                })
+                .catch(() => handleSnackbar('Something went wrong', 'error'))
+                setIsLoading(false);
+            })
+    }
+
     const provider = {
         handleLogin,
         user,
@@ -110,7 +122,8 @@ const DashboardProvider = ({ children }) => {
         handleSendPasswordResetLink,
         handlePasswordReset,
         handleSnackbar,
-        isLoading
+        isLoading,
+        handleRegister
     }
 
     useEffect( () => {

@@ -10,7 +10,6 @@ const Login = () => {
                 <LoginForm />
             </RegisterOrLogin>
         </div>
-
     )
 }
 

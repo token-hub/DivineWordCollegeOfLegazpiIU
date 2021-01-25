@@ -1,11 +1,11 @@
-import {setObjectGen} from '../../../helpers';
+import {setObjects} from '../../../helpers';
 
-const inputFields = [
-    setObjectGen('Name', 'text'),
-    setObjectGen('Username', 'text'),
-    setObjectGen('Email', 'email'),
-    setObjectGen('Password', 'password'),
-    setObjectGen('Confirm Password', 'password'),
-]
+const inputFields = setObjects(['name', 'type'], [
+    ['name', 'text'],
+    ['username', 'text'],
+    ['email', 'email'],
+    ['password', 'password'],
+    ['password confirmation', 'password'],
+]);
 
 export const register = {inputFields};
