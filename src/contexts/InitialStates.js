@@ -1,11 +1,11 @@
 import {getDataFromStorage} from '../helpers/dashboard';
 const storageUserKey = 'user';
 
-const userInitialState =  getDataFromStorage(storageUserKey) || {};
-let inputInitialState = {};
-
-export const initialStates ={
-    userInitialState,
-    inputInitialState,
+export const initialStates = {
+    isLoading: false,
+    isLoggedIn: false,
+    user: getDataFromStorage(storageUserKey) || {},
+    inputFields: {},
+    errors: {},
     storageUserKey
 }

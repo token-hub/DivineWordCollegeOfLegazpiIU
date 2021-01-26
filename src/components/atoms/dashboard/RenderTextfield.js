@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 const RenderTextfield = ({ data }) => {
 
-    const {handleInputChange, inputState, updateInitialInputState} = useContext(DashboardContext);
+    const {handleInputChange, states: {inputFields}, updateInitialInputState} = useContext(DashboardContext);
 
     const {input, hiddenInput} = useStyles();
 
@@ -36,7 +36,7 @@ const RenderTextfield = ({ data }) => {
                                 onChange={handleInputChange}
                                 required={true}
                                 type={type}
-                                value={inputState[name]} 
+                                value={inputFields[name]} 
                                 fullWidth={true}
                                 className={setInput}
                                 variant="outlined"

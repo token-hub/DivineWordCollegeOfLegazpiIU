@@ -41,34 +41,40 @@ const useStyles = makeStyles(theme => ({
     bottom: {
         height: '95%',
     },
+    overflow: { 
+        height: '100vh', 
+        overflowY: 'hidden' 
+    }
 }))
 
 const RegisterOrLogin = ({topTitle, topLink = '#', mainTitle, children }) => {
 
-    const {container, content, root, top, icon, mainText, bottom} = useStyles();
+    const {container, content, root, top, icon, mainText, bottom, overflow} = useStyles();
 
     return (
-        <Base root={root}>
-            <Grid item md={3} />
-            <Grid container alignItems='center' item md={6}>
-                <Grid container direction='row' alignItems='center' justify='center' className={container}>
-                    <Grid item xs={10} md={8} xl={6} className={content}>
-                        <Grid item className={top}>
-                            <LinkTextIcon title={topTitle} link={topLink} textColor='#525257'>
-                                <ChevronLeftIcon className={icon} />
-                            </LinkTextIcon>
-                        </Grid>
-                        <Grid item className={mainText}>
-                            <Paragraph color='secondary' variant='h5'>{mainTitle}</Paragraph>
-                        </Grid>
-                        <Grid item className={bottom}>
-                            {children}
+        <Grid className={overflow}>
+            <Base root={root}>
+                <Grid item md={3} />
+                <Grid container alignItems='center' item md={6}>
+                    <Grid container direction='row' alignItems='center' justify='center' className={container}>
+                        <Grid item xs={10} md={8} xl={6} className={content}>
+                            <Grid item className={top}>
+                                <LinkTextIcon title={topTitle} link={topLink} textColor='#525257'>
+                                    <ChevronLeftIcon className={icon} />
+                                </LinkTextIcon>
+                            </Grid>
+                            <Grid item className={mainText}>
+                                <Paragraph color='secondary' variant='h5'>{mainTitle}</Paragraph>
+                            </Grid>
+                            <Grid item className={bottom}>
+                                {children}
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-            <Grid item md={3} />
-        </Base>
+                <Grid item md={3} />
+            </Base>
+        </Grid>
     )
 }
 

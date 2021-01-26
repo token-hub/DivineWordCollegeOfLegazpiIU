@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 const Base = ({root, children }) => {
 
     const {fontFamily, background, progress} = useStyles();
-    const {isLoading} = useContext(DashboardContext); 
+    const {states: {isLoading}} = useContext(DashboardContext); 
 
     return (
         <>
