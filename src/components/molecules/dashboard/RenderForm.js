@@ -8,7 +8,7 @@ const useStyles = makeStyles({
         alignItems: 'center',
         height: '40%',
         width: '100%',
-        padding: '1rem',
+        padding: '1rem 0',
     },
     button: {
         height: '20%',

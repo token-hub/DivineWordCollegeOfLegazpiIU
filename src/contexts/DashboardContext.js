@@ -16,15 +16,17 @@ const DashboardProvider = ({ children }) => {
     const updateInitialInputState = (key, value = '') => {
         Object.assign(initialStates.inputFields, {[key]: value});
     }
-
+   
     const resetInputFieldsValue = inputFields => {
         const keys = Object.keys(inputFields);
         let emptyInputFields = {};
         keys.map(key => {
             return  emptyInputFields = {...emptyInputFields, [key]: ''} 
         });
-        setStates({...states, inputFields: emptyInputFields})
+        
+        setStates({...states, inputFields: emptyInputFields, errors: {}})
     }
+
 
     const handleInputChange = e => {
 		const {name, value} = e.target;
@@ -49,14 +51,20 @@ const DashboardProvider = ({ children }) => {
                 Api.get('/api/user')
                 .then(response => {
                     setDataToStorage(storageUserKey, response.data)
-                    setStates({...states, user: getDataFromStorage(storageUserKey)});
+                    setStates({...states, user: getDataFromStorage(storageUserKey), sample: {}});
                     resetInputFieldsValue(inputFields);
-                    history.push('home');
+                    history.push('/dashboard/home');
+
+                    // I have to reset the state so I dont have to use reload()
+                    // just to make the username appear on the page
+                    setStates({...states}); 
                     handleSnackbar('Successfully Logged in', 'success');
                 })
                 setStates({...states, isLoggedIn: true});
             })
-            .catch(() => handleSnackbar('Something went wrong', 'error'))
+            .catch(({response : {data: {message, errors}}}) => {
+                handleSnackbar(message, 'error');
+            });
             setStates({...states, isLoading: false});
         })
         .catch(() => handleSnackbar('Cookie Error', 'error'))
@@ -68,29 +76,39 @@ const DashboardProvider = ({ children }) => {
 
         Api.post('/logout')
             .then(()=>{
-                setStates({...states, user: {}});
-                history.push('login');
+                setStates({...states, user: {}, isLoading: false});
+                resetInputFieldsValue(inputFields);
+                localStorage.clear();
+                history.push('/dashboard/login');
                 handleSnackbar('Successfully Logged out', 'success');
-                setStates({...states, isLoading: false});
             })
     }
 
     const handleSendPasswordResetLink = e => {
         e.preventDefault();
+
         Api.get('/sanctum/csrf-cookie')
         .then( () => {
             Api.post('/password/email', inputFields)
             .then(()=>{
                 history.push('/dashboard/login');
                 handleSnackbar('Reset password link sent', 'success');
+                resetInputFieldsValue(inputFields);
             })
+            .catch(({response : {data: {message, errors}}}) => {
+                handleSnackbar(message, 'error');
+                setStates({...states, errors: errors});
+            });
         })
-        .catch(() => handleSnackbar('Something went wrong', 'error'))
-           resetInputFieldsValue(inputFields);
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        });
     }
 
     const handlePasswordReset = e => {
         e.preventDefault();
+
         Api.get('/sanctum/csrf-cookie')
         .then( () => {
             Api.post('/password/reset', inputFields)
@@ -99,7 +117,8 @@ const DashboardProvider = ({ children }) => {
                 handleSnackbar('Password successful changed', 'success');
             })
         })
-           resetInputFieldsValue(inputFields);
+        resetInputFieldsValue(inputFields);
+        
     }
     
     const handleRegister = e => {
@@ -110,13 +129,31 @@ const DashboardProvider = ({ children }) => {
             .then(() => {
                 Api.post('/register', inputFields)
                 .then(() => {
-                    history.push('login');
                     resetInputFieldsValue(inputFields);
+                    history.push('/dashboard/login');
                     handleSnackbar('Please check your email to activate your account', 'info');
                 })
-                .catch(() => handleSnackbar('Something went wrong', 'error'))
+                .catch(({response : {data: {message, errors}}}) => {
+                    handleSnackbar(message, 'error');
+                    setStates({...states, errors: errors});
+                });
                 setStates({...states, isLoading: false});
             })
+    }
+
+    const handleChangePassword = e => {
+        e.preventDefault();
+        
+        Api.put(`/api/password/update/${states.user.id}`, inputFields)
+        .then(({data: {messages}}) => {
+            resetInputFieldsValue(inputFields);
+            history.push('/dashboard/profile');
+            handleSnackbar(messages, 'success');
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        });
     }
 
     const provider = {
@@ -126,13 +163,14 @@ const DashboardProvider = ({ children }) => {
         handleInputChange,
         updateInitialInputState,
         handleLogout,
+        handleChangePassword,
         handleSendPasswordResetLink,
         handlePasswordReset,
         handleSnackbar,
         handleRegister
     }
 
-    useEffect( () => {
+    useEffect(() => {
         setStates({
             ...initialStates,
             inputFields: {...initialStates.inputFields}

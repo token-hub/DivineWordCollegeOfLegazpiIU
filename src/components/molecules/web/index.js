@@ -22,6 +22,7 @@ import RenderCalendar from './RenderCalendar';
 import RenderUpdateForm from './RenderUpdateForm';
 import GoogleMap from './GoogleMap';
 import GetInTouch from './GetInTouch';
+import BackToTop from './BackToTop';
 
 export {
     HomeHeaderLeft,
@@ -47,5 +48,6 @@ export {
     RenderCalendar,
     RenderUpdateForm,
     GoogleMap,
-    GetInTouch
+    GetInTouch,
+    BackToTop
 }

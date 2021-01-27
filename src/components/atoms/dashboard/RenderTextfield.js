@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 const RenderTextfield = ({ data }) => {
 
-    const {handleInputChange, states: {inputFields}, updateInitialInputState} = useContext(DashboardContext);
+    const {handleInputChange, states: {inputFields, errors}, updateInitialInputState} = useContext(DashboardContext);
 
     const {input, hiddenInput} = useStyles();
 
@@ -26,6 +26,15 @@ const RenderTextfield = ({ data }) => {
                     const isTwoWordNameOrNot = name.split(' ').join('_');
                     updateInitialInputState(isTwoWordNameOrNot, value);
                     
+                    let extra = {};
+                   if (errors) {
+                    Object.keys(errors).forEach(key => {
+                        if (key === isTwoWordNameOrNot) {
+                            extra = {...extra, error: true, helperText: errors[key][0]}
+                        }
+                    })
+                   }
+                   
                     const setInput = type === 'hidden' ? hiddenInput : input;
 
                     return <TextField 
@@ -40,6 +49,7 @@ const RenderTextfield = ({ data }) => {
                                 fullWidth={true}
                                 className={setInput}
                                 variant="outlined"
+                                {...extra}
                             />
                 })
             }

@@ -29,10 +29,15 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center'
     },
+    noOutlined : {
+        '&:focus': {
+            outline: 'none'
+        }
+    }
 }));
 const Appbar = () => {
 
-    const {title, toolbar, list, menuButton, paper} = useStyles();
+    const {title, toolbar, list, menuButton, paper, noOutlined} = useStyles();
 
     const [appbar, setAppbar] = useState(false);
 
@@ -61,6 +66,7 @@ const Appbar = () => {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
+                        classes={{root:noOutlined}}
                     >
                     <MenuIcon />
                     </IconButton>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
+import {BackToTop} from '../../molecules/web';
 import {
     Header,
     Navbar,
@@ -12,7 +13,8 @@ import {
 const Base = ({ children }) => {
     return (
         <Grid container>
-             {/* Top  */}
+            <span id='very-top' />
+            {/* Top  */}
             <Header />
             <Hidden smDown><Navbar /></Hidden>
             <Hidden mdUp><Appbar /></Hidden>
@@ -22,6 +24,7 @@ const Base = ({ children }) => {
             {/* Bottom */}
             <Informations />
             <Credits />
+            <BackToTop />
         </Grid>
     )
 }

@@ -72,11 +72,13 @@ import {
 import {
 	Login,
 	Register,
-	ManagePasswordReset
+	PasswordEdit,
+	ManagePasswordReset,
 } from './pages/dashboard/Authentication';
 import {
 	HomeDashboard,
-	Roles
+	Roles,
+	Profile
 } from './pages/dashboard';
 
 import HomeDashboard2 from './components2/dashboard/home';
@@ -169,17 +171,18 @@ const App = props => {
 				{/* ============= [ Dashboard pages ] ============= */}
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
+				{/* Password/reset is for unathenticated user that forgotted their password */}
 				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
 				
 				<PrivateRoute>	
-					<Route path="/dashboard/home2" exact component={HomeDashboard2} />
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
 					<Route path="/dashboard/roles" exact component={Roles} />
-					<Route path="/dashboard/roles2" exact component={Roles2} />
+					<Route path="/dashboard/profile" exact component={Profile} />
+					{/* Password/edit is for authenticated user that wants to change password */}
+					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
 				</PrivateRoute>
 								
 				{/*<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
-		
 			</Switch>
 		</div>
 	);
