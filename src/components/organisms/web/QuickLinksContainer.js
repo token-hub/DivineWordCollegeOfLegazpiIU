@@ -8,7 +8,7 @@ import {quicklinks} from '../../../data/web/index';
 const useStyles = makeStyles({
     quickLinksContainer: {
         width: '33.33%',
-        padding: '2rem 3rem',
+        padding: '2rem 2rem',
     },
     containerLeft: {
         backgroundColor: '#389e61',

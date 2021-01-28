@@ -23,6 +23,7 @@ import RenderUpdateForm from './RenderUpdateForm';
 import GoogleMap from './GoogleMap';
 import GetInTouch from './GetInTouch';
 import BackToTop from './BackToTop';
+import EnrollmentPortal from './EnrollmentPortal';
 
 export {
     HomeHeaderLeft,
@@ -49,5 +50,6 @@ export {
     RenderUpdateForm,
     GoogleMap,
     GetInTouch,
-    BackToTop
+    BackToTop,
+    EnrollmentPortal
 }

@@ -17,17 +17,25 @@ const DashboardProvider = ({ children }) => {
         Object.assign(initialStates.inputFields, {[key]: value});
     }
    
-    const resetInputFieldsValue = inputFields => {
+    const resetInputFieldsValue = (inputFields, resetErrors = false) => {
         const keys = Object.keys(inputFields);
         let emptyInputFields = {};
-        keys.map(key => {
-            return  emptyInputFields = {...emptyInputFields, [key]: ''} 
+        keys.forEach(key => {
+            emptyInputFields = {...emptyInputFields, [key]: ''} 
         });
         
-        setStates({...states, inputFields: emptyInputFields, errors: {}})
+        let errors = {}
+        if (resetErrors) {
+            errors = {errors: {}}
+        }
+
+        setStates({...states, inputFields: emptyInputFields, ...errors})
     }
 
-
+    const resetErrorFields = () => {        
+        setStates({...states, errors: {}})
+    }
+    
     const handleInputChange = e => {
 		const {name, value} = e.target;
 
@@ -40,34 +48,44 @@ const DashboardProvider = ({ children }) => {
 		}))
     }
 
+    const getUser = () => {
+        Api.get('/api/user')
+        .then(response => {
+            setDataToStorage(storageUserKey, response.data)
+            setStates({...states, user: getDataFromStorage(storageUserKey), sample: {}});
+            resetErrorFields();
+        })
+        .catch(({response : {data: {message}}}) => {
+            handleSnackbar(message, 'error');
+        });
+    }
+
+
     const handleLogin = e => {
         e.preventDefault();
         setStates({...states, isLoading: true});
         
-		Api.get('/sanctum/csrf-cookie')
-        .then( () => {
-            Api.post('/login', inputFields)
-            .then( () => {
-                Api.get('/api/user')
-                .then(response => {
-                    setDataToStorage(storageUserKey, response.data)
-                    setStates({...states, user: getDataFromStorage(storageUserKey), sample: {}});
-                    resetInputFieldsValue(inputFields);
-                    history.push('/dashboard/home');
+        Api.post('/login', inputFields)
+        .then(({data : {message}}) => {
 
-                    // I have to reset the state so I dont have to use reload()
-                    // just to make the username appear on the page
-                    setStates({...states}); 
-                    handleSnackbar('Successfully Logged in', 'success');
-                })
+            if (message.includes('active')) {
+                history.push('/dashboard/email/verification');
+                handleSnackbar(message, 'info');
+            } else {
+                getUser();
+                resetInputFieldsValue(inputFields, true);
                 setStates({...states, isLoggedIn: true});
-            })
-            .catch(({response : {data: {message, errors}}}) => {
-                handleSnackbar(message, 'error');
-            });
-            setStates({...states, isLoading: false});
+                history.push('/dashboard/home');
+                
+                setStates({...states}); 
+                handleSnackbar(message, 'success');
+            }
         })
-        .catch(() => handleSnackbar('Cookie Error', 'error'))
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        });
+        setStates({...states, isLoading: false});
     }
 
     const handleLogout = e => {
@@ -87,18 +105,11 @@ const DashboardProvider = ({ children }) => {
     const handleSendPasswordResetLink = e => {
         e.preventDefault();
 
-        Api.get('/sanctum/csrf-cookie')
-        .then( () => {
-            Api.post('/password/email', inputFields)
-            .then(()=>{
-                history.push('/dashboard/login');
-                handleSnackbar('Reset password link sent', 'success');
-                resetInputFieldsValue(inputFields);
-            })
-            .catch(({response : {data: {message, errors}}}) => {
-                handleSnackbar(message, 'error');
-                setStates({...states, errors: errors});
-            });
+        Api.post('/password/email', inputFields)
+        .then(()=>{
+            history.push('/dashboard/login');
+            handleSnackbar('Reset password link sent', 'success');
+            resetInputFieldsValue(inputFields);
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -109,51 +120,76 @@ const DashboardProvider = ({ children }) => {
     const handlePasswordReset = e => {
         e.preventDefault();
 
-        Api.get('/sanctum/csrf-cookie')
-        .then( () => {
-            Api.post('/password/reset', inputFields)
-            .then(()=>{
-                history.push('/dashboard/login');
-                handleSnackbar('Password successful changed', 'success');
-            })
+        Api.post('/password/reset', inputFields)
+        .then(()=>{
+            history.push('/dashboard/login');
+            handleSnackbar('Password successful changed', 'success');
         })
-        resetInputFieldsValue(inputFields);
-        
+
+        resetInputFieldsValue(inputFields);  
+    }
+
+    const handleResendVerificationLink = e => {
+        e.preventDefault();
+
+        Api.post('/email/resend')
+        .then(()=>{
+            handleSnackbar('A fresh verification link has been sent to your email address.', 'success');
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        });
     }
     
     const handleRegister = e => {
         e.preventDefault();
         setStates({...states, isLoading: true});
      
-        Api.get('/sanctum/csrf-cookie')
-            .then(() => {
-                Api.post('/register', inputFields)
-                .then(() => {
-                    resetInputFieldsValue(inputFields);
-                    history.push('/dashboard/login');
-                    handleSnackbar('Please check your email to activate your account', 'info');
-                })
-                .catch(({response : {data: {message, errors}}}) => {
-                    handleSnackbar(message, 'error');
-                    setStates({...states, errors: errors});
-                });
-                setStates({...states, isLoading: false});
-            })
-    }
-
-    const handleChangePassword = e => {
-        e.preventDefault();
-        
-        Api.put(`/api/password/update/${states.user.id}`, inputFields)
-        .then(({data: {messages}}) => {
-            resetInputFieldsValue(inputFields);
-            history.push('/dashboard/profile');
-            handleSnackbar(messages, 'success');
+        Api.post('/register', inputFields)
+        .then(() => {
+            resetInputFieldsValue(inputFields, true);
+            history.push('/dashboard/login');
+            handleSnackbar('Please check your email to activate your account', 'info');
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
             setStates({...states, errors: errors});
         });
+        setStates({...states, isLoading: false});
+    }
+    
+    const returnBackToDashboardProfile = (e, url, reset = false) => { 
+        e.preventDefault();
+        setStates({...states, isLoading: true});
+
+        Api.put(`/api/${url}/${states.user.id}`, inputFields)
+        .then(({data : {message}}) => {
+            let msgType = 'success';
+
+            if (reset) resetInputFieldsValue(inputFields);
+
+            if (url.includes('profile')) {
+                getUser();
+                if(message.includes('Nothing')) msgType = 'info';
+            }
+
+            history.push('/dashboard/profile');
+            handleSnackbar(message, msgType);
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        });
+        setStates({...states, isLoading: false});
+    }
+
+    const handleChangePassword = e => {
+        returnBackToDashboardProfile(e, 'password/update', true);
+    }
+    
+    const handleChangeProfileInfo = e => {
+        returnBackToDashboardProfile(e, 'password/profile');
     }
 
     const provider = {
@@ -167,10 +203,14 @@ const DashboardProvider = ({ children }) => {
         handleSendPasswordResetLink,
         handlePasswordReset,
         handleSnackbar,
-        handleRegister
+        handleRegister,
+        handleChangeProfileInfo,
+        handleResendVerificationLink
     }
 
     useEffect(() => {
+        Api.get('/sanctum/csrf-cookie');
+
         setStates({
             ...initialStates,
             inputFields: {...initialStates.inputFields}

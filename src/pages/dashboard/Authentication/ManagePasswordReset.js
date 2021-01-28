@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {RegisterOrLogin} from '../../../components/templates/dashboard';
+import {Authentication} from '../../../components/templates/dashboard';
 import {RenderForm} from '../../../components/molecules/dashboard';
 import {DashboardContext} from '../../../contexts';
 import {useLocation} from 'react-router-dom';
@@ -28,9 +28,9 @@ const ManagePasswordReset = () => {
     const handler = token ? handlePasswordReset : handleSendPasswordResetLink;
 
     return (
-        <RegisterOrLogin topTitle='Login' mainTitle='Reset Password' topLink='/dashboard/login'>
+        <Authentication topTitle='Login' mainTitle='Reset Password' topLink='/dashboard/login'>
             <RenderForm buttonTitle='Submit' inputFields={fields} handleSubmit={handler} />
-        </RegisterOrLogin>
+        </Authentication>
     )
 }
 

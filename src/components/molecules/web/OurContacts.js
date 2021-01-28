@@ -32,7 +32,7 @@ const OurContacts = () => {
                 E-MAIL
             </Typography>
 
-            <LinkText text='dwclinfo@dwc-legazpi.edu' />
+            <LinkText text='dwclinfo@dwc-legazpi.edu' link='/contact-us' />
 
             <Typography variant="overline" display="block" gutterBottom>
                 TELEFAX

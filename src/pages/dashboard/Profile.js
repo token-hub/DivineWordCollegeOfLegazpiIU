@@ -5,7 +5,7 @@ import {DashboardContext} from '../../contexts';
 import {setObjects} from '../../helpers';
 
 const Profile = () => {
-    const {states: {user:{ name, username, email}}} = useContext(DashboardContext);
+    const {states: {user:{ name, username, email}}, handleChangeProfileInfo} = useContext(DashboardContext);
 
     const data = setObjects(['name', 'type', 'value'], [
         ['name', 'text', name],
@@ -15,7 +15,7 @@ const Profile = () => {
 
     return (
         <BaseWithHeaderAndSidebarWithMainHeader header='Profile' linkTitle='Change password' link='/dashboard/password/edit' >
-            <RenderForm buttonTitle='Update' inputFields={data} handleSubmit={()=> alert('submitted')} />
+            <RenderForm buttonTitle='Update' inputFields={data} handleSubmit={handleChangeProfileInfo} />
         </BaseWithHeaderAndSidebarWithMainHeader>
     )
 }

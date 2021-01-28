@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     }
 });
 
-const RenderTextfield = ({ data }) => {
+const RenderTextfield = ({ data = [] }) => {
 
     const {handleInputChange, states: {inputFields, errors}, updateInitialInputState} = useContext(DashboardContext);
 

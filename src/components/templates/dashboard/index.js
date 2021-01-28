@@ -1,11 +1,11 @@
 import Base from './Base';
-import RegisterOrLogin from './RegisterOrLogin';
+import Authentication from './Authentication';
 import BaseWithHeaderAndSidebar from './BaseWithHeaderAndSidebar';
 import BaseWithHeaderAndSidebarWithMainHeader from './BaseWithHeaderAndSidebarWithMainHeader';
 
 export {
     Base,
-    RegisterOrLogin,
+    Authentication,
     BaseWithHeaderAndSidebar,
     BaseWithHeaderAndSidebarWithMainHeader
 }

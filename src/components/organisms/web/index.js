@@ -5,7 +5,7 @@ import CoverPages from './CoverPages';
 import QuicklinksContainer from './QuickLinksContainer';
 import PresidentMessage from './PresidentMessage';
 import NewsAndEvents from './NewsAndEvents';
-import Announcements from './Annoucements';
+import Announcements from './Announcements';
 import Informations from './Informations';
 import Credits from './Credits';
 import UpdatesListContainer from './UpdatesListContainer';

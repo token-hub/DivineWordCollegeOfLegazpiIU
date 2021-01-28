@@ -1,3 +1,0 @@
-import SchoolOfEngineeringAndComputerStudies from './SchoolOfEngineeringAndComputerStudies';
-
-export default SchoolOfEngineeringAndComputerStudies

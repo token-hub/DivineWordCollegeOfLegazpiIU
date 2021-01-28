@@ -5,18 +5,21 @@ import {makeStyles} from '@material-ui/core/styles';
 import {SharedGrid, CardComp} from '../../molecules/web';
 import {newsAndEventsCards} from '../../../data/web';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme =>({
     root: {
         backgroundColor: 'white',
         height: 'auto',
-        padding: '4rem 0'
+        padding: '4rem 0',
+        [theme.breakpoints.down('sm')]: {
+            padding: '3rem 0'
+        }
     },
     title: {
         marginBottom: '3rem',
         fontWeight: 600,
         color: '#1D17CE'
     },
-})
+}))
 
 const NewsAndEvents = () => {
 

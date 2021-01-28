@@ -73,16 +73,15 @@ import {
 	Login,
 	Register,
 	PasswordEdit,
+	EmailVerification,
 	ManagePasswordReset,
 } from './pages/dashboard/Authentication';
 import {
 	HomeDashboard,
 	Roles,
-	Profile
-} from './pages/dashboard';
+	Profile,
 
-import HomeDashboard2 from './components2/dashboard/home';
-import Roles2 from './components2/dashboard/roles';
+} from './pages/dashboard';
 
 const useStyles = makeStyles({
     app: {
@@ -171,6 +170,7 @@ const App = props => {
 				{/* ============= [ Dashboard pages ] ============= */}
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
+				<Route path="/dashboard/email/verification" exact component={EmailVerification} />
 				{/* Password/reset is for unathenticated user that forgotted their password */}
 				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
 				

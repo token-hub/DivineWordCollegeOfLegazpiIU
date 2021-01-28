@@ -10,7 +10,10 @@ const useStyles = makeStyles(theme => ({
     root: {
         backgroundColor: '#F5F5F5',
         height: 'auto',
-        padding: '4rem 0'
+        padding: '4rem 0',
+        [theme.breakpoints.down('sm')]: {
+            padding: '2rem 0'
+        }
     }, 
     title: {
         fontWeight: 600,
@@ -22,7 +25,7 @@ const useStyles = makeStyles(theme => ({
            padding: '0 4rem!important'
         },
         [theme.breakpoints.only('xs')]: {
-         padding: '0 3rem!important'
+         padding: '0 2rem!important'
       }
     },
     bold: {
@@ -32,6 +35,9 @@ const useStyles = makeStyles(theme => ({
         Height: '100%',
         width: '100',
         padding: '3rem',
+        [theme.breakpoints.down('sm')]: {
+            padding: '2rem'
+        }
    },
 }))
 

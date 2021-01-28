@@ -1,13 +1,13 @@
 import React from 'react';
-import {RegisterOrLogin} from "../../../components/templates/dashboard";
+import {Authentication} from "../../../components/templates/dashboard";
 import {LoginForm} from '../../../components/organisms/dashboard';
 
 const Login = () => {
       
     return (
-        <RegisterOrLogin topTitle='Return to website' mainTitle='SIGN IN' link='/'>
+        <Authentication topTitle='Return to website' mainTitle='SIGN IN' topLink='/'>
             <LoginForm />
-        </RegisterOrLogin>
+        </Authentication>
     )
 }
 
