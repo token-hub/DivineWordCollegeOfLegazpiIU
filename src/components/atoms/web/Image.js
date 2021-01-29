@@ -3,8 +3,8 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     img: {
-        maxWidth: '100%',
-        maxHeight: '100%',
+        // maxWidth: '100%',
+        // maxHeight: '100%',
         width: '100%',
         backgroundSize: 'cover',
     },

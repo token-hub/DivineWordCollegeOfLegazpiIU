@@ -1,3 +1,7 @@
 import PrivateRoute from './PrivateRoute';
+import PageNotFound from './PageNotFound';
 
-export default PrivateRoute;
+export {
+    PageNotFound,
+    PrivateRoute
+};

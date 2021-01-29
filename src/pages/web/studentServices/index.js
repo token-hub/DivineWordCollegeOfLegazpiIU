@@ -10,7 +10,7 @@ import CampusMinistry from './CampusMinistry';
 import SerbisyongDivine from './SerbisyongDivine';
 import Registrar from './Registrar';
 import Library from './Library';
-import Research from './Research';
+import ManageResearch from './ManageResearch';
 import Clinic from './Clinic';
 import Canteen from './Canteen';
 
@@ -27,7 +27,7 @@ export {
     SerbisyongDivine,
     Registrar,
     Library,
-    Research,
+    ManageResearch,
     Clinic,
     Canteen
 }

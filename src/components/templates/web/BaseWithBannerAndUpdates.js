@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
     },
     left: {
         heigth: 500,
-        padding: '0 2rem',
     },
     right: {
         heigth: 500,

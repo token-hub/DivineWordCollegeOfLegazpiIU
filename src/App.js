@@ -2,7 +2,7 @@ import React from 'react'
 import './App.css';
 import {Route, Switch} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
-import PrivateRoute from './pages';
+import {PrivateRoute, PageNotFound} from './pages';
 import {
 	Home,
 	Career,
@@ -59,7 +59,7 @@ import {
 	SerbisyongDivine,
 	Registrar,
 	Library,
-	Research,
+	ManageResearch,
 	Clinic,
 	Canteen
 } from './pages/web/StudentServices';
@@ -79,8 +79,7 @@ import {
 import {
 	HomeDashboard,
 	Roles,
-	Profile,
-
+	Profile
 } from './pages/dashboard';
 
 const useStyles = makeStyles({
@@ -150,7 +149,8 @@ const App = props => {
 				<Route path="/student-services/serbisyong-divine" exact component={SerbisyongDivine} />
 				<Route path="/student-services/registrar" exact component={Registrar} />
 				<Route path="/student-services/library" exact component={Library} />
-				<Route path="/student-services/research" exact component={Research} />
+				<Route path="/student-services/research" exact component={ManageResearch} />
+				<Route path="/student-services/research/:pdf" exact component={ManageResearch} />
 				<Route path="/student-services/clinic" exact component={Clinic} />
 				<Route path="/student-services/canteen" exact component={Canteen} />
 
@@ -166,7 +166,7 @@ const App = props => {
 				<Route path="/contact-us" exact component={ContactUs} />
 
 				<Route path="/alumni" exact component={Alumni} />	 
-
+				
 				{/* ============= [ Dashboard pages ] ============= */}
 				<Route path="/dashboard/login" exact component={Login} />
 				<Route path="/dashboard/register" exact component={Register} />
@@ -174,6 +174,7 @@ const App = props => {
 				{/* Password/reset is for unathenticated user that forgotted their password */}
 				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
 				
+				<Route path='*' exact component={PageNotFound} />	
 				<PrivateRoute>	
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
 					<Route path="/dashboard/roles" exact component={Roles} />
@@ -181,8 +182,6 @@ const App = props => {
 					{/* Password/edit is for authenticated user that wants to change password */}
 					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
 				</PrivateRoute>
-								
-				{/*<Route path="/dashboard/announcement" exact component={AnnouncementDashboard} />*/} 
 			</Switch>
 		</div>
 	);

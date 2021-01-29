@@ -24,6 +24,7 @@ import GoogleMap from './GoogleMap';
 import GetInTouch from './GetInTouch';
 import BackToTop from './BackToTop';
 import EnrollmentPortal from './EnrollmentPortal';
+import ResearchPdf from './ResearchPdf';
 
 export {
     HomeHeaderLeft,
@@ -51,5 +52,6 @@ export {
     GoogleMap,
     GetInTouch,
     BackToTop,
-    EnrollmentPortal
+    EnrollmentPortal,
+    ResearchPdf
 }
