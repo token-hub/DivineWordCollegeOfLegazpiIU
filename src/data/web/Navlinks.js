@@ -11,7 +11,7 @@ const colleges = [
 const student_services = [
     setObject('GRADE SCHOOL', '/student-services/grade-school'),
     setObject('JUNIOR HIGH SCHOOL', '/student-services/junior-high-school'),
-    setObject('SENIOR HIGH NURSING', '/student-services/senior-high-school'),
+    setObject('SENIOR HIGH SCHOOL', '/student-services/senior-high-school'),
     setObject('COLLEGE', '/student-services/college'),
 ];
 

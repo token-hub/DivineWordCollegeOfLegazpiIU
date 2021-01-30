@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -48,6 +48,15 @@ const useStyles = makeStyles(theme => ({
         border: '1px solid #d3d1d1',
         borderTop: 'none',
         color: '#1D17CE',
+        background: '#ededed'
+    },
+    listItemNestedCurrent: {
+        paddingLeft: '3rem',
+        border: '1px solid #d3d1d1',
+        borderTop: 'none',
+        color: '#1D17CE',
+        borderLeft: '4px solid #1D17CE',
+        background: '#ededed'
     },
     listItemCurrent: {
         paddingLeft: '2rem',
@@ -84,11 +93,14 @@ const ListContainer = ({data = null, header, type}) => {
         block, 
         alignCenter,
         listItemNested,
-        cursor
+        cursor,
+        listItemNestedCurrent
     } = useStyles();
+    
+    let initialState = {};
 
-    const [listDrawer, setListDrawer] = useState({});
-
+    const [listDrawer, setListDrawer] = useState(initialState);
+    
     const {pathname} = useLocation();
 
     const path = stringTransform(pathname,'-', ' ').toLowerCase();
@@ -97,13 +109,15 @@ const ListContainer = ({data = null, header, type}) => {
         return isCurrentPage(path, pageName.toLowerCase()) ? listItemCurrent : listItem
     }
 
-    const handleListDrawerClick = item => {
-        const isExist = Object.keys(listDrawer).indexOf(item) !== -1;
-
-        isExist 
-            ? setListDrawer({...listDrawer, [item]: !listDrawer[item] })
-            : setListDrawer({...listDrawer, [item]: true })
+    const handleListDrawerEvent = item => {
+        setListDrawer({...listDrawer, [item]: !listDrawer[item] })
     };
+    
+    useEffect(() => {
+        setListDrawer({...initialState});
+    }, [])
+
+    console.log(listDrawer);
 
     return (
         <Grid container item justify='center'>
@@ -116,6 +130,7 @@ const ListContainer = ({data = null, header, type}) => {
                 <List component="div" disablePadding>
                     {data ? data.map(({ title, link, dateAndTime, sublinks },index) => {
                             const setListClass = isBlock(dateAndTime, setListItem(path, title), block);
+                            if (sublinks !== undefined) initialState = {...initialState, [title]: false};
                             return (<div key={index}>
                                     <ListItem button 
                                         component='a' 
@@ -124,7 +139,7 @@ const ListContainer = ({data = null, header, type}) => {
                                     >
                                         <ListItemText primary={isNeedTextTransform(type, title)} />
                                         {dateAndTime && <Typography variant='subtitle2' className={dateAndTimeClass}>{dateAndTime}</Typography>}
-                                        <ListItemSecondaryAction onClick={ () => handleListDrawerClick(title) }>
+                                        <ListItemSecondaryAction onClick={ () => handleListDrawerEvent(title) }>
                                             {sublinks !== undefined 
                                                 ?   listDrawer[title]
                                                         ? <ExpandLess className={cursor} /> 
@@ -133,15 +148,23 @@ const ListContainer = ({data = null, header, type}) => {
                                             }
                                         </ListItemSecondaryAction>
                                     </ListItem>
-                                        
                                     {sublinks !== undefined &&
                                         <Collapse in={listDrawer[title]} timeout="auto" unmountOnExit>
                                             <List component="div" disablePadding>
-                                                {sublinks.map(({title, link}, index) => (
-                                                    <ListItem button component='a' href={link} key={index} className={listItemNested}>
-                                                        <ListItemText primary={isNeedTextTransform(type, title)} />
-                                                    </ListItem>
-                                                ))}
+                                                {sublinks.map(({title:sublinkTitle, link}, index) => {
+                                                    
+                                                    let setNestedListClass = listItemNested;
+                                                    if (isCurrentPage(path, sublinkTitle.toLowerCase())) {
+                                                        initialState = {...initialState, [title]: !initialState[title]};
+                                                        setNestedListClass = listItemNestedCurrent;
+                                                    }
+
+                                                    return (
+                                                        <ListItem button component='a' href={link} key={index} className={setNestedListClass}>
+                                                            <ListItemText primary={isNeedTextTransform(type, sublinkTitle)} />
+                                                        </ListItem>
+                                                    )
+                                                })}
                                             </List>
                                         </Collapse>     
                                     }

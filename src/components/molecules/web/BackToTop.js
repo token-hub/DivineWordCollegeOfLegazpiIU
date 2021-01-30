@@ -8,7 +8,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 const useStyles = makeStyles((theme) => ({
     root: {
       position: 'fixed',
-      bottom: theme.spacing(2),
+      bottom: theme.spacing(5),
       right: theme.spacing(2),
     },
     noOutlined : {
