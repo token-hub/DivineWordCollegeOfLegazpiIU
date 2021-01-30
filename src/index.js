@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {SnackbarProvider} from 'notistack';
 import {DashboardProvider} from './contexts';
+import {WebProvider} from './contexts';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -34,7 +35,9 @@ ReactDOM.render(
           )}
           >
           <DashboardProvider>
-            <App />
+            <WebProvider>
+              <App />
+            </WebProvider>
           </DashboardProvider>
         </SnackbarProvider>
       </ThemeProvider>

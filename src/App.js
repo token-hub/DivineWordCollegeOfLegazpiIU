@@ -66,8 +66,8 @@ import {
 import {
 	Updates,
 	Calendar,
-	Announcements,
-	NewsAndEvents,
+	ManageAnnouncements,
+	ManageNewsAndEvents,
 } from './pages/web/Updates';
 import {
 	Login,
@@ -160,8 +160,10 @@ const App = props => {
 				{/* Updates Pages */}
 				<Route path="/updates" exact component={Updates} />
 				<Route path="/updates/calendar" exact component={Calendar} />
-				<Route path="/updates/announcement" exact component={Announcements} />
-				<Route path="/updates/news-and-events" exact component={NewsAndEvents} />
+				<Route path="/updates/announcements" exact component={ManageAnnouncements} />
+				<Route path="/updates/announcements/:announcement" exact component={ManageAnnouncements} />
+				<Route path="/updates/news-and-events" exact component={ManageNewsAndEvents} />
+				<Route path="/updates/news-and-events/:newsAndEvent" exact component={ManageNewsAndEvents} />
 
 				<Route path="/contact-us" exact component={ContactUs} />
 

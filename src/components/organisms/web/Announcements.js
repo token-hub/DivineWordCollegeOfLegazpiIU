@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {SharedGrid, UpdateContainer} from '../../molecules/web';
 import {makeStyles} from '@material-ui/core/styles';
-import {announcements} from '../../../data/web';
+import {WebContext} from '../../../contexts';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,6 +29,7 @@ const useStyles = makeStyles(theme => ({
 const Announcements = () => {
 
     const {root, announcementContainer, title} = useStyles();
+    const {updates:{announcements}} = useContext(WebContext);
 
     return (
         <SharedGrid root={root}>

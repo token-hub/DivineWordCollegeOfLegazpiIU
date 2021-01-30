@@ -1,11 +1,11 @@
 import Updates from './Updates';
-import NewsAndEvents from './NewsAndEvents';
 import Calendar from './Calendar';
-import Announcements from './Announcements';
+import ManageNewsAndEvents from './ManageNewsAndEvents';
+import ManageAnnouncements from './ManageAnnouncements';
 
 export {
     Updates,
-    NewsAndEvents,
     Calendar,
-    Announcements
+    ManageNewsAndEvents,
+    ManageAnnouncements
 };

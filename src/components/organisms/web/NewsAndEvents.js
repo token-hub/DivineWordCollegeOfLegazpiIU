@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {SharedGrid, CardComp} from '../../molecules/web';
-import {newsAndEventsCards} from '../../../data/web';
+import {WebContext} from '../../../contexts';
 
 const useStyles = makeStyles(theme =>({
     root: {
@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme =>({
 const NewsAndEvents = () => {
 
     const {root, title} = useStyles();
+    const {updates:{newsAndEvents}} = useContext(WebContext);
 
     return (
         <SharedGrid root={root}>
@@ -33,9 +34,7 @@ const NewsAndEvents = () => {
                 </Typography>
             </Grid>
             <Grid container item>
-                {
-                    newsAndEventsCards.map((data, index) => <CardComp {...data} key={index} />)
-                }
+                {newsAndEvents.map((data, index) => <CardComp {...data} key={index} />)}
             </Grid>
         </SharedGrid>
     )

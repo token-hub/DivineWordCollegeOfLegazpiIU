@@ -44,9 +44,11 @@ const useStyles = makeStyles(theme => ({
     }
  }));
 
-const UpdateContainer = ({ month, day, title, subtitle = null, link = '#', color = 'inherit', width ='100%', dateOverwrite }) => {
-    
-    const { announcementContent, content, date, header} = useStyles({width: width});
+const UpdateContainer = ({ dateAndTime, title, subtitle = null, link = '#', color = 'inherit', width ='100%', dateOverwrite }) => {
+
+    const {month, day} = dateAndTime;
+
+    const {announcementContent, content, date, header} = useStyles({width: width});
 
     return (
         <Grid item container className={announcementContent} direction='row'>

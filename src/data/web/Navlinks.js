@@ -84,7 +84,7 @@ export const navlinks = {
         link: '/updates',
         items: [
             setObject('CALENDAR', '/updates/calendar'),
-            setObject('ANNOUNCEMENT', '/updates/announcement'),
+            setObject('ANNOUNCEMENTS', '/updates/announcements'),
             setObject('NEWS AND EVENTS', '/updates/news-and-events'),
         ]
     },

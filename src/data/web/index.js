@@ -1,6 +1,6 @@
 import {navlinks} from './Navlinks';
 import {quicklinks} from './Quicklinks';
-import {newsAndEventsCards} from './NewsAndEventsCards';
+import {newsAndEvents} from './NewsAndEvents';
 import {announcements} from './Announcements';
 import {ourPortals} from './OurPortals';
 import {ourQuicklinks} from './OurQuicklinks';
@@ -11,7 +11,7 @@ import {contactUs} from './ContactUs';
 export {
     navlinks,
     quicklinks,
-    newsAndEventsCards,
+    newsAndEvents,
     announcements,
     ourPortals,
     ourQuicklinks,

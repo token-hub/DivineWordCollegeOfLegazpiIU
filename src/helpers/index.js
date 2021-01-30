@@ -77,10 +77,11 @@ const textTransformCamelCase = text => {
 
 const isBlock = (item, className, className2) => {
     return item ? clsx(className, className2) : className;
+    // return Object.keys(item).length > 0 ? clsx(className, className2) : className;
 }
 
-const setUpdates = (month, day, title, subtitle = null, link = '#') => {
-    return {month, day, title, subtitle, link};
+const setUpdates = (dateAndTime, type, title, subtitle = null, link = '#', image = null) => {
+    return {dateAndTime, type, title, subtitle, link, image};
 }
 
 const renderIconFromObject = (key, object, color='inherit', breakLines = false) => {

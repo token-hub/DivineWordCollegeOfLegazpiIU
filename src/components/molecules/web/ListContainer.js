@@ -117,8 +117,6 @@ const ListContainer = ({data = null, header, type}) => {
         setListDrawer({...initialState});
     }, [])
 
-    console.log(listDrawer);
-
     return (
         <Grid container item justify='center'>
             <Grid item className={listContainer}>
@@ -129,6 +127,25 @@ const ListContainer = ({data = null, header, type}) => {
                 </Grid>
                 <List component="div" disablePadding>
                     {data ? data.map(({ title, link, dateAndTime, sublinks },index) => {
+                            
+                            let date = {
+                                year: 0,
+                                month: 0,
+                                day: 0,
+                                hours: 0,
+                                minutes: 0
+                            };
+
+                            const isDateAndTimeNotEmpty = dateAndTime !== null;
+
+                            if (isDateAndTimeNotEmpty) {
+                                date = {...dateAndTime};
+                            }
+
+                            const {year, month, day, hours, minutes} = date;
+                            const amOrPm = hours > 12 ? 'PM' : 'AM';
+                            const postedDate = `${month} ${day}, ${year} | ${hours}:${minutes} ${amOrPm}`;
+
                             const setListClass = isBlock(dateAndTime, setListItem(path, title), block);
                             if (sublinks !== undefined) initialState = {...initialState, [title]: false};
                             return (<div key={index}>
@@ -138,7 +155,7 @@ const ListContainer = ({data = null, header, type}) => {
                                         className={setListClass} 
                                     >
                                         <ListItemText primary={isNeedTextTransform(type, title)} />
-                                        {dateAndTime && <Typography variant='subtitle2' className={dateAndTimeClass}>{dateAndTime}</Typography>}
+                            {isDateAndTimeNotEmpty && <Typography variant='subtitle2' className={dateAndTimeClass}>{postedDate}</Typography>}
                                         <ListItemSecondaryAction onClick={ () => handleListDrawerEvent(title) }>
                                             {sublinks !== undefined 
                                                 ?   listDrawer[title]
