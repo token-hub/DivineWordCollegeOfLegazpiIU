@@ -14,10 +14,19 @@ import {WebProvider} from './contexts';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CloseIcon from '@material-ui/icons/Close';
 
+import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
+
+const generateClassName = createGenerateClassName({
+  productionPrefix: 'c',
+  disableGlobal: true
+});
+
 const notistackRef = React.createRef();
 const onClickDismiss = key => () => { 
     notistackRef.current.closeSnackbar(key);
 }
+
+
 
 ReactDOM.render(
   // <Router basename='/dwc-legazpi.edu'>
@@ -34,11 +43,13 @@ ReactDOM.render(
             </Button>
           )}
           >
-          <DashboardProvider>
-            <WebProvider>
-              <App />
-            </WebProvider>
-          </DashboardProvider>
+          
+            <DashboardProvider>
+              <WebProvider>
+                <App />
+              </WebProvider>
+            </DashboardProvider>
+         
         </SnackbarProvider>
       </ThemeProvider>
     {/* </React.StrictMode>, */}

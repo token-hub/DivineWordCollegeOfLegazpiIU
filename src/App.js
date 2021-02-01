@@ -122,7 +122,7 @@ const App = props => {
 				<Route path="/admission/graduate-school" exact component={GraduateSchool} />
 				<Route path="/admission/scholarship" exact component={Scholarship} />
 
-				{/* Acadamics Pages */}
+				{/* Academics Pages */}
 				<Route path="/academics/grade-school-department" exact component={GradeSchoolDepartment} />
 				<Route path="/academics/junior-high-school-department" exact component={JuniorHighSchoolDepartment} />
 				<Route path="/academics/free-secondary-distance-program" exact component={FreeSecondaryDistanceProgramDepartment} />
@@ -130,7 +130,7 @@ const App = props => {
 				<Route path="/academics/college" exact component={CollegeDepartment} />
 				<Route path="/academics/school-of-nursing" exact component={SchoolOfNursing} />
 				<Route path="/academics/school-of-hospitality-management" exact component={SchoolOfHospitalityManagement} />
-				<Route path="/academics/school-of-education-arts-and-sciences" exact component={SchoolOfEducationArtsAndSciences} />
+				<Route path="/academics/school-of-education,-arts-and-sciences" exact component={SchoolOfEducationArtsAndSciences} />
 				<Route path="/academics/school-of-engineering-and-computer-studies" exact component={SchoolOfEngineeringAndComputerStudies} />
 				<Route path="/academics/school-of-business-management-and-accountancy" exact component={SchoolOfBusinessManagementAndAccountancy} />
 				<Route path="/academics/graduate-school-of-business-and-management" exact component={GraduateSchoolOfBusinessAndManagement} />
@@ -176,7 +176,7 @@ const App = props => {
 				{/* Password/reset is for unathenticated user that forgotted their password */}
 				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
 				
-				<Route path='*' exact component={PageNotFound} />	
+				
 				<PrivateRoute>	
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
 					<Route path="/dashboard/roles" exact component={Roles} />
@@ -184,6 +184,7 @@ const App = props => {
 					{/* Password/edit is for authenticated user that wants to change password */}
 					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
 				</PrivateRoute>
+				<Route path='*' exact component={PageNotFound} />	
 			</Switch>
 		</div>
 	);

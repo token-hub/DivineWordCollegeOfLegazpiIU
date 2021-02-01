@@ -10,13 +10,7 @@ const useStyle = makeStyles({
         width: '100%',
         backgroundSize: 'cover',
     },
-    indicators: {
-        marginTop: '-3rem'
-    },
-    indicatorContainer: {
-        position: 'absolute',
-        margin: 0
-    },
+    
     carousel: {
         height: '100%',
         width: '100%',
@@ -35,13 +29,10 @@ const Slider = ({ data, size = null }) => {
         <div className={setSize}>
             <EnrollmentPortal />
             <Carousel
-                autoPlay={true}
-                indicators={true}
+                autoPlay={false}
+                indicators={false}
                 animation="slide"
                 navButtonsAlwaysVisible={true}
-                indicatorProps={{ className: indicators }}
-                activeIndicatorProps={{ className: indicators }}
-                indicatorContainerProps={{ className: indicatorContainer }}
                 next={()=>{}}
                 prev={()=>{}}
             >          

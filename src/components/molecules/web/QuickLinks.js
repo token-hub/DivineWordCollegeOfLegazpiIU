@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     noPadding: {
-        padding: 0
+        padding: 0,
     },
     white:{
         color: 'white',
@@ -32,18 +32,18 @@ const QuickLinks = ({ title, data }) => {
 
     return (
         <>
-             <Typography variant='h5' classes={{ root: containerTitle }}>
-                   {title}
-                </Typography>
-                <Grid item className={intended}>
-                    <List className={clsx(noPadding, white)}>
-                        {
-                            data.map(({link, title}, index) => (
-                              <LinkTextIcon key={index} link={link} title={title} />
-                            ))
-                        }
-                    </List>
-                </Grid>
+            <Typography variant='h5' classes={{ root: containerTitle }}>
+                {title}
+            </Typography>
+            <Grid item className={intended}>
+                <List className={clsx(noPadding, white)}>
+                    {
+                        data.map(({link, title}, index) => (
+                            <LinkTextIcon key={index} link={link} title={title} />
+                        ))
+                    }
+                </List>
+            </Grid>
         </>
     )
 }

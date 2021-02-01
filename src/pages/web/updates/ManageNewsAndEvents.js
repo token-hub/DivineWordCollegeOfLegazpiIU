@@ -10,7 +10,7 @@ import {
   LectureAndWorkshop,
   DigitalTools,
   Enrollment
-} from '../../../pages/web/Updates/newsAndEvents';
+} from './newsAndEvents';
 
 const ManageNewsAndEvents = () => { 
 
