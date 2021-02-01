@@ -136,7 +136,7 @@ const ListContainer = ({data = null, header, type}) => {
                                 minutes: 0
                             };
 
-                            const isDateAndTimeNotEmpty = dateAndTime !== null;
+                            const isDateAndTimeNotEmpty = dateAndTime !== null && Object.values(date)[0] !== 0;
 
                             if (isDateAndTimeNotEmpty) {
                                 date = {...dateAndTime};

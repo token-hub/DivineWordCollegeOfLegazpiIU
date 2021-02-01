@@ -19,7 +19,7 @@ const WebProvider = ({children}) => {
     const handleContactUsForm = e => {
         e.preventDefault();
 
-        // Api.post('/api/contactUs', inputFields)
+       
     }
     
     return (

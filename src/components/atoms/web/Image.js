@@ -7,6 +7,7 @@ const useStyles = makeStyles({
         maxHeight: '100%',
         width: '100%',
         backgroundSize: 'cover',
+        marginBottom: '-1rem'
     },
 })
 

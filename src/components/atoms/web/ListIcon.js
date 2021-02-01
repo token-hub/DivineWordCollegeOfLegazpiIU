@@ -15,12 +15,12 @@ const useStyles = makeStyles({
     }
 });
 
-const ListIcon = ({ children }) => {
-    
+const ListIcon = ({link = '#', children }) => {
+        
     const {mediaLinks} = useStyles();
-
+  
     return (
-        <ListItem component='a' href="#" disableGutters={true}>
+        <ListItem component='a' href={link} disableGutters={true}>
             <ListItemIcon className={mediaLinks}>
                 {children}
             </ListItemIcon>

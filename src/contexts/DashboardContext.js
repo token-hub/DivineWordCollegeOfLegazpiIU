@@ -74,11 +74,14 @@ const DashboardProvider = ({ children }) => {
             } else {
                 getUser();
                 resetInputFieldsValue(inputFields, true);
-                setStates({...states, isLoggedIn: true});
-                history.push('/dashboard/home');
-                
-                setStates({...states}); 
-                handleSnackbar(message, 'success');
+
+                if (Object.keys(states.user).length > 0) {
+                    setStates({...states, isLoggedIn: true});
+                    history.push('/dashboard/home');
+                    
+                    setStates({...states}); 
+                    handleSnackbar(message, 'success');
+                }
             }
         })
         .catch(({response : {data: {message, errors}}}) => {

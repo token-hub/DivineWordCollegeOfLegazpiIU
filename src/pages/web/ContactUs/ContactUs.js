@@ -25,7 +25,6 @@ const ContactUs = () => {
     const {left, right} = useStyles();
 
     return (
-        
         <BaseWithBanner full noRightGrid banner={banners.ContactUsBannerObj}>
             <Grid container item md={6} className={left} >
                 <GetInTouch />

@@ -20,6 +20,7 @@ const useStyle = makeStyles(theme => ({
         },
     },
     link: {
+        textDecoration: 'none',
         fontSize: '1.5rem',
         color: '#1D17CE',
         [theme.breakpoints.down('md')] : {
@@ -39,7 +40,7 @@ const EnrollmentPortal = () => {
 
     return (
         <div className={portal}>
-            <Link to='https://online.dwc-legazpi.edu' className={link}> Student portal / Online Enrollment </Link>
+            <a href='https://online.dwc-legazpi.edu' className={link}> Student portal / Online Enrollment </a>
         </div>
     )
 }
