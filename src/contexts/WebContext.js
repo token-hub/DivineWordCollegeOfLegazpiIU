@@ -15,6 +15,12 @@ const WebProvider = ({children}) => {
         updates,
         setUpdates
     }
+
+    const handleContactUsForm = e => {
+        e.preventDefault();
+
+        // Api.post('/api/contactUs', inputFields)
+    }
     
     return (
         <WebContext.Provider value={provider} >

@@ -1,5 +1,4 @@
 import {setUpdates} from '../../helpers';
-import {president} from '../../assets/images';
 import workshop from '../../assets/images/newsAndEvents/july-16-2020 lecture-and-workshop-on-technology-01.jpg';
 import digital from '../../assets/images/newsAndEvents/july-12-2020 training-online-class-01.jpg';
 import enrollment from '../../assets/images/newsAndEvents/july-01-2020 college-and-graduate-school-enrollment.jpg';

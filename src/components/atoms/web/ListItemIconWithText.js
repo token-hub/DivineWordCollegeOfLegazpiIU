@@ -8,10 +8,6 @@ const useStyles = makeStyles({
     noPadding: {
         padding: 0
     },
-    icon: {
-        fontSize: '.5rem',
-        marginRight: '.5rem'
-    },
     listIcon: {
         minWidth: 0,
         color: 'black',
@@ -22,7 +18,7 @@ const useStyles = makeStyles({
 
 const ListItemIconWithText = ({ text, children}) => {
 
-    const {listIcon, noPadding, icon} = useStyles();
+    const {listIcon, noPadding} = useStyles();
 
     return (
         <ListItem alignItems='flex-start' className={noPadding}>

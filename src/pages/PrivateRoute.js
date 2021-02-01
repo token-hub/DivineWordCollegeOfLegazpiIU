@@ -4,7 +4,7 @@ import {DashboardContext} from '../contexts';
 
 const PrivateRoute = ({ children, ...rest }) => {
 
-  const {states: {user, isLoggedin}} = useContext(DashboardContext);
+  const {states: {user}} = useContext(DashboardContext);
   // const isUser = loggedIn && user;
 
   return (

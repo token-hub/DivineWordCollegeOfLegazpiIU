@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Document, Page, pdfjs } from "react-pdf";
+import {Document, Page, pdfjs} from "react-pdf";
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -17,7 +17,6 @@ const useStyles = makeStyles(theme =>({
     overflow: 'scroll',
     overflowX: 'hidden', 
     width: '60%',
-    margin: 0,
     margin: '2rem auto',
     "& canvas": {
         width: '100% !important',
@@ -38,7 +37,7 @@ const ResearchPdf = ({ pdf = null }) => {
     const {pdfContainer, header, root} = useStyles();
 
     const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
+    // const [pageNumber, setPageNumber] = useState(1);
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);

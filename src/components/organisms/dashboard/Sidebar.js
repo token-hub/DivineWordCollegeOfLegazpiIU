@@ -71,7 +71,7 @@ const Sidebar = () => {
                   {menus.map( ({title, link, sublinks}, index) => {
                         const notEmptySublinks = sublinks !== undefined;
                         const isCurrentPageValue = isCurrentPage(path, stringTransform(title).toLowerCase());
-                        const setMuiButton = isCurrentPageValue ? muiButtonCurrent: muiButton;
+                        // const setMuiButton = isCurrentPageValue ? muiButtonCurrent: muiButton;
                         let sublink = '';
                         if (notEmptySublinks) {
                           Object.assign(initialState, {[title]: false})

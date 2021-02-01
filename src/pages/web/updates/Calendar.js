@@ -1,7 +1,6 @@
 import React from 'react'
 import {BaseWithBanner} from '../../../components/templates/web';
 import {banners} from '../../../data/web';
-import {Paragraph} from '../../../components/atoms/web';
 import {RenderCalendar} from '../../../components/molecules/web';
 import { makeStyles } from '@material-ui/core/styles';
 

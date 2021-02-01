@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react'
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import { Paragraph, ListItemIconWithText } from '../../atoms/web';
+import {makeStyles} from '@material-ui/core/styles';
+import {ListItemIconWithText} from '../../atoms/web';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 const useStyles = makeStyles({
@@ -105,7 +105,6 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
     }
 
     const mapListItem = array => {
-        let padding = {};
         let list = '';
         nestedCount++;
          
@@ -113,7 +112,6 @@ const RenderList = ({header = '', color='inherit', variant='subtitle1', data, de
             list = <List disablePadding>{renderListItem(array)}</List>
         } else {
             list = array.map( (data, index) => { 
-                // if (isArray(data['value'])) padding = {paddingLeft: `${nestedCount++}rem`};
                 return <List key={index} disablePadding style={{ marginBottom: '4rem' }} > {renderListItem(data)} </List> 
             });
         }

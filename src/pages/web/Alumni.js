@@ -1,7 +1,7 @@
 import React from 'react'
 import {BaseWithBannerAndUpdates} from '../../components/templates/web';
 import {RenderTable} from '../../components/molecules/web'
-import {navlinks, banners} from '../../data/web';
+import {banners} from '../../data/web';
 import {Paragraph} from '../../components/atoms/web';
 import {alumni} from '../../data/web';
 

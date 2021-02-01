@@ -27,7 +27,7 @@ const useStyle = makeStyles({
 
 const Slider = ({ data, size = null }) => {
 
-    const {indicators, indicatorContainer, carousel, portal, link} = useStyle();
+    const {indicators, indicatorContainer, carousel} = useStyle();
 
     const setSize = size ? size : carousel;
 

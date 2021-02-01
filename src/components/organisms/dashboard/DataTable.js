@@ -92,7 +92,7 @@ const Datatable = ({ rows, headCells }) => {
   };
   
   
-  const {root, paper, table, visuallyHidden, container} = useStyles();
+  const {root, paper, table, container} = useStyles();
 
   return (
     <div className={root}>

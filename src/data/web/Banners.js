@@ -1,4 +1,4 @@
-import { setImage } from '../../helpers';
+import {setImage} from '../../helpers';
 import AboutUsBanner from '../../assets/images/banners/about-us.jpg';
 import AdmissionBanner from '../../assets/images/banners/admission.jpg';
 import AcademicsBanner from '../../assets/images/banners/academics.jpg';

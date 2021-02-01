@@ -2,7 +2,7 @@ import React from 'react'
 import {BaseWithBannerAndOverview} from '../../../components/templates/web';
 import {navlinks, banners} from '../../../data/web';
 import {Paragraph} from '../../../components/atoms/web';
-import {RenderList, RenderTable} from '../../../components/molecules/web';
+import {RenderList} from '../../../components/molecules/web';
 import {library} from '../../../data/web/StudentServices';
 
 const Library = () => { 
