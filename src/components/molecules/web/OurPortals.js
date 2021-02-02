@@ -24,7 +24,7 @@ const OurPortals = () => {
             <List>
                 {
                     ourPortals.map((data, index) => 
-                        <LinkTextIcon {...data} key={index}/>
+                        <LinkTextIcon {...data} noPaddingLeft key={index}/>
                     )
                 }
             </List>

@@ -79,8 +79,6 @@ const AppBarContent = () => {
                         ?   <div key={index}>
                                 <ListItem button component='a' href={link} key={text} className={setLinkItem}>
                                     <ListItemText  primary={stringTransform(text, '_', ' ')} />
-                                    {/* {listDrawer[text] ? <ExpandLess /> : <ExpandMore />} */}
-
                                     <ListItemSecondaryAction onClick={() => handleListDrawerClick(text)}>
                                         {listDrawer[text] ? <ExpandLess /> : <ExpandMore />}
                                     </ListItemSecondaryAction>
