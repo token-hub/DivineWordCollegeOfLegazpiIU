@@ -6,14 +6,22 @@ import {UpdateContainer, Pagination} from '../../../components/molecules/web';
 import {Paragraph} from '../../../components/atoms/web';
 import {banners} from '../../../data/web';
 import {WebContext} from '../../../contexts';
+import {makeStyles} from '@material-ui/core/styles';
+
 import {
   LectureAndWorkshop,
   DigitalTools,
   Enrollment
 } from './newsAndEvents';
 
-const ManageNewsAndEvents = () => { 
+const useStyles = makeStyles({
+  selectedUpdateContainer: {
+    width: '100%',
+  }
+});
 
+const ManageNewsAndEvents = () => { 
+    const {selectedUpdateContainer} = useStyles();
     const {newsAndEvent} = useParams();
     const {updates:{newsAndEvents}} = useContext(WebContext);
 
@@ -25,7 +33,7 @@ const ManageNewsAndEvents = () => {
     const setNewsAndEventHeader = isNewsAndEventExist ? newsAndEvent : `${newsAndEvent} (NOT FOUND)`;
 
     const renderSelectedNewsAndEvent = () => {
-      return <>
+      return <div className={selectedUpdateContainer}>
           <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
           <Paragraph variant='h6' color='primary' align='center' >{setNewsAndEventHeader}</Paragraph>
           {
@@ -37,12 +45,12 @@ const ManageNewsAndEvents = () => {
                   ? <Enrollment />
                   : ''
           }
-      </>
+         </div>
     }
 
     const renderAllNewsAndEvents = () => {
       return <>
-        <Paragraph variant='h6' align='center' color='primary' >NEWS AND EVENTS</Paragraph>
+        <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
         {newsAndEvents.map((data,index) => 
           <UpdateContainer color='primary' key={index} {...data} /> 
         )}
@@ -54,7 +62,6 @@ const ManageNewsAndEvents = () => {
 
     return (
       <BaseWithBannerAndUpdates banner={banners.UpdatesBannerObj}>
-
         {newsAndEvent ? renderSelectedNewsAndEvent() : renderAllNewsAndEvents()}
       </BaseWithBannerAndUpdates>
     )

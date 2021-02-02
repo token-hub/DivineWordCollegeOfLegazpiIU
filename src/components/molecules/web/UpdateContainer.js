@@ -6,14 +6,13 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
-    announcementContent: {
+    updateContainer: {
         width: width => width.width,
         height: 'auto',
         color: 'white',
         padding: '1rem',
         [theme.breakpoints.down('sm')]:{
             width: '100%!important',
-            padding: '1rem .3rem',
         },
     },
     date: {
@@ -28,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
         [theme.breakpoints.only('xs')]:{
             height: '70px',
+            width: '20%',
         }
     },
     content: {
@@ -36,6 +36,10 @@ const useStyles = makeStyles(theme => ({
         padding: '0 1rem',
         color: 'black',
         borderRight: '1px solid #1D17CE',
+
+        [theme.breakpoints.only('xs')]:{
+            width: '80%',
+        }
     },
     header: {
         "&:hover" : {
@@ -48,10 +52,10 @@ const UpdateContainer = ({ dateAndTime, title, subtitle = null, link = '#', colo
 
     const {month, day} = dateAndTime;
 
-    const {announcementContent, content, date, header} = useStyles({width: width});
+    const {updateContainer, content, date, header} = useStyles({width: width});
 
     return (
-        <Grid item container className={announcementContent} direction='row'>
+        <Grid item container className={updateContainer} direction='row'>
             <Grid item className={date} style={{ dateOverwrite }}>
                 <Typography variant="h6" align='center' gutterBottom={false}>
                     {month}

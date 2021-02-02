@@ -1,5 +1,6 @@
 import React from 'react'
 import {Paragraph} from '../../../../components/atoms/web';
+import {Image} from '../../../../components/atoms/web';
 
 import image1 from '../../../../assets/images/newsAndEvents/july-12-2020 training-online-class-01.jpg';
 import image2 from '../../../../assets/images/newsAndEvents/july-12-2020 training-online-class-02.jpg';
@@ -32,7 +33,9 @@ const DigitalTools = () => {
         <Paragraph>Your Success…Our Word!</Paragraph>
         {
             images.map( (image, index) => (
-                <img key={index} style={{ margin: '1rem 0' }} src={image} alt={index} />
+                <div key={index}>
+                    <Image source={image} style={{ marginBottom: '1rem' }} alt={index} />
+                </div>
             ) )
         }
     </>

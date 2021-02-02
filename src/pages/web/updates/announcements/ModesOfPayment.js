@@ -1,4 +1,5 @@
 import React from 'react'
+import {Image} from '../../../../components/atoms/web';
 import {Paragraph} from '../../../../components/atoms/web';
 import image from '../../../../assets/images/announcements/june-30-2020 mode-of-payment.jpg';
 
@@ -12,7 +13,7 @@ const ModesOfPayment = () => {
             For inquiries, kindly message this page, send an email to inquiries.cashier@dwc-legazpi.edu, or contact mobile no. 0925-826-1308.
         </Paragraph>
         <Paragraph>We hope to see you soon!</Paragraph>
-        <img src={image} alt='Modes of Payment' />
+        <Image source={image} style={{ marginBottom: '1rem' }} alt='Modes of Payment' />
     </>
 }
 

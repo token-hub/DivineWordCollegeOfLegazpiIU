@@ -6,6 +6,8 @@ import {UpdateContainer, Pagination} from '../../../components/molecules/web';
 import {Paragraph} from '../../../components/atoms/web';
 import {banners} from '../../../data/web';
 import {WebContext} from '../../../contexts';
+import {makeStyles} from '@material-ui/core/styles';
+
 import {
   ModesOfPayment,
   Administrative,
@@ -13,8 +15,14 @@ import {
   Protocols
 } from './announcements';
 
-const ManageAnnouncements = () => { 
+const useStyles = makeStyles({
+  selectedUpdateContainer: {
+    width: '100%',
+  }
+});
 
+const ManageAnnouncements = () => { 
+    const {selectedUpdateContainer} = useStyles();
     const {announcement} = useParams();
     const {updates:{announcements}} = useContext(WebContext);
 
@@ -26,7 +34,7 @@ const ManageAnnouncements = () => {
       const setAnnouncementHeader = isAnnouncementExist ? announcement : `${announcement} (NOT FOUND)`;
 
     const renderSelectedAnnouncement = () => {
-      return <>
+      return <div className={selectedUpdateContainer}>
           <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
           <Paragraph variant='h6'  color='primary' align='center'>{setAnnouncementHeader}</Paragraph>
           {
@@ -40,7 +48,7 @@ const ManageAnnouncements = () => {
                     ? <Protocols />
                     : ''
           }
-        </>
+        </div>
     }
 
     const renderAllAnnouncements = () => {

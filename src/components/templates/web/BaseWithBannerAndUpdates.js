@@ -15,10 +15,15 @@ const useStyles = makeStyles(theme => ({
         }
     },
     left: {
-        heigth: 500,
+        height: 'auto',
+        width: '100%',
+        [theme.breakpoints.only('xs')]: {
+            marginBottom: '2rem',
+            padding: '0 2rem'
+        }
     },
     right: {
-        heigth: 500,
+        height: 'auto',
         padding: '0 2rem',
 
         [theme.breakpoints.only('md')] : {

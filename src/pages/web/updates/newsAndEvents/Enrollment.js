@@ -1,5 +1,7 @@
 import React from 'react'
 import {Paragraph} from '../../../../components/atoms/web';
+import {Image} from '../../../../components/atoms/web';
+
 import image from '../../../../assets/images/newsAndEvents/july-01-2020 college-and-graduate-school-enrollment.jpg';
 
 const Enrollment = () => {
@@ -9,7 +11,7 @@ const Enrollment = () => {
         </Paragraph>
         <Paragraph>Let DWCLegazpi help you to prepare for a brighter future.</Paragraph>
         <Paragraph>Your Success... Our Word!</Paragraph>
-        <img src={image} alt='enrollment' style={{ margin: '1rem 0' }} />
+        <Image source={image} style={{ marginBottom: '1rem' }} alt='enrollment' />
     </>
 }
 
