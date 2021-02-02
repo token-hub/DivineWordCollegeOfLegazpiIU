@@ -1,7 +1,7 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {LinkTextNavlink, NavMenu, NavMenuItem} from '../../atoms/web/index';
 import {navlinks} from '../../../data/web/index';
 import { 

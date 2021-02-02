@@ -1,4 +1,5 @@
 import React from 'react'
+import {Image} from '../../../../components/atoms/web';
 import {Paragraph} from '../../../../components/atoms/web';
 import image1 from '../../../../assets/images/newsAndEvents/july-16-2020 lecture-and-workshop-on-technology-01.jpg';
 import image2 from '../../../../assets/images/newsAndEvents/july-16-2020 lecture-and-workshop-on-technology-02.jpg';
@@ -33,7 +34,9 @@ const LectureAndWorkshop = () => {
         </Paragraph>
         {
             images.map( (image, index) => (
-                <img key={index} style={{ margin: '1rem 0' }} src={image} alt={index} />
+              <div key={index}>
+                  <Image source={image} style={{ marginBottom: '1rem' }} alt={index} />
+              </div>
             ) )
         }
     </>
