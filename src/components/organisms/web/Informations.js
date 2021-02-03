@@ -14,32 +14,36 @@ const useStyles = makeStyles({
    root: {
        backgroundColor: '#110d7a',
        height: 'auto',
-       padding: '4rem 0',
-       color: 'white'
+       color: 'white',
+       padding: '1.5rem 0'
    },
    padding: {
        padding: '0 2rem',
+   },
+   spaces: {
+       margin: '1rem 0',
+       padding: '0 .5rem'
    }
 });
 
 const Information = () => {
     
-    const { root, padding } = useStyles();
+    const {root, padding, spaces} = useStyles();
 
     return (
         <SharedGrid root={root}>
             <Grid container className={padding}>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={3} className={spaces}>
                     <OurAddress />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={3} className={spaces}>
                     <OurContacts />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={3} className={spaces}>
                     <OurPortals />
                     <OurSocialMedialinks />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={3} className={spaces}>
                     <OurQuicklinks />
                 </Grid>
             </Grid>

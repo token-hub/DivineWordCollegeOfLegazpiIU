@@ -47,7 +47,7 @@ const OurSocialMedialinks = () => {
                 <List aria-label="multimedia-links" disablePadding className={listItems}>
                     {
                         ourSocialMediaLinks.map( ({link, icon}, index) => {
-                            return <ListIcon key={index} link={link}>{renderSocialMediaIcon(icon)}</ListIcon>
+                            return <ListIcon noPaddingLeft key={index} link={link}>{renderSocialMediaIcon(icon)}</ListIcon>
                         } )
                     }
                 </List>

@@ -2,6 +2,9 @@ import React, {useContext} from 'react'
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
 import {DashboardContext} from '../../../contexts';
+import {initialStates} from '../../../contexts';
+import {updateInitialInputState} from '../../../helpers';
+import {handleInputChange} from '../../../helpers';
 
 const useStyles = makeStyles({
     input: {
@@ -14,7 +17,7 @@ const useStyles = makeStyles({
 
 const RenderTextfield = ({ data = [] }) => {
 
-    const {handleInputChange, states: {inputFields, errors}, updateInitialInputState} = useContext(DashboardContext);
+    const {setStates, states: {inputFields, errors}} = useContext(DashboardContext);
 
     const {input, hiddenInput} = useStyles();
 
@@ -23,7 +26,7 @@ const RenderTextfield = ({ data = [] }) => {
             {
                 data.map( ({name, value, type}, index) => {
                     const isTwoWordNameOrNot = name.split(' ').join('_');
-                    updateInitialInputState(isTwoWordNameOrNot, value);
+                    updateInitialInputState(initialStates.inputFields, isTwoWordNameOrNot, value);
                     
                     let extra = {};
                    if (errors) {
@@ -41,7 +44,7 @@ const RenderTextfield = ({ data = [] }) => {
                                 id={name}
                                 label={name}
                                 name={isTwoWordNameOrNot}
-                                onChange={handleInputChange}
+                                onChange={handleInputChange('inputFields', setStates)}
                                 required={true}
                                 type={type}
                                 value={inputFields[name]} 
