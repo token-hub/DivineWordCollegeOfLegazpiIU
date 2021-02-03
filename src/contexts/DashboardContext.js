@@ -2,8 +2,10 @@ import React, {createContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {Api} from '../services';
 import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
+import {updateInitialInputState} from '../helpers';
 import {useSnackbarHandler} from '../hooks';
 import {initialStates} from './';
+
 const DashboardContext = createContext();
 
 const DashboardProvider = ({ children }) => {
@@ -12,10 +14,6 @@ const DashboardProvider = ({ children }) => {
     const [states, setStates] = useState(initialStates);
     const {inputFields, storageUserKey} = states;
     const history = useHistory();
- 
-    const updateInitialInputState = (key, value = '') => {
-        Object.assign(initialStates.inputFields, {[key]: value});
-    }
    
     const resetInputFieldsValue = (inputFields, resetErrors = false) => {
         const keys = Object.keys(inputFields);

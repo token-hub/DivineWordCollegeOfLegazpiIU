@@ -32,6 +32,10 @@ const setObjectGen = (item = null, value = null, link = null) => {
     return {item, value};
 }
 
+const updateInitialInputState = (object, key, value = '') => {
+    Object.assign(object, {[key]: value});
+}
+
 
 /*
     setObjects(['key', 'value'], [['email', 'johnsuyang@gmail.com'], ['email', 'johnsuyang2118@gmail.com']] )
@@ -101,6 +105,18 @@ const setImageWithParagraph = (title, name, jobDescription, image) => {
     return {title, name, jobDescription, image};
 }
 
+const handleInputChange = (object, setState) => e => {
+    const {name, value} = e.target;
+    
+    setState(prevState => ({
+        ...prevState,
+        [object]: {
+            ...prevState.[object],
+            [name]: value
+        }
+    }))
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -117,5 +133,7 @@ export {
     textTransformCamelCase,
     setCard,
     setImageWithParagraph,
-    setObjects
+    setObjects,
+    updateInitialInputState,
+    handleInputChange
 }
