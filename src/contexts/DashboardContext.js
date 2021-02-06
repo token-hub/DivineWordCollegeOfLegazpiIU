@@ -185,6 +185,11 @@ const DashboardProvider = ({ children }) => {
         setStates({...states, isLoading: false});
     }
 
+    const getLogs = () => {
+        Api.get('/api/logs')
+        .then(response => setStates({...states, logs: response.data.data}));
+    }
+
     const handleChangePassword = e => {
         returnBackToDashboardProfile(e, 'password/update', true);
     }
@@ -206,7 +211,8 @@ const DashboardProvider = ({ children }) => {
         handleSnackbar,
         handleRegister,
         handleChangeProfileInfo,
-        handleResendVerificationLink
+        handleResendVerificationLink,
+        getLogs
     }
 
     useEffect(() => {

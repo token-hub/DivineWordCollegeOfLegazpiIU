@@ -23,7 +23,7 @@ const menus = [
         setObject('Announcement', '/dashboard/announcement'),
         setObject('News and Events', '/dashboard/news-and-events'),
     ]),
-    setObject('Logs', null),
+    setObject('Logs', '/dashboard/logs'),
 ];
 
 const menuIconObject = {

@@ -6,7 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 const DatatableBody = ({order, orderBy, rows, page, rowsPerPage, selected, handleClick }) => {
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
+  const isSelected = (date) => selected.indexOf(date) !== -1;
 
   const descendingComparator = (a, b, orderBy) => {
     if (b[orderBy] < a[orderBy]) {
@@ -40,16 +40,16 @@ const stableSort = (array, comparator) => {
     stableSort(rows, getComparator(order, orderBy))
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((row, index) => {
-        const isItemSelected = isSelected(row.name);
+        const isItemSelected = isSelected(row.date);
         const labelId = `enhanced-table-checkbox-${index}`;
-        
+
         return (
           <TableRow
             hover
             tabIndex={-1}
-            key={row.name}
+            key={row.date}
             selected={isItemSelected}
-            onClick={event => handleClick(event, row.name)}
+            onClick={event => handleClick(event, row.date)}
           >
             <TableCell padding="checkbox">
               <Checkbox
@@ -57,11 +57,9 @@ const stableSort = (array, comparator) => {
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </TableCell>
-            <TableCell component="th" id={labelId} scope="row">{row.name}</TableCell>
-            <TableCell align="right">{row.calories}</TableCell>
-            <TableCell align="right">{row.fat}</TableCell>
-            <TableCell align="right">{row.carbs}</TableCell>
-            <TableCell align="right">{row.protein}</TableCell>
+            <TableCell component="th" id={labelId} scope="row">{row.date}</TableCell>
+            <TableCell align="center">{row.description}</TableCell>
+            <TableCell align="center">{row.user}</TableCell>
           </TableRow>
         );
       })

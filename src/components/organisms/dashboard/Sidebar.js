@@ -65,57 +65,57 @@ const Sidebar = () => {
           <Toolbar classes={{ regular: toolbar }} />
           <div className={drawerContainer}>
               <div style={{ padding: '0 1.2rem' }}>
-                  <Paragraph variant='h6' color='secondary'>DASHBOARD</Paragraph>
+                <Paragraph variant='h6' color='secondary'>DASHBOARD</Paragraph>
               </div>
               <List disablePadding>
-                  {menus.map( ({title, link, sublinks}, index) => {
-                        const notEmptySublinks = sublinks !== undefined;
-                        const isCurrentPageValue = isCurrentPage(path, stringTransform(title).toLowerCase());
-                        // const setMuiButton = isCurrentPageValue ? muiButtonCurrent: muiButton;
-                        let sublink = '';
-                        if (notEmptySublinks) {
-                          Object.assign(initialState, {[title]: false})
-                          sublink = menus[index].title;
-                        }
-                        return (
-                          <div key={index}>
-                            <LinkTextIconSidebar               
-                              link={link} 
-                              title={title} 
-                              sidebarItem={sidebarItem}
-                              isCurrentPageValue={isCurrentPageValue}
-                              notEmptySublinks={notEmptySublinks}
-                              handleListDrawerClick={handleListDrawerClick} 
-                            />
-                            {
-                              notEmptySublinks && <Collapse in={sidebarItem[title]} timeout="auto" unmountOnExit>
-                                 <List component="div" disablePadding>
-                                   {
-                                     sublinks.map(({title, link},index) => {
+                {menus.map( ({title, link, sublinks}, index) => {
+                      const notEmptySublinks = sublinks !== undefined;
+                      const isCurrentPageValue = isCurrentPage(path, stringTransform(title).toLowerCase());
+                      // const setMuiButton = isCurrentPageValue ? muiButtonCurrent: muiButton;
+                      let sublink = '';
+                      if (notEmptySublinks) {
+                        Object.assign(initialState, {[title]: false})
+                        sublink = menus[index].title;
+                      }
+                      return (
+                        <div key={index}>
+                          <LinkTextIconSidebar               
+                            link={link} 
+                            title={title} 
+                            sidebarItem={sidebarItem}
+                            isCurrentPageValue={isCurrentPageValue}
+                            notEmptySublinks={notEmptySublinks}
+                            handleListDrawerClick={handleListDrawerClick} 
+                          />
+                          {
+                            notEmptySublinks && <Collapse in={sidebarItem[title]} timeout="auto" unmountOnExit>
+                                <List component="div" disablePadding>
+                                  {
+                                    sublinks.map(({title, link},index) => {
 
-                                      const isCurrentPageValue2 = isCurrentPage(path, stringTransform(title).toLowerCase());
+                                    const isCurrentPageValue2 = isCurrentPage(path, stringTransform(title).toLowerCase());
 
-                                      if (isCurrentPageValue2) initialState = {[sublink]: true};
-                                      
-                                      return (
-                                        <LinkTextIconSidebar               
-                                          link={link} 
-                                          title={title} 
-                                          key={index}
-                                          collapsed
-                                          sidebarItem={sidebarItem}
-                                          isCurrentPageValue={isCurrentPageValue2}
-                                          handleListDrawerClick={handleListDrawerClick} 
-                                        />
-                                      )
-                                     })
-                                   }
-                                 </List>
-                              </Collapse>
-                            }
-                          </div>
-                        )
-                    })}
+                                    if (isCurrentPageValue2) initialState = {[sublink]: true};
+                                    
+                                    return (
+                                      <LinkTextIconSidebar               
+                                        link={link} 
+                                        title={title} 
+                                        key={index}
+                                        collapsed
+                                        sidebarItem={sidebarItem}
+                                        isCurrentPageValue={isCurrentPageValue2}
+                                        handleListDrawerClick={handleListDrawerClick} 
+                                      />
+                                    )
+                                    })
+                                  }
+                                </List>
+                            </Collapse>
+                          }
+                        </div>
+                      )
+                  })}
               </List>
           </div>
         </Drawer>
