@@ -6,6 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import { makeStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -23,10 +24,11 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 
-const DatatableToolbar = ({ header, numSelected }) => {
+const DatatableToolbar = ({ header, selected }) => {
 
     const {root, title, icon} = useStyles()
-
+    const numSelected = selected.length;
+    console.log(selected);
     return (
         <Toolbar
           className={root}
@@ -44,9 +46,20 @@ const DatatableToolbar = ({ header, numSelected }) => {
               {numSelected} selected
               </Typography>  
           }
-          {numSelected > 0 ? (
+          {numSelected === 1 && 
             <>
-             <Tooltip title="Edit">
+              <Tooltip title="Show">
+                <Link to={`/dashboard/logs/${selected}`}>
+                <IconButton aria-label="show" disableFocusRipple classes={{ root: icon }}>
+                  <EditIcon />
+                </IconButton>
+                </Link>
+              </Tooltip>
+            </>
+          }
+          {numSelected > 0 && 
+            <>
+            <Tooltip title="Edit">
               <IconButton aria-label="edit" disableFocusRipple classes={{ root: icon }}>
                 <EditIcon />
               </IconButton>
@@ -57,7 +70,7 @@ const DatatableToolbar = ({ header, numSelected }) => {
               </IconButton>
             </Tooltip>
             </>
-          ) : ''}
+          }
         
         </Toolbar>
       );

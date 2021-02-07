@@ -80,7 +80,7 @@ import {
 	HomeDashboard,
 	Roles,
 	Profile,
-	Logs
+	ManageLogs
 } from './pages/dashboard';
 
 const useStyles = makeStyles({
@@ -184,7 +184,8 @@ const App = props => {
 					<Route path="/dashboard/profile" exact component={Profile} />
 					{/* Password/edit is for authenticated user that wants to change password */}
 					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
-					<Route path="/dashboard/logs" exact component={Logs} />
+					<Route path="/dashboard/logs" exact component={ManageLogs} />
+					<Route path="/dashboard/logs/:log" exact component={ManageLogs} />
 				</PrivateRoute>
 				<Route path='*' exact component={PageNotFound} />	
 			</Switch>

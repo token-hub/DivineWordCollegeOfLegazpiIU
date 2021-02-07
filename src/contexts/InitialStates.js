@@ -7,5 +7,9 @@ export const initialStates = {
     user: getDataFromStorage(storageUserKey) || {},
     inputFields: {},
     errors: {},
+    logs: {
+        all: {},
+        selected: {}
+    },
     storageUserKey
 }

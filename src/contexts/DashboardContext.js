@@ -15,19 +15,26 @@ const DashboardProvider = ({ children }) => {
     const {inputFields, storageUserKey} = states;
     const history = useHistory();
    
-    const resetInputFieldsValue = (inputFields, resetErrors = false) => {
-        const keys = Object.keys(inputFields);
+    const updateState = (statesToUpdate = {}, resetInputFields = false, resetErrors = false) => {
+       
         let emptyInputFields = {};
-        keys.forEach(key => {
-            emptyInputFields = {...emptyInputFields, [key]: ''} 
-        });
-        
+        let inputFields = {};
         let errors = {}
+
+        if (resetInputFields) {
+            const keys = Object.keys(states.inputFields);
+            keys.forEach(key => {
+                emptyInputFields = {...emptyInputFields, [key]: ''} 
+            });
+            inputFields = {inputFields: emptyInputFields};
+        }
+
         if (resetErrors) {
             errors = {errors: {}}
         }
 
-        setStates({...states, inputFields: emptyInputFields, ...errors})
+        setStates({...states, ...inputFields, ...errors, ...statesToUpdate})
+        
     }
 
     const resetErrorFields = () => {        
@@ -47,21 +54,19 @@ const DashboardProvider = ({ children }) => {
     }
 
     const getUser = () => {
-        Api.get('/api/user')
-        .then(response => {
-            setDataToStorage(storageUserKey, response.data)
-            setStates({...states, user: getDataFromStorage(storageUserKey), sample: {}});
-            resetErrorFields();
-        })
-        .catch(({response : {data: {message}}}) => {
-            handleSnackbar(message, 'error');
-        });
+        return Api.get('/api/user')
+            .then(response => {
+                setDataToStorage(storageUserKey, response.data)
+                updateState({user: getDataFromStorage(storageUserKey), isLoggedIn: true}, null, true);
+            })
+            .catch(({response : {data: {message}}}) => {
+                handleSnackbar(message, 'error');
+            });
     }
-
 
     const handleLogin = e => {
         e.preventDefault();
-        setStates({...states, isLoading: true});
+        updateState({isLoading: true});
         
         Api.post('/login', inputFields)
         .then(({data : {message}}) => {
@@ -70,33 +75,27 @@ const DashboardProvider = ({ children }) => {
                 history.push('/dashboard/email/verification');
                 handleSnackbar(message, 'info');
             } else {
-                getUser();
-                resetInputFieldsValue(inputFields, true);
-
-                if (Object.keys(states.user).length > 0) {
-                    setStates({...states, isLoggedIn: true});
+                getUser()
+                .then(()=>{
                     history.push('/dashboard/home');
-                    
-                    setStates({...states}); 
                     handleSnackbar(message, 'success');
-                }
+                })
             }
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            setStates({...states, errors: errors});
+            updateState(null, null, true);
         });
-        setStates({...states, isLoading: false});
+        updateState({isLoading: false});
     }
 
     const handleLogout = e => {
         e.preventDefault();
-        setStates({...states, isLoading: true});
+        updateState({isLoading: true});
 
         Api.post('/logout')
             .then(()=>{
-                setStates({...states, user: {}, isLoading: false});
-                resetInputFieldsValue(inputFields);
+                updateState({user: {}, isLoading: false}, true, true);
                 localStorage.clear();
                 history.push('/dashboard/login');
                 handleSnackbar('Successfully Logged out', 'success');
@@ -110,11 +109,11 @@ const DashboardProvider = ({ children }) => {
         .then(()=>{
             history.push('/dashboard/login');
             handleSnackbar('Reset password link sent', 'success');
-            resetInputFieldsValue(inputFields);
+            updateState(null, true);
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            setStates({...states, errors: errors});
+            updateState(null, null, true);
         });
     }
 
@@ -127,7 +126,7 @@ const DashboardProvider = ({ children }) => {
             handleSnackbar('Password successful changed', 'success');
         })
 
-        resetInputFieldsValue(inputFields);  
+        updateState(null, true);  
     }
 
     const handleResendVerificationLink = e => {
@@ -139,36 +138,36 @@ const DashboardProvider = ({ children }) => {
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            setStates({...states, errors: errors});
+            updateState(null, null, true);
         });
     }
     
     const handleRegister = e => {
         e.preventDefault();
-        setStates({...states, isLoading: true});
-     
+        updateState({isLoading: true});
+        
         Api.post('/register', inputFields)
         .then(() => {
-            resetInputFieldsValue(inputFields, true);
+            updateState(null, true, true);
             history.push('/dashboard/login');
             handleSnackbar('Please check your email to activate your account', 'info');
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            setStates({...states, errors: errors});
+            updateState(null, null, true);
         });
-        setStates({...states, isLoading: false});
+        updateState({isLoading: false});
     }
     
     const returnBackToDashboardProfile = (e, url, reset = false) => { 
         e.preventDefault();
-        setStates({...states, isLoading: true});
+        updateState({isLoading: true});
 
         Api.put(`/api/${url}/${states.user.id}`, inputFields)
         .then(({data : {message}}) => {
             let msgType = 'success';
 
-            if (reset) resetInputFieldsValue(inputFields);
+            if (reset) updateState(inputFields);
 
             if (url.includes('profile')) {
                 getUser();
@@ -180,14 +179,9 @@ const DashboardProvider = ({ children }) => {
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            setStates({...states, errors: errors});
+            updateState(null, null, true);
         });
-        setStates({...states, isLoading: false});
-    }
-
-    const getLogs = () => {
-        Api.get('/api/logs')
-        .then(response => setStates({...states, logs: response.data.data}));
+        updateState({isLoading: false});
     }
 
     const handleChangePassword = e => {
@@ -196,6 +190,19 @@ const DashboardProvider = ({ children }) => {
     
     const handleChangeProfileInfo = e => {
         returnBackToDashboardProfile(e, 'password/profile');
+    }
+
+    const getLogs = () => {
+        Api.get('/api/logs')
+        .then(response => updateState({logs: {...states.logs, all: response.data.data }}));
+    }
+
+    const handleShowSelectedLog = selectedLogId => {
+        Api.get(`/api/logs/${selectedLogId}`)
+            .then(response => updateState({ logs: {...states.logs, selected: response.data} }))
+            .catch(()=>{
+                handleSnackbar('There was a problem retrieving the log', 'error');
+            })
     }
 
     const provider = {
@@ -212,7 +219,8 @@ const DashboardProvider = ({ children }) => {
         handleRegister,
         handleChangeProfileInfo,
         handleResendVerificationLink,
-        getLogs
+        getLogs,
+        handleShowSelectedLog
     }
 
     useEffect(() => {

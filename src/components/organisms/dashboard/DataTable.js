@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import {DashboardContext} from '../../../contexts';
 import {
     DataTableBody,
     DataTableHead,
@@ -47,6 +48,8 @@ const Datatable = ({ rows, headCells }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
+  const {handleShowSelectedLog} = useContext(DashboardContext);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -64,7 +67,7 @@ const Datatable = ({ rows, headCells }) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -97,7 +100,7 @@ const Datatable = ({ rows, headCells }) => {
   return (
     <div className={root}>
       <Paper className={paper}>
-        <DataTableToolbar numSelected={selected.length} />
+        <DataTableToolbar selected={selected} />
         <TableContainer className={container}>
           <Table
             className={table}

@@ -45,7 +45,7 @@ const DatatableHead = ({ order, orderBy, onRequestSort, headCells, numSelected, 
             </TableCell>
             {headCells.map(headCell => (
               <TableCell
-              variant='head'
+                variant='head'
                 className={header}
                 key={headCell.id}
                 align={headCell.numeric ? 'center' : 'left'}

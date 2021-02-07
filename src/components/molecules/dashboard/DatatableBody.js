@@ -6,7 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 const DatatableBody = ({order, orderBy, rows, page, rowsPerPage, selected, handleClick }) => {
 
-  const isSelected = (date) => selected.indexOf(date) !== -1;
+  const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const descendingComparator = (a, b, orderBy) => {
     if (b[orderBy] < a[orderBy]) {
@@ -40,16 +40,16 @@ const stableSort = (array, comparator) => {
     stableSort(rows, getComparator(order, orderBy))
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((row, index) => {
-        const isItemSelected = isSelected(row.date);
+        const isItemSelected = isSelected(row.id);
         const labelId = `enhanced-table-checkbox-${index}`;
-
+        
         return (
           <TableRow
             hover
             tabIndex={-1}
-            key={row.date}
+            key={row.id}
             selected={isItemSelected}
-            onClick={event => handleClick(event, row.date)}
+            onClick={event => handleClick(event, row.id)}
           >
             <TableCell padding="checkbox">
               <Checkbox
