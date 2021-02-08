@@ -20,7 +20,7 @@ const menus = [
     ]),
     setObject('Banner', null),
     setObject('Updates', '/dashboard/updates', [
-        setObject('Announcement', '/dashboard/announcement'),
+        setObject('Announcements', '/dashboard/announcement'),
         setObject('News and Events', '/dashboard/news-and-events'),
     ]),
     setObject('Logs', '/dashboard/logs'),
@@ -32,7 +32,7 @@ const menuIconObject = {
     roles: BusinessCenterIcon,
     banner: ImageIcon,
     updates: UpdateIcon,
-    announcement: AssignmentLateIcon,
+    announcements: AssignmentLateIcon,
     newsAndEvents: SportsHandballIcon,
     userManagement: SettingsIcon,
     permissions: LockIcon,

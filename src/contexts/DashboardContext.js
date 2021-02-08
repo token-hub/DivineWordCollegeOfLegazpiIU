@@ -36,10 +36,6 @@ const DashboardProvider = ({ children }) => {
         setStates({...states, ...inputFields, ...errors, ...statesToUpdate})
         
     }
-
-    const resetErrorFields = () => {        
-        setStates({...states, errors: {}})
-    }
     
     const handleInputChange = e => {
 		const {name, value} = e.target;
@@ -159,7 +155,7 @@ const DashboardProvider = ({ children }) => {
         updateState({isLoading: false});
     }
     
-    const returnBackToDashboardProfile = (e, url, reset = false) => { 
+    const returnBackToDashboardProfile = (e, url) => { 
         e.preventDefault();
         updateState({isLoading: true});
 
@@ -167,29 +163,32 @@ const DashboardProvider = ({ children }) => {
         .then(({data : {message}}) => {
             let msgType = 'success';
 
-            if (reset) updateState(inputFields);
+            getUser()
+            .then(() => {
+                let destination = 'profile';
 
-            if (url.includes('profile')) {
-                getUser();
-                if(message.includes('Nothing')) msgType = 'info';
-            }
+                console.log(url.includes('password'));
+                if (url.includes('password')) {
+                    destination = 'password/edit'  
+                }
 
-            history.push('/dashboard/profile');
-            handleSnackbar(message, msgType);
+                history.push(`/dashboard/${destination}`);
+                handleSnackbar(message, msgType); 
+            })
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            updateState(null, null, true);
+            updateState({errors: errors}, null, true);
         });
         updateState({isLoading: false});
     }
-
+    
     const handleChangePassword = e => {
-        returnBackToDashboardProfile(e, 'password/update', true);
+        returnBackToDashboardProfile(e, 'password/update');
     }
     
     const handleChangeProfileInfo = e => {
-        returnBackToDashboardProfile(e, 'password/profile');
+        returnBackToDashboardProfile(e, 'profile');
     }
 
     const getLogs = () => {
@@ -198,8 +197,9 @@ const DashboardProvider = ({ children }) => {
     }
 
     const handleShowSelectedLog = selectedLogId => {
+        updateState({isLoading: true});
         Api.get(`/api/logs/${selectedLogId}`)
-            .then(response => updateState({ logs: {...states.logs, selected: response.data} }))
+            .then(response => updateState({ logs: {...states.logs, selected: response.data}, isLoading: false }))
             .catch(()=>{
                 handleSnackbar('There was a problem retrieving the log', 'error');
             })

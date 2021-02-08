@@ -38,7 +38,7 @@ const RenderTextfield = ({ data = [] }) => {
                    }
                    
                     const setInput = type === 'hidden' ? hiddenInput : input;
-
+                   
                     return <TextField 
                                 key={index}
                                 id={name}
@@ -47,7 +47,7 @@ const RenderTextfield = ({ data = [] }) => {
                                 onChange={handleInputChange('inputFields', setStates)}
                                 required={true}
                                 type={type}
-                                value={inputFields[name]} 
+                                value={inputFields[isTwoWordNameOrNot]} 
                                 fullWidth={true}
                                 className={setInput}
                                 variant="outlined"

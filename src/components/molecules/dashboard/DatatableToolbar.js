@@ -5,7 +5,8 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
-import { makeStyles } from '@material-ui/core/styles';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import {makeStyles} from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,7 @@ const DatatableToolbar = ({ header, selected }) => {
               <Tooltip title="Show">
                 <Link to={`/dashboard/logs/${selected}`}>
                 <IconButton aria-label="show" disableFocusRipple classes={{ root: icon }}>
-                  <EditIcon />
+                  <VisibilityIcon />
                 </IconButton>
                 </Link>
               </Tooltip>

@@ -1,7 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import {useParams} from 'react-router-dom';
 import {BaseWithHeaderAndSidebarWithMainHeader} from '../../components/templates/dashboard';
-import {DataTable} from '../../components/organisms/dashboard';
+import {DataTable, BasicTable} from '../../components/organisms/dashboard';
 import {DashboardContext} from '../../contexts';
 
 const ManageLogs = () => {
@@ -23,7 +23,7 @@ const ManageLogs = () => {
             id,
             description,
             date: created_at,
-            user: properties.user
+            user: properties.causer
         }
     })
         
@@ -34,14 +34,11 @@ const ManageLogs = () => {
     ];
 
     const renderLogsTable = () => {
-        return logs.all.length && <DataTable rows={rows} headCells={headCells} />
+        return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} />
     }
 
     const renderSelectedLog = () => {
-        console.log(logs.selected);
-        // continue here
-        
-        return 2;
+        return  Object.keys(logs.selected).length > 0 && <BasicTable />
     }
 
     const setHeader = log ? 'View Log' : 'Logs';

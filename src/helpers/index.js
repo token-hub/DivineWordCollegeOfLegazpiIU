@@ -20,6 +20,10 @@ const capitalizeAllFirstLetter = string => {
     return string.split(' ').map(e => e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()).join(" ");
 }
 
+const capitalizeAllFirstLetterAndTransform = (string, from = '_', to = ' ') => {
+    return capitalizeAllFirstLetter(stringTransform(string, from, to));
+}
+
 const setImage = (alt, img) => {
     return { alt, img };
 }
@@ -135,5 +139,6 @@ export {
     setImageWithParagraph,
     setObjects,
     updateInitialInputState,
-    handleInputChange
+    handleInputChange,
+    capitalizeAllFirstLetterAndTransform
 }
