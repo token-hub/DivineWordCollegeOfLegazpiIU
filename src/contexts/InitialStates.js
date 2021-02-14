@@ -11,5 +11,6 @@ export const initialStates = {
         all: {},
         selected: {}
     },
+    permissions: {},
     storageUserKey
 }

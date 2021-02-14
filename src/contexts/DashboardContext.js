@@ -11,7 +11,7 @@ const DashboardContext = createContext();
 const DashboardProvider = ({ children }) => {
 
     const handleSnackbar = useSnackbarHandler();
-    const [states, setStates] = useState(initialStates);
+    const [states, setStates] = useState({...initialStates});
     const {inputFields, storageUserKey} = states;
     const history = useHistory();
    
@@ -34,7 +34,6 @@ const DashboardProvider = ({ children }) => {
         }
 
         setStates({...states, ...inputFields, ...errors, ...statesToUpdate})
-        
     }
     
     const handleInputChange = e => {
@@ -192,8 +191,9 @@ const DashboardProvider = ({ children }) => {
     }
 
     const getLogs = () => {
+        updateState({isLoading: true});
         Api.get('/api/logs')
-        .then(response => updateState({logs: {...states.logs, all: response.data.data }}));
+        .then(response => updateState({logs: {...states.logs, all: response.data.data }, isLoading: false}));
     }
 
     const handleShowSelectedLog = selectedLogId => {
@@ -203,6 +203,12 @@ const DashboardProvider = ({ children }) => {
             .catch(()=>{
                 handleSnackbar('There was a problem retrieving the log', 'error');
             })
+    }
+
+    const getPermissions = () => {
+        updateState({isLoading: true});
+        Api.get('/api/permissions')
+        .then(response => updateState({permissions: response.data.data, isLoading: false}))
     }
 
     const provider = {
@@ -220,16 +226,17 @@ const DashboardProvider = ({ children }) => {
         handleChangeProfileInfo,
         handleResendVerificationLink,
         getLogs,
-        handleShowSelectedLog
+        handleShowSelectedLog,
+        getPermissions
     }
 
     useEffect(() => {
         Api.get('/sanctum/csrf-cookie');
 
-        setStates({
-            ...initialStates,
-            inputFields: {...initialStates.inputFields}
-        });
+        // setStates({
+        //     ...initialStates,
+        //     inputFields: {...initialStates.inputFields}
+        // });
     }, []);
 
     return (

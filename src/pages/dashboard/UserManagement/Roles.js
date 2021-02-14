@@ -1,6 +1,6 @@
 import React from 'react'
-import {BaseWithHeaderAndSidebarWithMainHeader} from '../../components/templates/dashboard';
-import {DataTable} from '../../components/organisms/dashboard';
+import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../components/templates/dashboard';
+import {DataTable} from '../../../components/organisms/dashboard';
 
 const Roles = () => {
 

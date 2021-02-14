@@ -78,10 +78,14 @@ import {
 } from './pages/dashboard/Authentication';
 import {
 	HomeDashboard,
-	Roles,
 	Profile,
 	ManageLogs
 } from './pages/dashboard';
+import {
+	Users,
+	Permissions,
+	Roles
+} from './pages/dashboard/UserManagement';
 
 const useStyles = makeStyles({
     app: {
@@ -91,7 +95,7 @@ const useStyles = makeStyles({
     }
 });
 
-const App = props => {
+const App = () => {
 	
 	const { app } = useStyles();
 
@@ -180,6 +184,8 @@ const App = props => {
 				
 				<PrivateRoute>	
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
+					<Route path="/dashboard/users" exact component={Users} />
+					<Route path="/dashboard/permissions" exact component={Permissions} />
 					<Route path="/dashboard/roles" exact component={Roles} />
 					<Route path="/dashboard/profile" exact component={Profile} />
 					{/* Password/edit is for authenticated user that wants to change password */}

@@ -34,7 +34,7 @@ const ManageLogs = () => {
     ];
 
     const renderLogsTable = () => {
-        return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} />
+        return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} selectedLink='/dashboard/logs' />
     }
 
     const renderSelectedLog = () => {

@@ -31,7 +31,6 @@ const DatatableHead = ({ order, orderBy, onRequestSort, headCells, numSelected, 
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-
       return (
         <TableHead>
           <TableRow>
@@ -43,22 +42,23 @@ const DatatableHead = ({ order, orderBy, onRequestSort, headCells, numSelected, 
                 inputProps={{ 'aria-label': 'select all items' }}
               />
             </TableCell>
-            {headCells.map(headCell => (
+            {headCells.map( ({id, label}) => (
+              id !== 'id' &&              
               <TableCell
                 variant='head'
                 className={header}
-                key={headCell.id}
-                align={headCell.numeric ? 'center' : 'left'}
+                key={id}
+                align={'left'}
                 padding='default'
-                sortDirection={orderBy === headCell.id ? order : false}
+                sortDirection={orderBy === id ? order : false}
               >
                 <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={createSortHandler(headCell.id)}
+                  active={orderBy === id}
+                  direction={orderBy === id ? order : 'asc'}
+                  onClick={createSortHandler(id)}
                 >
-                  {<p style={{ fontWeight: 600 }}>{headCell.label}</p>}
-                  {orderBy === headCell.id ? (
+                  {<p style={{ fontWeight: 600 }}>{label}</p>}
+                  {orderBy === id ? (
                     <span className={visuallyHidden}>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>

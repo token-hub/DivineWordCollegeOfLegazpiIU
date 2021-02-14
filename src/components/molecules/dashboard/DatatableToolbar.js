@@ -8,6 +8,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import {makeStyles} from '@material-ui/core/styles';
 import {Link} from 'react-router-dom';
+import {renderIconFromObject} from '../../../helpers';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,11 +26,16 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 
-const DatatableToolbar = ({ header, selected }) => {
+const DatatableToolbar = ({header, selected, selectedLink = null, toolbar = []}) => {
 
     const {root, title, icon} = useStyles()
     const numSelected = selected.length;
-    console.log(selected);
+
+    const iconObject = {
+      edit: EditIcon,
+      delete: DeleteIcon,
+    }
+    
     return (
         <Toolbar
           className={root}
@@ -47,10 +53,10 @@ const DatatableToolbar = ({ header, selected }) => {
               {numSelected} selected
               </Typography>  
           }
-          {numSelected === 1 && 
+          {numSelected === 1 && selectedLink &&
             <>
-              <Tooltip title="Show">
-                <Link to={`/dashboard/logs/${selected}`}>
+              <Tooltip title="show">
+                <Link to={`${selectedLink}/${selected}`}>
                 <IconButton aria-label="show" disableFocusRipple classes={{ root: icon }}>
                   <VisibilityIcon />
                 </IconButton>
@@ -58,18 +64,17 @@ const DatatableToolbar = ({ header, selected }) => {
               </Tooltip>
             </>
           }
-          {numSelected > 0 && 
+          {numSelected > 0 && toolbar.length > 0 &&
             <>
-            <Tooltip title="Edit">
-              <IconButton aria-label="edit" disableFocusRipple classes={{ root: icon }}>
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-              <IconButton aria-label="delete" disableFocusRipple classes={{ root: icon }}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
+              {toolbar.map((item, index) => {
+                return (
+                  <Tooltip key={index} title={item}>
+                    <IconButton aria-label={item} disableFocusRipple classes={{ root: icon }}>
+                      {renderIconFromObject(item, iconObject)}
+                    </IconButton>
+                  </Tooltip>
+                )
+              })}
             </>
           }
         

@@ -1,10 +1,10 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
-import {DashboardContext} from '../../../contexts';
+
 import {
     DataTableBody,
     DataTableHead,
@@ -41,14 +41,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Datatable = ({ rows, headCells }) => {
+const Datatable = ({ rows, headCells, selectedLink = null, toolbar = [] }) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const {handleShowSelectedLog} = useContext(DashboardContext);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -100,7 +98,7 @@ const Datatable = ({ rows, headCells }) => {
   return (
     <div className={root}>
       <Paper className={paper}>
-        <DataTableToolbar selected={selected} />
+        <DataTableToolbar selected={selected} selectedLink={selectedLink} toolbar={toolbar}/>
         <TableContainer className={container}>
           <Table
             className={table}

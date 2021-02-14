@@ -42,7 +42,7 @@ const stableSort = (array, comparator) => {
       .map((row, index) => {
         const isItemSelected = isSelected(row.id);
         const labelId = `enhanced-table-checkbox-${index}`;
-        
+
         return (
           <TableRow
             hover
@@ -57,9 +57,11 @@ const stableSort = (array, comparator) => {
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </TableCell>
-            <TableCell component="th" id={labelId} scope="row">{row.date}</TableCell>
-            <TableCell align="center">{row.description}</TableCell>
-            <TableCell align="center">{row.user}</TableCell>
+            { 
+              Object.keys(row).map((item, index) => {
+                return item !== 'id' && <TableCell key={index} id={labelId} align="left">{row[item]}</TableCell> 
+              }) 
+            }
           </TableRow>
         );
       })
