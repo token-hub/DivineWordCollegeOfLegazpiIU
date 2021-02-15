@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 
-const DatatableToolbar = ({header, selected, selectedLink = null, toolbar = []}) => {
+const DatatableToolbar = ({header, selected, link = null, toolbar = [], handleDelete }) => {
 
     const {root, title, icon} = useStyles()
     const numSelected = selected.length;
@@ -34,6 +34,31 @@ const DatatableToolbar = ({header, selected, selectedLink = null, toolbar = []})
     const iconObject = {
       edit: EditIcon,
       delete: DeleteIcon,
+      show: VisibilityIcon,
+    }
+
+    const renderIconTooltipLink = (title, iconObject, selectedItem) => {
+
+      const linkTo = title === 'show' ? `${link}/${selectedItem}` : `${link}/${selectedItem}/edit`;
+
+      return (
+        <Tooltip title={title}>
+          {isDelete(title)
+            ? <IconButton onClick={handleDelete(selected)} aria-label={title} disableFocusRipple classes={{ root: icon }}>
+              {renderIconFromObject(title, iconObject)}
+            </IconButton>
+            : <Link to={linkTo}>
+              <IconButton aria-label={title} disableFocusRipple classes={{ root: icon }}>
+                {renderIconFromObject(title, iconObject)}
+              </IconButton>
+            </Link>
+          }
+        </Tooltip>
+      )
+    }
+
+    const isDelete = item => {
+      return item === 'delete';
     }
     
     return (
@@ -53,31 +78,13 @@ const DatatableToolbar = ({header, selected, selectedLink = null, toolbar = []})
               {numSelected} selected
               </Typography>  
           }
-          {numSelected === 1 && selectedLink &&
-            <>
-              <Tooltip title="show">
-                <Link to={`${selectedLink}/${selected}`}>
-                <IconButton aria-label="show" disableFocusRipple classes={{ root: icon }}>
-                  <VisibilityIcon />
-                </IconButton>
-                </Link>
-              </Tooltip>
-            </>
-          }
-          {numSelected > 0 && toolbar.length > 0 &&
-            <>
-              {toolbar.map((item, index) => {
-                return (
-                  <Tooltip key={index} title={item}>
-                    <IconButton aria-label={item} disableFocusRipple classes={{ root: icon }}>
-                      {renderIconFromObject(item, iconObject)}
-                    </IconButton>
-                  </Tooltip>
-                )
-              })}
-            </>
-          }
-        
+          {numSelected > 1 && toolbar.includes('delete') 
+            ? renderIconTooltipLink('delete', iconObject, selected)
+            : numSelected == 1 && toolbar.length > 0 && toolbar.map((item, index) =>
+              <Fragment key={index}>
+                {renderIconTooltipLink(item, iconObject, selected)}
+              </Fragment>
+            )}  
         </Toolbar>
       );
 }

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Datatable = ({ rows, headCells, selectedLink = null, toolbar = [] }) => {
+const Datatable = ({ rows, headCells, link = null, toolbar = [], handleDelete}) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
@@ -98,7 +98,7 @@ const Datatable = ({ rows, headCells, selectedLink = null, toolbar = [] }) => {
   return (
     <div className={root}>
       <Paper className={paper}>
-        <DataTableToolbar selected={selected} selectedLink={selectedLink} toolbar={toolbar}/>
+        <DataTableToolbar selected={selected} link={link} toolbar={toolbar} handleDelete={handleDelete}/>
         <TableContainer className={container}>
           <Table
             className={table}

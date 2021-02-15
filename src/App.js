@@ -84,8 +84,11 @@ import {
 import {
 	Users,
 	Permissions,
-	Roles
 } from './pages/dashboard/UserManagement';
+import {
+	Roles,
+	ManageRoles,
+} from './pages/dashboard/UserManagement/Roles';
 
 const useStyles = makeStyles({
     app: {
@@ -187,6 +190,9 @@ const App = () => {
 					<Route path="/dashboard/users" exact component={Users} />
 					<Route path="/dashboard/permissions" exact component={Permissions} />
 					<Route path="/dashboard/roles" exact component={Roles} />
+					<Route path='/dashboard/role' exact component={ManageRoles} />
+					<Route path='/dashboard/role/:role' exact component={ManageRoles} />
+					<Route path='/dashboard/role/:role/edit' exact component={ManageRoles} />
 					<Route path="/dashboard/profile" exact component={Profile} />
 					{/* Password/edit is for authenticated user that wants to change password */}
 					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />

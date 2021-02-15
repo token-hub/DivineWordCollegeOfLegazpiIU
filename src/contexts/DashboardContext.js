@@ -5,6 +5,7 @@ import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
 import {updateInitialInputState} from '../helpers';
 import {useSnackbarHandler} from '../hooks';
 import {initialStates} from './';
+import qs from 'querystring';
 
 const DashboardContext = createContext();
 
@@ -199,9 +200,9 @@ const DashboardProvider = ({ children }) => {
     const handleShowSelectedLog = selectedLogId => {
         updateState({isLoading: true});
         Api.get(`/api/logs/${selectedLogId}`)
-            .then(response => updateState({ logs: {...states.logs, selected: response.data}, isLoading: false }))
+            .then(response => updateState({ logs: {...states.logs, selected: response.data.data}, isLoading: false }))
             .catch(()=>{
-                handleSnackbar('There was a problem retrieving the log', 'error');
+                handleSnackbar('There was a problem retrieving the selected log', 'error');
             })
     }
 
@@ -209,6 +210,69 @@ const DashboardProvider = ({ children }) => {
         updateState({isLoading: true});
         Api.get('/api/permissions')
         .then(response => updateState({permissions: response.data.data, isLoading: false}))
+    }
+
+    const getRoles = () => {
+        updateState({isLoading: true});
+        Api.get('/api/roles')
+        .then(response => updateState({roles: {...states.roles, all: response.data.data }, isLoading: false}))
+    }
+
+    const getSelectedRole = selectedRoleId => {
+        updateState({isLoading: true});
+        Api.get(`/api/roles/${selectedRoleId}`)
+            .then(response => updateState({roles: {...states.roles, selected: response.data.data}, isLoading: false }))
+            .catch(()=>{
+                handleSnackbar('There was a problem retrieving the selected role', 'error');
+            })
+    }
+
+    const addRole = e => {
+        e.preventDefault();
+        updateState({isLoading: true});
+        Api.post('/api/roles', inputFields)
+        .then(({data : {message}}) => {
+            updateState({isLoading: false}, true, true);
+            history.push('/dashboard/roles');
+            handleSnackbar(message, 'success');
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({errors: errors, isLoading: false});
+        });
+    }
+
+    const updateRole = roleID => e => {
+        e.preventDefault();
+        updateState({isLoading: true});
+        Api.put(`/api/roles/${roleID}`, inputFields)
+        .then(({data : {message}}) => {
+            updateState({isLoading: false}, null, true);
+            history.push('/dashboard/roles');
+            handleSnackbar(message, 'success');
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({errors: errors, isLoading: false});
+        });
+    }
+
+    const deleteRole = roleIDs => e => {
+        e.preventDefault();
+        updateState({isLoading: true});
+        Api.delete(`/api/roles/${roleIDs}`)
+        .then(({data : {message}}) => {
+            Api.get('/api/roles')
+            .then(response => {
+                updateState({roles: {...states.roles, all: response.data.data }, isLoading: false})
+                history.push('/dashboard/roles');
+                handleSnackbar(message, 'success');
+            })
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({errors: errors, isLoading: false});
+        });
     }
 
     const provider = {
@@ -227,7 +291,12 @@ const DashboardProvider = ({ children }) => {
         handleResendVerificationLink,
         getLogs,
         handleShowSelectedLog,
-        getPermissions
+        getPermissions,
+        getRoles,
+        addRole,
+        updateRole,
+        deleteRole,
+        getSelectedRole
     }
 
     useEffect(() => {

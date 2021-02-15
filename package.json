@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-   
     "@fullcalendar/daygrid": "^5.5.0",
     "@fullcalendar/interaction": "^5.5.0",
     "@fullcalendar/react": "^5.5.0",
@@ -20,6 +19,7 @@
     "clsx": "^1.1.1",
     "material-ui-popup-state": "^1.7.1",
     "notistack": "^1.0.3",
+    "qs": "^6.9.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-material-ui-carousel": "^2.1.1",

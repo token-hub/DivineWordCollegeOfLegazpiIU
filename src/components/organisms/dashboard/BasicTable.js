@@ -1,14 +1,12 @@
-import React, {useContext, Fragment} from 'react';
+import React, {Fragment} from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {DashboardContext} from '../../../contexts';
 import {makeStyles} from '@material-ui/core/styles';
 import {
-    setObjects, 
     capitalizeAllFirstLetter,
     capitalizeAllFirstLetterAndTransform
 } from '../../../helpers';
@@ -34,7 +32,7 @@ const strongFirstCapitalizedTransform = word => {
 
 const filterObjectToOldAndNewAttibutesOnly = obj => {
     let onlyOldAndNewAttributes = {};
-    
+
     if (Object.keys(obj).length) {
         Object.keys(obj).forEach(key => {
             if (key === 'attributes' || key === 'old') {
@@ -93,19 +91,29 @@ const renderTableRow = (left = null, right = null, index = null) => {
 const renderTablePropertiesRow = (obj, key, index) => {
     // obj = properties: {attributes:{...}, old: {...}, user: 'dwcladmin', sample: ''}
     // key = attributes, old
-
+    
     const onlyOldAndNewAttributes = filterObjectToOldAndNewAttibutesOnly(obj);
-    const alteredData2 = alterData(onlyOldAndNewAttributes);
+    const alteredData = alterData(onlyOldAndNewAttributes);
     const isOnlyNewAttributes = Object.keys(onlyOldAndNewAttributes).length == 1;
+    const isArrayNotNull = Array.isArray(obj) && !null;
+
+    const renderRowsForArrayList = () => {
+        const arrayValues = Object.values(obj).map(item => {
+            const key = Object.keys(item);
+
+            return item[key];
+        }).join(', ');
+        return renderTableRow(replaceWordAndCapitalized(key), arrayValues);
+    }
 
     const renderOnlyNewAttibutes = () => {
-        return Object.keys(alteredData2).map(data => alteredData2[data].map(val => renderTableRow(<>{data}: <u>{val}</u></>)))
+        return Object.keys(alteredData).map(data => alteredData[data].map(val => val !== null && renderTableRow(<>{data}: <u>{val}</u></>)))
     }
 
     const renderBothNewAndOldAttributes = () => {
-            return Object.keys(alteredData2).map((data, index) => 
+            return Object.keys(alteredData).map((data, index) => 
             <TableRow key={index}>
-                {alteredData2[data].map((val, index2) => {
+                {alteredData[data].map((val, index2) => {
                     return <TableCell key={index2} align="left">{data}: <u>{val}</u> </TableCell>
                 })}
             </TableRow>
@@ -124,24 +132,23 @@ const renderTablePropertiesRow = (obj, key, index) => {
 
     return (
         <Fragment key={index}>
-            {Object.keys(alteredData2).length > 0 && renderTableRow(strongFirstCapitalizedTransform(key))}
+            {Object.keys(alteredData).length > 0 && renderTableRow(strongFirstCapitalizedTransform(key))}
             {renderPropertiesNewOrOldHeader()}
-            {isOnlyNewAttributes ? renderOnlyNewAttibutes() : renderBothNewAndOldAttributes()}
+            {isArrayNotNull 
+                ? renderRowsForArrayList()
+                : isOnlyNewAttributes 
+                    ? renderOnlyNewAttibutes() 
+                    : renderBothNewAndOldAttributes()
+            }
         </Fragment>
     )
 }
 
-const BasicTable = () => {
+const BasicTable = ({ data }) => {
     const {table} = useStyles();
-    const {states:{logs:{selected}}} = useContext(DashboardContext);
-    
-    if (Object.keys(selected).length > 0){
-        const {description, created_at, properties} = selected;
 
-        const data = setObjects(
-            ['date', 'description', 'cause_by', 'properties'],
-            [[created_at, description, properties['causer'], properties]]);
-        
+    if (Object.keys(data).length > 0){
+     
        return (
         <TableContainer component={Paper}>
           <Table className={table}>

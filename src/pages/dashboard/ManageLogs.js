@@ -3,6 +3,7 @@ import {useParams} from 'react-router-dom';
 import {BaseWithHeaderAndSidebarWithMainHeader} from '../../components/templates/dashboard';
 import {DataTable, BasicTable} from '../../components/organisms/dashboard';
 import {DashboardContext} from '../../contexts';
+import {setObjects} from '../../helpers';
 
 const ManageLogs = () => {
 
@@ -34,11 +35,19 @@ const ManageLogs = () => {
     ];
 
     const renderLogsTable = () => {
-        return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} selectedLink='/dashboard/logs' />
+        return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} link='/dashboard/logs' toolbar={['show']}/>
     }
 
     const renderSelectedLog = () => {
-        return  Object.keys(logs.selected).length > 0 && <BasicTable />
+        if (Object.keys(logs.selected).length > 0) {
+            const {description, created_at, properties} = logs.selected;
+
+            const data = setObjects(
+                ['date', 'description', 'cause_by', 'properties'],
+                [[created_at, description, properties['causer'], properties]]);
+
+            return <BasicTable data={data} />
+        }
     }
 
     const setHeader = log ? 'View Log' : 'Logs';

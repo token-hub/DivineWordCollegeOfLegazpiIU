@@ -51,7 +51,7 @@ const updateInitialInputState = (object, key, value = '') => {
     
 */
 const setObjects = (keys = [], values = []) => {
-    let newObject = [];
+    let array = [];
     let object = {};
    
     values.forEach( value => {
@@ -68,10 +68,10 @@ const setObjects = (keys = [], values = []) => {
 
         // this push must be at the very first loop,
         // in order to get the same count of the array values
-        newObject.push(object);
+        array.push(object);
     });
 
-    return newObject;
+    return array;
 }
 
 
