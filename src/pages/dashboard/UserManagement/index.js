@@ -1,7 +1,7 @@
 import Permissions from './Permissions';
-import Users from './Users';
+import ManageUsers from './ManageUsers';
 
 export {
     Permissions,
-    Users
+    ManageUsers
 }

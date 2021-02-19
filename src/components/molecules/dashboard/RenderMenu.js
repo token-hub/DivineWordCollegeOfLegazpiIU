@@ -20,7 +20,7 @@ const RenderMenu = () => {
 
     const {icon} = useStyles();
 
-    const {handleLogout, states: {user: {name}}} = useContext(DashboardContext);
+    const {handleLogout, states: {users: {authenticated:{name}}}} = useContext(DashboardContext);
 
     const [anchorEl, setAnchorEl] = useState(null);
 

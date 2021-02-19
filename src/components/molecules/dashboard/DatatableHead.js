@@ -42,12 +42,12 @@ const DatatableHead = ({ order, orderBy, onRequestSort, headCells, numSelected, 
                 inputProps={{ 'aria-label': 'select all items' }}
               />
             </TableCell>
-            {headCells.map( ({id, label}) => (
+            {headCells.map( ({id, label}, index) => (
               id !== 'id' &&              
               <TableCell
                 variant='head'
                 className={header}
-                key={id}
+                key={index}
                 align={'left'}
                 padding='default'
                 sortDirection={orderBy === id ? order : false}

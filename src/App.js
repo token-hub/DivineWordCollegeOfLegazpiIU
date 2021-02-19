@@ -82,7 +82,7 @@ import {
 	ManageLogs
 } from './pages/dashboard';
 import {
-	Users,
+	ManageUsers,
 	Permissions,
 } from './pages/dashboard/UserManagement';
 import {
@@ -187,7 +187,8 @@ const App = () => {
 				
 				<PrivateRoute>	
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
-					<Route path="/dashboard/users" exact component={Users} />
+					<Route path="/dashboard/users" exact component={ManageUsers} />
+					<Route path="/dashboard/users/:user" exact component={ManageUsers} />
 					<Route path="/dashboard/permissions" exact component={Permissions} />
 					<Route path="/dashboard/roles" exact component={Roles} />
 					<Route path='/dashboard/role' exact component={ManageRoles} />

@@ -4,12 +4,12 @@ import {DashboardContext} from '../contexts';
 
 const PrivateRoute = ({ children, ...rest }) => {
 
-  const {states: {user}} = useContext(DashboardContext);
+  const {states: {users: authenticated}} = useContext(DashboardContext);
   // const isUser = loggedIn && user;
 
   return (
     <Route {...rest}>
-        {user ? children : <Redirect to='/dashboard/login'></Redirect>}
+        {authenticated ? children : <Redirect to='/dashboard/login'></Redirect>}
     </Route>
   );
 };

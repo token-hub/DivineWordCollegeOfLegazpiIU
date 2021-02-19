@@ -5,7 +5,6 @@ import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
 import {updateInitialInputState} from '../helpers';
 import {useSnackbarHandler} from '../hooks';
 import {initialStates} from './';
-import qs from 'querystring';
 
 const DashboardContext = createContext();
 
@@ -50,10 +49,11 @@ const DashboardProvider = ({ children }) => {
     }
 
     const getUser = () => {
+        console.log('hereee');
         return Api.get('/api/user')
             .then(response => {
                 setDataToStorage(storageUserKey, response.data)
-                updateState({user: getDataFromStorage(storageUserKey), isLoggedIn: true}, null, true);
+                updateState({users: {...states.users, authenticated: getDataFromStorage(storageUserKey)}, isLoggedIn: true}, null, true);
             })
             .catch(({response : {data: {message}}}) => {
                 handleSnackbar(message, 'error');
@@ -66,7 +66,6 @@ const DashboardProvider = ({ children }) => {
         
         Api.post('/login', inputFields)
         .then(({data : {message}}) => {
-
             if (message.includes('active')) {
                 history.push('/dashboard/email/verification');
                 handleSnackbar(message, 'info');
@@ -91,7 +90,7 @@ const DashboardProvider = ({ children }) => {
 
         Api.post('/logout')
             .then(()=>{
-                updateState({user: {}, isLoading: false}, true, true);
+                updateState({users: initialStates.users, isLoading: false}, true, true);
                 localStorage.clear();
                 history.push('/dashboard/login');
                 handleSnackbar('Successfully Logged out', 'success');
@@ -159,7 +158,7 @@ const DashboardProvider = ({ children }) => {
         e.preventDefault();
         updateState({isLoading: true});
 
-        Api.put(`/api/${url}/${states.user.id}`, inputFields)
+        Api.put(`/api/${url}/${states.authenticated.user.id}`, inputFields)
         .then(({data : {message}}) => {
             let msgType = 'success';
 
@@ -167,7 +166,6 @@ const DashboardProvider = ({ children }) => {
             .then(() => {
                 let destination = 'profile';
 
-                console.log(url.includes('password'));
                 if (url.includes('password')) {
                     destination = 'password/edit'  
                 }
@@ -269,15 +267,73 @@ const DashboardProvider = ({ children }) => {
                 handleSnackbar(message, 'success');
             })
         })
-        .catch(({response : {data: {message, errors}}}) => {
+        .catch(({response : {data: {message}}}) => {
             handleSnackbar(message, 'error');
-            updateState({errors: errors, isLoading: false});
+            updateState({isLoading: false});
+        });
+    }
+
+    console.log(states);
+
+    const getUsers = () => {
+        updateState({isLoading: true});
+        Api.get(`/api/users`)
+        .then(response => {
+            updateState({users: {...states.users, all: response.data }, isLoading: false})
+        })
+        .catch(() => {
+            handleSnackbar('Failed to retrieve users', 'error');
+            updateState({isLoading: false});
+        });
+    }
+
+    const deleteUser = userIDs => e => {
+        e.preventDefault();
+        updateState({isLoading: true});
+        Api.delete(`/api/users/${userIDs}`)
+        .then(({data : {message}}) => {
+            Api.get('/api/users')
+            .then(response => {
+                updateState({users: {...states.users, all: response.data}, isLoading: false})
+                history.push('/dashboard/users');
+                handleSnackbar(message, 'success');
+            })
+        })
+        .catch(({response : {data: {message}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({isLoading: false});
+        });
+    }
+
+    const getSelectedUser = selectedUserId => {
+        updateState({isLoading: true});
+        Api.get(`/api/users/${selectedUserId}`)
+            .then(response => updateState({users: {...states.users, selected: response.data}, isLoading: false }))
+            .catch(()=>{
+                handleSnackbar('There was a problem retrieving the selected role', 'error');
+            })
+    }
+
+    const handleUserAccountActivateDeactivation = (userId, is_active) => e => {
+        e.preventDefault();
+        is_active = is_active ? 1 : 0;
+        Api.put(`/api/users/${userId}`, {is_active})
+        .then(({data : {message}}) => {
+            Api.get(`/api/users`)
+            .then(response=>{
+                handleSnackbar(message, 'success');
+                updateState({users: {...states.users, all: response.data }, isLoading: false})
+            })
+        })
+        .catch(({response : {data: {message}}}) => {
+            handleSnackbar(message, 'error');
         });
     }
 
     const provider = {
         states,
         setStates,
+        updateState,
         handleLogin,
         handleInputChange,
         updateInitialInputState,
@@ -296,7 +352,13 @@ const DashboardProvider = ({ children }) => {
         addRole,
         updateRole,
         deleteRole,
-        getSelectedRole
+        getSelectedRole,
+        getUsers,
+        deleteUser,
+        getSelectedUser,
+        handleUserAccountActivateDeactivation,
+        getDataFromStorage,
+        storageUserKey
     }
 
     useEffect(() => {

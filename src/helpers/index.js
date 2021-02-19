@@ -121,6 +121,19 @@ const handleInputChange = (object, setState) => e => {
     }))
 }
 
+const createTableHeadCells = array => {
+    const headCells = [];
+    array.length > 0 &&
+        Object.keys(array[0]).forEach(key => {
+            headCells.push({ [key]: key, disablePadding: false, label: key === 'id' ? '' : capitalizeAllFirstLetter(key)})
+        });
+    return headCells;
+}
+
+const getStringDescriptionFromArrayObject = obj => {
+    return Object.values(obj).map(item => item['description']).join(', ')
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -140,5 +153,7 @@ export {
     setObjects,
     updateInitialInputState,
     handleInputChange,
-    capitalizeAllFirstLetterAndTransform
+    capitalizeAllFirstLetterAndTransform,
+    createTableHeadCells,
+    getStringDescriptionFromArrayObject
 }

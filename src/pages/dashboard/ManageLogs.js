@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import {BaseWithHeaderAndSidebarWithMainHeader} from '../../components/templates/dashboard';
 import {DataTable, BasicTable} from '../../components/organisms/dashboard';
 import {DashboardContext} from '../../contexts';
-import {setObjects} from '../../helpers';
+import {setObjects, createTableHeadCells} from '../../helpers';
 
 const ManageLogs = () => {
 
@@ -27,12 +27,8 @@ const ManageLogs = () => {
             user: properties.causer
         }
     })
-        
-    const headCells = [
-        { id: 'date', numeric: false, disablePadding: true, label: 'Date' },
-        { id: 'description', numeric: true, disablePadding: false, label: 'Description' },
-        { id: 'user', numeric: true, disablePadding: false, label: 'User' },
-    ];
+
+    const headCells = createTableHeadCells(rows)
 
     const renderLogsTable = () => {
         return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} link='/dashboard/logs' toolbar={['show']}/>

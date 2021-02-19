@@ -1,10 +1,13 @@
-import {getDataFromStorage} from '../helpers/dashboard';
 const storageUserKey = 'user';
 
 export const initialStates = {
     isLoading: false,
     isLoggedIn: false,
-    user: getDataFromStorage(storageUserKey) || {},
+    users: {
+        all: {},
+        selected: {},
+        authenticated: {}
+    },
     inputFields: {},
     errors: {},
     logs: {

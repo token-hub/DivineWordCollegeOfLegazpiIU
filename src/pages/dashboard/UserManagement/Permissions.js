@@ -2,6 +2,7 @@ import React, {useEffect, useContext} from 'react'
 import {DataTable} from '../../../components/organisms/dashboard';
 import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../components/templates/dashboard';
 import {DashboardContext} from '../../../contexts';
+import {createTableHeadCells} from '../../../helpers';
 
 const Permissions = () => {
     const {getPermissions, states:{permissions}} = useContext(DashboardContext);
@@ -18,11 +19,7 @@ const Permissions = () => {
         }
     })
 
-    const headCells = [
-        { id: 'id', disablePadding: false, label: '' },
-        { id: 'date', disablePadding: false, label: 'Date' },
-        { id: 'description', disablePadding: false, label: 'Description' },
-    ];
+    const headCells = createTableHeadCells(rows);
 
     return (
         <BaseWithHeaderAndSidebarWithMainHeader header='Permissions'>

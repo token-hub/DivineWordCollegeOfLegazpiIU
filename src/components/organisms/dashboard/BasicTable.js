@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import {makeStyles} from '@material-ui/core/styles';
 import {
     capitalizeAllFirstLetter,
+    getStringDescriptionFromArrayObject,
     capitalizeAllFirstLetterAndTransform
 } from '../../../helpers';
 
@@ -97,13 +98,9 @@ const renderTablePropertiesRow = (obj, key, index) => {
     const isOnlyNewAttributes = Object.keys(onlyOldAndNewAttributes).length == 1;
     const isArrayNotNull = Array.isArray(obj) && !null;
 
-    const renderRowsForArrayList = () => {
-        const arrayValues = Object.values(obj).map(item => {
-            const key = Object.keys(item);
-
-            return item[key];
-        }).join(', ');
-        return renderTableRow(replaceWordAndCapitalized(key), arrayValues);
+    const renderRowsForArrayListDescription = obj => {
+        const arrayValues = getStringDescriptionFromArrayObject(obj);
+    return renderTableRow(<>{replaceWordAndCapitalized(key)} :</>, arrayValues);
     }
 
     const renderOnlyNewAttibutes = () => {
@@ -135,7 +132,7 @@ const renderTablePropertiesRow = (obj, key, index) => {
             {Object.keys(alteredData).length > 0 && renderTableRow(strongFirstCapitalizedTransform(key))}
             {renderPropertiesNewOrOldHeader()}
             {isArrayNotNull 
-                ? renderRowsForArrayList()
+                ? renderRowsForArrayListDescription(obj)
                 : isOnlyNewAttributes 
                     ? renderOnlyNewAttibutes() 
                     : renderBothNewAndOldAttributes()
