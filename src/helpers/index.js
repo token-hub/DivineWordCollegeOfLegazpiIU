@@ -134,6 +134,10 @@ const getStringDescriptionFromArrayObject = obj => {
     return Object.values(obj).map(item => item['description']).join(', ')
 }
 
+const checkCookieIsExpired = cookie => {
+    return !document.cookie.includes(cookie);
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -155,5 +159,6 @@ export {
     handleInputChange,
     capitalizeAllFirstLetterAndTransform,
     createTableHeadCells,
-    getStringDescriptionFromArrayObject
+    getStringDescriptionFromArrayObject,
+    checkCookieIsExpired,
 }

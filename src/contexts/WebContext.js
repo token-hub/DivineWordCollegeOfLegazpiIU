@@ -3,6 +3,7 @@ import {Api} from '../services';
 import {newsAndEvents, announcements} from '../data/web';
 import {initialStates} from './';
 import {useSnackbarHandler} from '../hooks';
+import {checkCookieIsExpired} from '../helpers';
 
 const WebContext = createContext();
 
@@ -19,6 +20,11 @@ const WebProvider = ({children}) => {
 
     const handleContactUsForm = e => {
         e.preventDefault();
+
+        if (checkCookieIsExpired('XSRF-TOKEN')) {
+            Api.get('/sanctum/csrf-cookie');
+        }
+
         Api.post('/api/contactUs', inputFields)
             .then(handleSnackbar('Your message has been sent', 'success'))
             .catch(({response : {data: {message, errors}}}) => {

@@ -174,18 +174,15 @@ const App = () => {
 				<Route path="/updates/news-and-events/:newsAndEvent" exact component={ManageNewsAndEvents} />
 
 				<Route path="/contact-us" exact component={ContactUs} />
-
 				<Route path="/alumni" exact component={Alumni} />	 
 				
-				{/* ============= [ Dashboard pages ] ============= */}
-				<Route path="/dashboard/login" exact component={Login} />
-				<Route path="/dashboard/register" exact component={Register} />
-				<Route path="/dashboard/email/verification" exact component={EmailVerification} />
-				{/* Password/reset is for unathenticated user that forgotted their password */}
-				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
-				
-				
 				<PrivateRoute>	
+					<Route path="/dashboard/login" exact component={Login} />
+					<Route path="/dashboard/register" exact component={Register} />
+					<Route path="/dashboard/email/verification" exact component={EmailVerification} />
+					{/* Password/reset is for unathenticated user that forgotted their password */}
+					<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
+
 					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
 					<Route path="/dashboard/users" exact component={ManageUsers} />
 					<Route path="/dashboard/users/:user" exact component={ManageUsers} />

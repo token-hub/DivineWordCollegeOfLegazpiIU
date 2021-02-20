@@ -22,8 +22,8 @@ const ManageLogs = () => {
     const rows = logs.all.length > 0 && logs.all.map( ({id, description, created_at, properties}) => {  
         return {
             id,
-            description,
             date: created_at,
+            description,
             user: properties.causer
         }
     })

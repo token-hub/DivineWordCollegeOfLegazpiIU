@@ -2,7 +2,7 @@ import React, {createContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {Api} from '../services';
 import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
-import {updateInitialInputState} from '../helpers';
+import {updateInitialInputState, checkCookieIsExpired} from '../helpers';
 import {useSnackbarHandler} from '../hooks';
 import {initialStates} from './';
 
@@ -35,7 +35,15 @@ const DashboardProvider = ({ children }) => {
 
         setStates({...states, ...inputFields, ...errors, ...statesToUpdate})
     }
-    
+
+    const setXsrfToken = () => {
+        if (checkCookieIsExpired('XSRF-TOKEN')) {
+            localStorage.clear();
+            return Api.get('/sanctum/csrf-cookie');
+        }
+        return Promise.resolve();
+    }
+
     const handleInputChange = e => {
 		const {name, value} = e.target;
 
@@ -49,7 +57,6 @@ const DashboardProvider = ({ children }) => {
     }
 
     const getUser = () => {
-        console.log('hereee');
         return Api.get('/api/user')
             .then(response => {
                 setDataToStorage(storageUserKey, response.data)
@@ -63,25 +70,27 @@ const DashboardProvider = ({ children }) => {
     const handleLogin = e => {
         e.preventDefault();
         updateState({isLoading: true});
-        
-        Api.post('/login', inputFields)
-        .then(({data : {message}}) => {
-            if (message.includes('active')) {
-                history.push('/dashboard/email/verification');
-                handleSnackbar(message, 'info');
-            } else {
-                getUser()
-                .then(()=>{
-                    history.push('/dashboard/home');
-                    handleSnackbar(message, 'success');
-                })
-            }
+        setXsrfToken()
+        .then(()=>{
+            Api.post('/login', inputFields)
+            .then(({data : {message}}) => {
+                if (message.includes('active')) {
+                    history.push('/dashboard/email/verification');
+                    handleSnackbar(message, 'info');
+                } else {
+                    getUser()
+                    .then(()=>{
+                        updateState({isLoading: false});
+                        history.push('/dashboard/home');
+                        handleSnackbar(message, 'success');
+                    })
+                }
+            })
+            .catch(({response : {data: {message}}}) => {
+                handleSnackbar(message, 'error');
+                updateState(null, null, true);
+            });
         })
-        .catch(({response : {data: {message, errors}}}) => {
-            handleSnackbar(message, 'error');
-            updateState(null, null, true);
-        });
-        updateState({isLoading: false});
     }
 
     const handleLogout = e => {
@@ -90,8 +99,8 @@ const DashboardProvider = ({ children }) => {
 
         Api.post('/logout')
             .then(()=>{
-                updateState({users: initialStates.users, isLoading: false}, true, true);
                 localStorage.clear();
+                updateState({users: initialStates.users, isLoading: false}, true, true);
                 history.push('/dashboard/login');
                 handleSnackbar('Successfully Logged out', 'success');
             })
@@ -99,59 +108,67 @@ const DashboardProvider = ({ children }) => {
 
     const handleSendPasswordResetLink = e => {
         e.preventDefault();
-
-        Api.post('/password/email', inputFields)
+        setXsrfToken()
         .then(()=>{
-            history.push('/dashboard/login');
-            handleSnackbar('Reset password link sent', 'success');
-            updateState(null, true);
+            Api.post('/password/email', inputFields)
+            .then(()=>{
+                history.push('/dashboard/login');
+                handleSnackbar('Reset password link sent', 'success');
+                updateState(null, true);
+            })
+            .catch(({response : {data: {message, errors}}}) => {
+                handleSnackbar(message, 'error');
+                updateState(null, null, true);
+            });
         })
-        .catch(({response : {data: {message, errors}}}) => {
-            handleSnackbar(message, 'error');
-            updateState(null, null, true);
-        });
     }
 
     const handlePasswordReset = e => {
         e.preventDefault();
-
-        Api.post('/password/reset', inputFields)
+        setXsrfToken()
         .then(()=>{
-            history.push('/dashboard/login');
-            handleSnackbar('Password successful changed', 'success');
-        })
+            Api.post('/password/reset', inputFields)
+            .then(()=>{
+                history.push('/dashboard/login');
+                handleSnackbar('Password successful changed', 'success');
+            })
 
-        updateState(null, true);  
+            updateState(null, true);  
+        });
     }
 
     const handleResendVerificationLink = e => {
         e.preventDefault();
 
-        Api.post('/email/resend')
+        setXsrfToken()
         .then(()=>{
-            handleSnackbar('A fresh verification link has been sent to your email address.', 'success');
-        })
-        .catch(({response : {data: {message, errors}}}) => {
-            handleSnackbar(message, 'error');
-            updateState(null, null, true);
+            Api.post('/email/resend')
+            .then(()=>{
+                handleSnackbar('A fresh verification link has been sent to your email address.', 'success');
+            })
+            .catch(({response : {data: {message, errors}}}) => {
+                handleSnackbar(message, 'error');
+                updateState(null, null, true);
+            });
         });
     }
     
     const handleRegister = e => {
         e.preventDefault();
         updateState({isLoading: true});
-        
-        Api.post('/register', inputFields)
-        .then(() => {
-            updateState(null, true, true);
-            history.push('/dashboard/login');
-            handleSnackbar('Please check your email to activate your account', 'info');
-        })
-        .catch(({response : {data: {message, errors}}}) => {
-            handleSnackbar(message, 'error');
-            updateState(null, null, true);
+        setXsrfToken()
+        .then(()=>{
+            Api.post('/register', inputFields)
+            .then(() => {
+                updateState({isLoading: false}, true, true);
+                history.push('/dashboard/login');
+                handleSnackbar('Please check your email to activate your account', 'info');
+            })
+            .catch(({response : {data: {message, errors}}}) => {
+                handleSnackbar(message, 'error');
+                updateState({isLoading: false}, null, true);
+            });
         });
-        updateState({isLoading: false});
     }
     
     const returnBackToDashboardProfile = (e, url) => { 
@@ -169,16 +186,15 @@ const DashboardProvider = ({ children }) => {
                 if (url.includes('password')) {
                     destination = 'password/edit'  
                 }
-
+                updateState({isLoading: true}, null, true);
                 history.push(`/dashboard/${destination}`);
                 handleSnackbar(message, msgType); 
             })
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
-            updateState({errors: errors}, null, true);
+            updateState({errors: errors, isLoading: true}, null, true);
         });
-        updateState({isLoading: false});
     }
     
     const handleChangePassword = e => {
@@ -273,8 +289,6 @@ const DashboardProvider = ({ children }) => {
         });
     }
 
-    console.log(states);
-
     const getUsers = () => {
         updateState({isLoading: true});
         Api.get(`/api/users`)
@@ -310,6 +324,7 @@ const DashboardProvider = ({ children }) => {
         Api.get(`/api/users/${selectedUserId}`)
             .then(response => updateState({users: {...states.users, selected: response.data}, isLoading: false }))
             .catch(()=>{
+                updateState({isLoading: false});
                 handleSnackbar('There was a problem retrieving the selected role', 'error');
             })
     }
@@ -317,6 +332,7 @@ const DashboardProvider = ({ children }) => {
     const handleUserAccountActivateDeactivation = (userId, is_active) => e => {
         e.preventDefault();
         is_active = is_active ? 1 : 0;
+        updateState({isLoading: true});
         Api.put(`/api/users/${userId}`, {is_active})
         .then(({data : {message}}) => {
             Api.get(`/api/users`)
@@ -360,15 +376,6 @@ const DashboardProvider = ({ children }) => {
         getDataFromStorage,
         storageUserKey
     }
-
-    useEffect(() => {
-        Api.get('/sanctum/csrf-cookie');
-
-        // setStates({
-        //     ...initialStates,
-        //     inputFields: {...initialStates.inputFields}
-        // });
-    }, []);
 
     return (
         <DashboardContext.Provider value={provider} >

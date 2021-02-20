@@ -72,7 +72,7 @@ const ManageUsers = () => {
     const renderSelectedUser = () => {
         if (Object.keys(users.selected).length > 0) {
             const {created_at, email, name, username, is_active, roles} = users.selected;
-            const accountStatus = is_active === 1 ? 'Activate' : 'Inactive';
+            const accountStatus = is_active === 1 ? 'Active' : 'Inactive';
 
             const data = setObjects(
                 ['date', 'email', 'name', 'username', 'account status', 'roles'],

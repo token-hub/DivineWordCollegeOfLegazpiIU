@@ -67,7 +67,7 @@ const RenderUpdateForm = () => {
                                 value={states[fieldName]} 
                                 onChange={handleInputChange('inputFields', setStates)}
                                 variant="outlined"
-                                // required={true}
+                                required={true}
                                 fullWidth={true}
                                 size='small' 
                                 InputProps={{ className: input }}
