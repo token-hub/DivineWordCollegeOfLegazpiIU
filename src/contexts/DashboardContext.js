@@ -242,7 +242,7 @@ const DashboardProvider = ({ children }) => {
     }
 
     const addRole = e => {
-        e.preventDefault();
+        e.preventDefault(); 
         updateState({isLoading: true});
         Api.post('/api/roles', inputFields)
         .then(({data : {message}}) => {

@@ -1,11 +1,11 @@
-// import Announcement from './Announcement';
 import HomeDashboard from './HomeDashboard';
 import Profile from './Profile';
 import ManageLogs from './ManageLogs';
+import ManageUpdates from './ManageUpdates';
  
 export {
-    // Announcement,
     HomeDashboard,
     Profile,
     ManageLogs,
+    ManageUpdates
 }

@@ -6,19 +6,26 @@ import Paper from '@material-ui/core/Paper';
 import Toolbar from '@material-ui/core/Toolbar';
 import {makeStyles} from '@material-ui/core/styles';
 
-const useStyles = makeStyles( theme => ({
+const useStyles = makeStyles(theme => ({
     paper:{
         padding: '1.5rem 2rem',
         minHeight: '81vh',
-        height: 'auto'
+        height: 'auto',
+        [theme.breakpoints.only('xl')] : {
+            minHeight: '85vh',
+        }
     },
     toolbar: {
         minHeight: '70px',
     },
     content: {
-        flexGrow: 1,
+        width: '81%',
         padding: theme.spacing(5),
         backgroundColor: '#E3E3FE',
+
+        [theme.breakpoints.only('xl')]:{
+            width: '85%'
+        }
     },
 }))
 

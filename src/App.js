@@ -79,7 +79,7 @@ import {
 import {
 	HomeDashboard,
 	Profile,
-	ManageLogs
+	ManageLogs,
 } from './pages/dashboard';
 import {
 	ManageUsers,
@@ -89,6 +89,10 @@ import {
 	Roles,
 	ManageRoles,
 } from './pages/dashboard/UserManagement/Roles';
+import {
+	DashboardUpdates,
+	ManageUpdates,
+} from './pages/dashboard/Updates';
 
 const useStyles = makeStyles({
     app: {
@@ -194,6 +198,10 @@ const App = () => {
 					<Route path="/dashboard/profile" exact component={Profile} />
 					{/* Password/edit is for authenticated user that wants to change password */}
 					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
+					<Route path="/dashboard/updates" exact component={DashboardUpdates} />
+					<Route path="/dashboard/update" exact component={ManageUpdates} />
+					<Route path="/dashboard/update/:update" exact component={ManageUpdates} />
+					<Route path="/dashboard/update/:update/edit" exact component={ManageUpdates} />
 					<Route path="/dashboard/logs" exact component={ManageLogs} />
 					<Route path="/dashboard/logs/:log" exact component={ManageLogs} />
 				</PrivateRoute>

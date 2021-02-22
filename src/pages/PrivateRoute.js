@@ -23,10 +23,10 @@ const PrivateRoute = ({ children, ...rest }) => {
   
   const isAuthUserAccessingGuestPages = Object.keys(authenticated).length > 0 && 
     pagesToCheckIfThereAuthenticatedUser.includes(pathname.split('/').pop());
-  console.log(`${Object.keys(authenticated).length > 0} ---- ${pagesToCheckIfThereAuthenticatedUser.includes(pathname.split('/').pop())}`);
-
 
   const loginPage = () => {
+    localStorage.clear();
+
     return  <>
       <Redirect to='/dashboard/login'></Redirect> 
       <Route path="/dashboard/login" exact component={Login} />

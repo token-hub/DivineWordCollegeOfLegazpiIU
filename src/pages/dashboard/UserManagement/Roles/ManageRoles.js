@@ -23,7 +23,15 @@ const ManageRoles = () => {
     const renderAddRolePage = () => {
         const data = setObjects(['name', 'type', 'value'], [
             ['description', 'text', ''],
-            ['permissions', 'select', 1],
+            ['permissions', 'select', 
+                {
+                    values: [
+                        {id: 1, description: 'admin'},
+                        {id: 2, description: 'admin2'}
+                    ],
+                    multiple: true
+                }
+            ],
         ]);
         return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={addRole} />
     }
@@ -46,7 +54,14 @@ const ManageRoles = () => {
 
             const data = setObjects(['name', 'type', 'value'], [
                 ['description', 'text', description],
-                ['permissions', 'select', 1],
+                ['permissions', 'select', {
+                    values: [
+                        {id: 1, description: 'admin'},
+                        {id: 2, description: 'admin2'}
+                    ],
+                    default_value: 1,
+                    multiple: true
+                }],
             ]);
             return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={updateRole(role)} />
         }

@@ -13,17 +13,27 @@ import {
   stringTransform
  } from '../../../helpers';
 
-const drawerWidth = 280;
+const drawerWidth = '19%';
+const xlDrawerWidth = '15%';
+
 const useStyles = makeStyles(theme=> ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        background: theme.palette.sidebar.dark
+        background: theme.palette.sidebar.dark,
+
+        [theme.breakpoints.only('xl')]:{
+          width: xlDrawerWidth
+        }
       },
       drawerPaper: {
         width: drawerWidth,
         background: theme.palette.sidebar.dark,
-        color: 'white'
+        color: 'white',
+
+        [theme.breakpoints.only('xl')]:{
+          width: xlDrawerWidth
+        }
       },
       drawerContainer: {
         overflow: 'auto',
