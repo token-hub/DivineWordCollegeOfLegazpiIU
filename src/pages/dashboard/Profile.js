@@ -5,7 +5,7 @@ import {DashboardContext} from '../../contexts';
 import {setObjects} from '../../helpers';
 
 const Profile = () => {
-    const {states: {user:{ name, username, email}}, handleChangeProfileInfo} = useContext(DashboardContext);
+    const {states: {users:  {authenticated:{ name, username, email}}}, handleChangeProfileInfo} = useContext(DashboardContext);
 
     const data = setObjects(['name', 'type', 'value'], [
         ['name', 'text', name],

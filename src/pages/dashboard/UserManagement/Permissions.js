@@ -5,13 +5,10 @@ import {DashboardContext} from '../../../contexts';
 import {createTableHeadCells} from '../../../helpers';
 
 const Permissions = () => {
-    const {getPermissions, states:{permissions}} = useContext(DashboardContext);
-
-    useEffect(() => {
-        getPermissions();
-    }, [])
-
-    const rows = permissions.length > 0 && permissions.map( ({id, description, created_at}) => {  
+    const {states:{permissions}} = useContext(DashboardContext);
+    const isPermissionEmpty = Object.keys(permissions).length < 1;
+    
+    const rows = !isPermissionEmpty && permissions.map( ({id, description, created_at}) => {  
         return {
             id,
             date: created_at,
@@ -23,7 +20,7 @@ const Permissions = () => {
 
     return (
         <BaseWithHeaderAndSidebarWithMainHeader header='Permissions'>
-            { rows.length > 0 && <DataTable rows={rows} headCells={headCells} />}
+            {rows.length > 0 && <DataTable rows={rows} headCells={headCells} />}
         </BaseWithHeaderAndSidebarWithMainHeader>
     )
 }

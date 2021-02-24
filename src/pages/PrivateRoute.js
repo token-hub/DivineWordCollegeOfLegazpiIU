@@ -6,8 +6,12 @@ import {HomeDashboard} from './dashboard';
 import {Login} from './dashboard/Authentication';
 
 const PrivateRoute = ({ children, ...rest }) => {
-  const {states, getDataFromStorage, storageUserKey, updateState} = useContext(DashboardContext);
-  const {users: {authenticated}} = states;
+  const {states, getDataFromStorage, getPermissions, getRoles, getUsers, getUser, storageUserKey, setStates} = useContext(DashboardContext);
+  const {users, permissions, roles} = states;  
+  const {authenticated} = users;
+  const isPermissionEmpty = Object.keys(permissions).length < 1;
+  const isRolesEmpty = Object.keys(roles.all).length < 1;
+  const isUsersEmpty = Object.keys(users.all).length < 1;
   const {pathname} = useLocation();
   const pagesToCheckIfThereAuthenticatedUser = ['login', 'register', 'verification', 'reset',];
   const checkUserStorageIsNotEmpty = () => {
@@ -16,10 +20,23 @@ const PrivateRoute = ({ children, ...rest }) => {
  
   useEffect(() => {
     if (Object.keys(authenticated).length < 1 && checkUserStorageIsNotEmpty()) {
-      updateState({users: {...states.users, authenticated: getDataFromStorage(storageUserKey)}});
+      getUser();
     }
   }, [authenticated]);
 
+  useEffect(()=>{
+    if(isRolesEmpty) {
+      getRoles();
+    }
+
+    if(isPermissionEmpty) {
+      getPermissions();
+    }
+
+    if (isUsersEmpty) {
+      getUsers();
+    }
+  }, []);
   
   const isAuthUserAccessingGuestPages = Object.keys(authenticated).length > 0 && 
     pagesToCheckIfThereAuthenticatedUser.includes(pathname.split('/').pop());

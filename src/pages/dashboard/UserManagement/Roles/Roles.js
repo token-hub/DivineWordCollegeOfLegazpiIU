@@ -4,11 +4,7 @@ import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../../components/tem
 import {DashboardContext} from '../../../../contexts';
 
 const Roles = () => {
-  const {getRoles, deleteRole, states:{roles}} = useContext(DashboardContext);
-
-  useEffect(() => {
-    getRoles();
-  }, [])
+  const {deleteRole, states:{roles}} = useContext(DashboardContext);
 
   const rows = roles.all.length > 0 && roles.all.map( ({id, description, created_at}) => {  
       return {

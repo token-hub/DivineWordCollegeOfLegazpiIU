@@ -30,11 +30,23 @@ const RenderTextfield = ({ data = [] }) => {
 
     const {input, hiddenInput} = useStyles();
 
+    // console.log(select);
+
     useEffect(()=>{
         setSelect(initialState);
     }, [])
 
     const handleSelectChange = e => {
+        const {name, value} = e.target;
+
+        setStates(prevState => ({
+            ...prevState,
+            ['inputFields']: {
+                ...prevState.['inputFields'],
+                [name]: value
+            }
+        }))
+
         setSelect(e.target.value);
     }
    
@@ -62,6 +74,7 @@ const RenderTextfield = ({ data = [] }) => {
                 label={label}
                 labelId={label}
                 id={label}
+                name={label}
                 value={value}
                 onChange={onChange}
                 required
@@ -78,32 +91,28 @@ const RenderTextfield = ({ data = [] }) => {
             {data.map( ({name, value, type}, index) => {
                 const isTwoWordNameOrNot = name.split(' ').join('_');
                 let extra = {};
-                let defaultValue = '';
                 const setInput = type === 'hidden' ? hiddenInput : input;
           
                 if (type === 'date') extra = {...extra, InputLabelProps: {shrink: true}};
                 if (type === 'textarea') extra = {...extra, rows: 10, multiline: true, style: {width: '100%'}};
                 if (type === 'select') {
                     if (value.multiple) extra = {...extra, multiple: true}
-                    if (value.default_value) initialState = [value.default_value];
-                    
-                    defaultValue = value.values.map(({id}) => id)
+                    if (value.default_value) initialState = value.default_value;
                 }
                     
                 if (errors) {
-                Object.keys(errors).forEach(key => {
-                    if (key === isTwoWordNameOrNot) {
-                        extra = {...extra, error: true, helperText: errors[key][0]}
-                    }
-                })
+                    Object.keys(errors).forEach(key => {
+                        if (key === isTwoWordNameOrNot) {
+                            extra = {...extra, error: true, helperText: errors[key][0]}
+                        }
+                    })
                 }
                 
-                const getDefaultValues = type==='select'? defaultValue: value
-
+                const getDefaultValues = type==='select'? select: value;
                 updateInitialInputState(initialStates.inputFields, isTwoWordNameOrNot, getDefaultValues);
 
                 return type === 'select'
-                ? renderSelectTextField(index, name, select, value.values, handleSelectChange, setInput, extra)
+                ? renderSelectTextField(index, name, inputFields[isTwoWordNameOrNot], value.values, handleSelectChange, setInput, extra)
                 : renderNonSelectTextField(index, name, isTwoWordNameOrNot, type, inputFields[isTwoWordNameOrNot], handleInputChange('inputFields', setStates), setInput, extra)
             })}
         </>

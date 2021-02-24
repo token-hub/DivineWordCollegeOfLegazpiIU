@@ -24,8 +24,10 @@ const DashboardProvider = ({ children }) => {
         if (resetInputFields) {
             const keys = Object.keys(states.inputFields);
             keys.forEach(key => {
-                emptyInputFields = {...emptyInputFields, [key]: ''} 
+                const defaultValue = Array.isArray(states.inputFields[key]) ? [] : '';
+                emptyInputFields = {...emptyInputFields, [key]: defaultValue} 
             });
+            
             inputFields = {inputFields: emptyInputFields};
         }
 
@@ -33,7 +35,12 @@ const DashboardProvider = ({ children }) => {
             errors = {errors: {}}
         }
 
-        setStates({...states, ...inputFields, ...errors, ...statesToUpdate})
+        setStates(prevState => ({
+            ...prevState,
+            ...inputFields,
+            ...errors,
+            ...statesToUpdate
+        }))
     }
 
     const setXsrfToken = () => {
@@ -60,7 +67,12 @@ const DashboardProvider = ({ children }) => {
         return Api.get('/api/user')
             .then(response => {
                 setDataToStorage(storageUserKey, response.data)
-                updateState({users: {...states.users, authenticated: getDataFromStorage(storageUserKey)}, isLoggedIn: true}, null, true);
+                setStates(prevState => ({
+                    ...prevState,
+                    users: {...prevState.users, authenticated: getDataFromStorage(storageUserKey)},
+                    isLoggedIn: true,
+                }));
+                updateState(null, null, true);
             })
             .catch(({response : {data: {message}}}) => {
                 handleSnackbar(message, 'error');
@@ -175,9 +187,9 @@ const DashboardProvider = ({ children }) => {
         e.preventDefault();
         updateState({isLoading: true});
 
-        Api.put(`/api/${url}/${states.authenticated.user.id}`, inputFields)
+        Api.put(`/api/${url}/${states.users.authenticated.id}`, inputFields)
         .then(({data : {message}}) => {
-            let msgType = 'success';
+            let msgType = message.includes('Nothing') ? 'info' : 'success';
 
             getUser()
             .then(() => {
@@ -186,7 +198,7 @@ const DashboardProvider = ({ children }) => {
                 if (url.includes('password')) {
                     destination = 'password/edit'  
                 }
-                updateState({isLoading: true}, null, true);
+                updateState({isLoading: false}, null, true);
                 history.push(`/dashboard/${destination}`);
                 handleSnackbar(message, msgType); 
             })
@@ -228,27 +240,45 @@ const DashboardProvider = ({ children }) => {
 
     const getRoles = () => {
         updateState({isLoading: true});
-        Api.get('/api/roles')
-        .then(response => updateState({roles: {...states.roles, all: response.data.data }, isLoading: false}))
+        return Api.get('/api/roles')
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                roles: {...prevState.roles, all: response.data.data},
+                isLoading: false
+            }));
+        })
     }
-
+    
     const getSelectedRole = selectedRoleId => {
         updateState({isLoading: true});
         Api.get(`/api/roles/${selectedRoleId}`)
-            .then(response => updateState({roles: {...states.roles, selected: response.data.data}, isLoading: false }))
+            .then(response => {
+                setStates(prevState => ({
+                    ...prevState,
+                    roles: {...prevState.roles, selected: response.data.data},
+                    isLoading: false
+                }));
+                updateState(null, null, true)
+            })
             .catch(()=>{
                 handleSnackbar('There was a problem retrieving the selected role', 'error');
             })
     }
+
+    console.log(states);
 
     const addRole = e => {
         e.preventDefault(); 
         updateState({isLoading: true});
         Api.post('/api/roles', inputFields)
         .then(({data : {message}}) => {
-            updateState({isLoading: false}, true, true);
-            history.push('/dashboard/roles');
-            handleSnackbar(message, 'success');
+            getRoles()
+            .then(()=>{
+                updateState({isLoading: false}, null, true);
+                history.push('/dashboard/roles');
+                handleSnackbar(message, 'success');
+            })
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -261,9 +291,11 @@ const DashboardProvider = ({ children }) => {
         updateState({isLoading: true});
         Api.put(`/api/roles/${roleID}`, inputFields)
         .then(({data : {message}}) => {
-            updateState({isLoading: false}, null, true);
+            const msgType = message.includes('Nothing') ? 'info' : 'success';
+            
+            getSelectedRole(roleID);
             history.push('/dashboard/roles');
-            handleSnackbar(message, 'success');
+            handleSnackbar(message, msgType);
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -291,9 +323,13 @@ const DashboardProvider = ({ children }) => {
 
     const getUsers = () => {
         updateState({isLoading: true});
-        Api.get(`/api/users`)
+        return Api.get(`/api/users`)
         .then(response => {
-            updateState({users: {...states.users, all: response.data }, isLoading: false})
+            setStates(prevState => ({
+                ...prevState,
+                users: {...prevState.users, all: response.data},
+                isLoading: false
+            }))
         })
         .catch(() => {
             handleSnackbar('Failed to retrieve users', 'error');
@@ -306,9 +342,8 @@ const DashboardProvider = ({ children }) => {
         updateState({isLoading: true});
         Api.delete(`/api/users/${userIDs}`)
         .then(({data : {message}}) => {
-            Api.get('/api/users')
-            .then(response => {
-                updateState({users: {...states.users, all: response.data}, isLoading: false})
+            getUsers()
+            .then(()=>{
                 history.push('/dashboard/users');
                 handleSnackbar(message, 'success');
             })
@@ -319,16 +354,39 @@ const DashboardProvider = ({ children }) => {
         });
     }
 
+    const updateUser = userId => e => {
+        e.preventDefault();
+        Api.put(`/api/users/${userId}`, {roleIds: inputFields['roles']})
+        .then(({data : {message}}) => {
+            const msgType = message.includes('Nothing') ? 'info' : 'success';
+            getSelectedUser(userId);
+            getUsers()
+            .then(()=>{
+                history.push('/dashboard/users');
+                handleSnackbar(message, msgType);
+            })
+        })
+        .catch(({response : {data: {message}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({isLoading: false});
+        });
+    }
+
     const getSelectedUser = selectedUserId => {
-        updateState({isLoading: true});
         Api.get(`/api/users/${selectedUserId}`)
-            .then(response => updateState({users: {...states.users, selected: response.data}, isLoading: false }))
+            .then(response => {
+                setStates(prevState => ({
+                    ...prevState,
+                    users: {...prevState.users, selected: response.data},
+                    isLoading: false
+                }))
+            })
             .catch(()=>{
                 updateState({isLoading: false});
                 handleSnackbar('There was a problem retrieving the selected role', 'error');
             })
     }
-
+ 
     const handleUserAccountActivateDeactivation = (userId, is_active) => e => {
         e.preventDefault();
         is_active = is_active ? 1 : 0;
@@ -369,8 +427,10 @@ const DashboardProvider = ({ children }) => {
         updateRole,
         deleteRole,
         getSelectedRole,
+        getUser,
         getUsers,
         deleteUser,
+        updateUser,
         getSelectedUser,
         handleUserAccountActivateDeactivation,
         getDataFromStorage,

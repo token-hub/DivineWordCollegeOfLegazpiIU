@@ -7,37 +7,42 @@ import {DashboardContext} from '../../../../contexts';
 import {setObjects} from '../../../../helpers';
 
 const ManageRoles = () => {
-
     const {role} = useParams();
     const location = useLocation();
     const isEdit = location.pathname.includes('edit');
-
-    const {addRole, updateRole, getSelectedRole, states:{roles:{selected}}} = useContext(DashboardContext);
+    const {addRole, updateRole, getSelectedRole, getPermissions, states:{roles:{selected}, permissions}} = useContext(DashboardContext);
+    const isPermissionEmpty = Object.keys(permissions).length < 1;
+    const isSelectedRoleIsNotEmpty = Object.keys(selected).length > 0;
 
     useEffect( () => {
         if (role) {
             getSelectedRole(role);
         }
+
+        if (isPermissionEmpty) {
+            getPermissions();
+        }
     }, []);
 
     const renderAddRolePage = () => {
-        const data = setObjects(['name', 'type', 'value'], [
-            ['description', 'text', ''],
-            ['permissions', 'select', 
-                {
-                    values: [
-                        {id: 1, description: 'admin'},
-                        {id: 2, description: 'admin2'}
-                    ],
-                    multiple: true
-                }
-            ],
-        ]);
-        return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={addRole} />
+        if (!isPermissionEmpty) {
+            const filteredPermissions = permissions.map(({id, description}) => ({id, description}))
+            
+            const data = setObjects(['name', 'type', 'value'], [
+                ['description', 'text', ''],
+                ['permissions', 'select', 
+                    {
+                        values: filteredPermissions,
+                        multiple: true
+                    }
+                ],
+            ]);
+            return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={addRole} />
+        }
     }
 
     const renderShowRolePage = () => {
-        if (Object.keys(selected).length > 0) {
+        if (isSelectedRoleIsNotEmpty) {
             const {description, created_at, permissions} = selected;
 
             const data = setObjects(
@@ -49,17 +54,16 @@ const ManageRoles = () => {
     }
 
     const renderEditRolePage = () => {
-        if (Object.keys(selected).length > 0) {
+        if (isSelectedRoleIsNotEmpty && !isPermissionEmpty) {
             const {description} = selected;
+            const filteredPermissions = permissions.map(({id, description}) => ({id, description}))
+            const default_value = selected.permissions.map(({id}) => id);
 
             const data = setObjects(['name', 'type', 'value'], [
                 ['description', 'text', description],
                 ['permissions', 'select', {
-                    values: [
-                        {id: 1, description: 'admin'},
-                        {id: 2, description: 'admin2'}
-                    ],
-                    default_value: 1,
+                    values: filteredPermissions,
+                    default_value,
                     multiple: true
                 }],
             ]);
