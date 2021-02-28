@@ -9,101 +9,97 @@ import banner from '../../../assets/images/newsAndEvents/july-01-2020 college-an
 
 const ManageUpdates = () => {
 
+    const {states:{updates}, getSelectedUpdate, updateUpdate, addUpdate} = useContext(DashboardContext);
     const {update} = useParams();
     const location = useLocation();
     const isEdit = location.pathname.includes('edit');
+    const isSelectedUpdateEmpty = Object.keys(updates.selected).length < 1;
+    const {title, id, category, from, to, created_at, updates:content} = updates.selected;
 
-    // const {addUpdate, updateUpdate, getSelectedUpdate, states:{updates:{selected}}} = useContext(DashboardContext);
-    
-    // useEffect( () => {
-    //     if (role) {
-    //         getSelectedUpdate(role);
-    //     }
-    // }, []);
+    useEffect( () => {
+        if (update) {
+            getSelectedUpdate(update);
+        }
+    }, []);
 
     const renderAddUpdatePage = () => {
-        // return 'Add Update page';
+
+        const values = [
+            {id: 1, description: 'announcements'},
+            {id: 2, description: 'news-and-events'}
+        ];
+
+        const default_value = category;
+
         const data = setObjects(['name', 'type', 'value'], [
             ['title', 'text', ''],
-            ['category', 'select', 
-                {
-                    values: [
-                        {id: 1, description: 'announcements'},
-                        {id: 2, description: 'news-and-events'}
-                    ],
-                    default_value: 1,
-                }
-            ],
+            ['category', 'select', {values, default_value}],
             ['from', 'date'],
             ['to', 'date'],
             ['updates', 'textarea', ''],
         ]);
 
-        return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={()=>{}} />
+        return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={addUpdate} />
     }
 
     const renderShowUpdatePage = () => {
-        const data = {
-            title: 'this is a sample title blah blah',
-            category: 'news-and-events',
-            from: 'July 02, 2020',
-            to: 'July 03, 2020',
-            posted_at: 'July 02, 2020',
-            main: <>
-                <p>
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                </p>
-                <p>
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                </p>
-                <p>
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                </p>
-                <p>
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                </p>
-                <div style={{ height: '35rem', width: '35rem' }}>
-                    <img src={banner} alt='hurray' style={{ width: '100%', height: '100%' }} />
-                </div>
-            </>
+        if (!isSelectedUpdateEmpty) {
+            
+            const data = {
+                title,
+                category,
+                from,
+                to,
+                posted_at: created_at,
+                main: content,
+                // main: <>
+                //     <p>
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     </p>
+                //     <p>
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     </p>
+                //     <p>
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     </p>
+                //     <p>
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
+                //     </p>
+                //     <div style={{ height: '35rem', width: '35rem' }}>
+                //         <img src={banner} alt='hurray' style={{ width: '100%', height: '100%' }} />
+                //     </div>
+                // </>
+            }
+    
+            return <ShowUpdate data={data} />
         }
-
-        return <ShowUpdate data={data} />
     }
 
     const renderEditUpdatePage = () => {
-        // return 'Edit Update page';
-        // if (Object.keys(selected).length > 0) {
-        //     const {description} = selected;
+        if (!isSelectedUpdateEmpty) {
 
-        //     const data = setObjects(['name', 'type', 'value'], [
-        //         ['description', 'text', description],
-        //         ['permissions', 'select', 1],
-        //     ]);
-        //     return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={updateUpdate(role)} />
-        // }
+            const values = [
+                {id: 1, description: 'announcements'},
+                {id: 2, description: 'news-and-events'}
+            ];
 
-        const data = setObjects(['name', 'type', 'value'], [
-            ['title', 'text', 'Sample text'],
-            ['category', 'select', 
-                {
-                    values: [
-                        {id: 1, description: 'announcements'},
-                        {id: 2, description: 'news-and-events'}
-                    ],
-                    default_value: 1,
-                }
-            ],
-            ['from', 'date'],
-            ['to', 'date'],
-            ['updates', 'textarea', 'Sample text area'],
-        ]);
+            const default_value = category;
 
-        return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={()=>{}} />
+            const data = setObjects(['name', 'type', 'value'], [
+                ['id', 'hidden', id],
+                ['title', 'text', title],
+                ['category', 'select', {values, default_value}],
+                ['from', 'date', from],
+                ['to', 'date', to],
+                ['updates', 'textarea', content],
+            ]);
+    
+            return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={updateUpdate(update)} />
+        } 
     }
 
     const renderHeaderTitle = () => {

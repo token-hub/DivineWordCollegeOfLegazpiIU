@@ -7,7 +7,7 @@ import Select from '@material-ui/core/Select';
 import {makeStyles} from '@material-ui/core/styles';
 import {DashboardContext} from '../../../contexts';
 import {initialStates} from '../../../contexts';
-import {updateInitialInputState} from '../../../helpers';
+import {updateInitialInputState, currentDate} from '../../../helpers';
 import {handleInputChange, capitalizeAllFirstLetterAndTransform} from '../../../helpers';
 
 const useStyles = makeStyles({
@@ -29,8 +29,6 @@ const RenderTextfield = ({ data = [] }) => {
     const {setStates, states: {inputFields, errors}} = useContext(DashboardContext);
 
     const {input, hiddenInput} = useStyles();
-
-    // console.log(select);
 
     useEffect(()=>{
         setSelect(initialState);
@@ -68,6 +66,7 @@ const RenderTextfield = ({ data = [] }) => {
     }
     
     const renderSelectTextField = (index, label, value, options, onChange, style, extra) => {
+        const useId = Array.isArray(options);
         return <FormControl variant='outlined' required key={index} className={style} {...extra}>
             <InputLabel id="demo-controlled-open-select-label">{label}</InputLabel>
             <Select
@@ -80,8 +79,9 @@ const RenderTextfield = ({ data = [] }) => {
                 required
                 {...extra}
             >
-                {options.map(({id, description}, index) => {
-                    return  <MenuItem key={index} value={id}>{capitalizeAllFirstLetterAndTransform(description, '-', ' ')}</MenuItem>
+                {options.values.map(({id, description}, index) => {
+                    const value = useId ? id : description;
+                    return  <MenuItem key={index} value={value}>{capitalizeAllFirstLetterAndTransform(description, '-', ' ')}</MenuItem>
                 })}
             </Select>    
         </FormControl>
@@ -92,8 +92,9 @@ const RenderTextfield = ({ data = [] }) => {
                 const isTwoWordNameOrNot = name.split(' ').join('_');
                 let extra = {};
                 const setInput = type === 'hidden' ? hiddenInput : input;
-          
-                if (type === 'date') extra = {...extra, InputLabelProps: {shrink: true}};
+                const date = currentDate();
+
+                if (type === 'date') extra = {...extra, InputLabelProps: {shrink: true}, inputProps: {min: date}};
                 if (type === 'textarea') extra = {...extra, rows: 10, multiline: true, style: {width: '100%'}};
                 if (type === 'select') {
                     if (value.multiple) extra = {...extra, multiple: true}
@@ -112,7 +113,7 @@ const RenderTextfield = ({ data = [] }) => {
                 updateInitialInputState(initialStates.inputFields, isTwoWordNameOrNot, getDefaultValues);
 
                 return type === 'select'
-                ? renderSelectTextField(index, name, inputFields[isTwoWordNameOrNot], value.values, handleSelectChange, setInput, extra)
+                ? renderSelectTextField(index, name, inputFields[isTwoWordNameOrNot], value, handleSelectChange, setInput, extra)
                 : renderNonSelectTextField(index, name, isTwoWordNameOrNot, type, inputFields[isTwoWordNameOrNot], handleInputChange('inputFields', setStates), setInput, extra)
             })}
         </>

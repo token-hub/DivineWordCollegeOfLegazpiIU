@@ -19,5 +19,9 @@ export const initialStates = {
         all: {},
         selected: {}
     },
+    updates: {
+        all: {},
+        selected: {}
+    },
     storageUserKey
 }

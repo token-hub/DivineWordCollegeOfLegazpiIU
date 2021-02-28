@@ -6,12 +6,26 @@ import {HomeDashboard} from './dashboard';
 import {Login} from './dashboard/Authentication';
 
 const PrivateRoute = ({ children, ...rest }) => {
-  const {states, getDataFromStorage, getPermissions, getRoles, getUsers, getUser, storageUserKey, setStates} = useContext(DashboardContext);
-  const {users, permissions, roles} = states;  
+  const {
+    states, 
+    getDataFromStorage, 
+    getPermissions, 
+    getRoles, 
+    getUsers, 
+    getUser, 
+    getUpdates,
+    getLogs, 
+    storageUserKey
+  } = useContext(DashboardContext);
+
+  const {users, permissions, roles, updates, logs} = states;  
   const {authenticated} = users;
-  const isPermissionEmpty = Object.keys(permissions).length < 1;
+  const isPermissionsEmpty = Object.keys(permissions).length < 1;
   const isRolesEmpty = Object.keys(roles.all).length < 1;
   const isUsersEmpty = Object.keys(users.all).length < 1;
+  const isUpdatesEmpty = Object.keys(updates.all).length < 1;
+  const isLogsEmpty = Object.keys(logs.all).length < 1;
+  const isAuthenticatedUserIsEmpty = Object.keys(authenticated).length < 1;
   const {pathname} = useLocation();
   const pagesToCheckIfThereAuthenticatedUser = ['login', 'register', 'verification', 'reset',];
   const checkUserStorageIsNotEmpty = () => {
@@ -19,24 +33,38 @@ const PrivateRoute = ({ children, ...rest }) => {
   }
  
   useEffect(() => {
-    if (Object.keys(authenticated).length < 1 && checkUserStorageIsNotEmpty()) {
+    if (isAuthenticatedUserIsEmpty && checkUserStorageIsNotEmpty()) {
       getUser();
     }
   }, [authenticated]);
 
+  const checkCookieAndRunMethodIf = (condition, method) => {
+   if (!checkCookieIsExpired('XSRF-TOKEN')){
+      if(condition) {
+        method();
+      }
+    }
+  }
+
   useEffect(()=>{
-    if(isRolesEmpty) {
-      getRoles();
-    }
+    checkCookieAndRunMethodIf(isRolesEmpty, getRoles);
+  }, [roles]);
+  
+  useEffect(()=>{
+    checkCookieAndRunMethodIf(isPermissionsEmpty, getPermissions);
+  }, [permissions]);
 
-    if(isPermissionEmpty) {
-      getPermissions();
-    }
-
-    if (isUsersEmpty) {
-      getUsers();
-    }
+  useEffect(()=>{
+    checkCookieAndRunMethodIf(isUsersEmpty, getUsers);
   }, []);
+
+  useEffect(()=>{
+    checkCookieAndRunMethodIf(isUpdatesEmpty, getUpdates);
+  }, [updates]);
+
+  useEffect(()=>{
+    checkCookieAndRunMethodIf(isLogsEmpty, getLogs);
+  }, [logs]);
   
   const isAuthUserAccessingGuestPages = Object.keys(authenticated).length > 0 && 
     pagesToCheckIfThereAuthenticatedUser.includes(pathname.split('/').pop());
@@ -64,7 +92,7 @@ const PrivateRoute = ({ children, ...rest }) => {
         ? isAuthUserAccessingGuestPages
           ? children
           : loginPage()
-        : Object.keys(authenticated).length > 1
+        : !isAuthenticatedUserIsEmpty
           && isAuthUserAccessingGuestPages
             ? homePage()
             : children

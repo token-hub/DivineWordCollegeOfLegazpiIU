@@ -7,19 +7,23 @@ import {setObjects, createTableHeadCells} from '../../helpers';
 
 const ManageLogs = () => {
 
-    const {getLogs, states: {logs}, handleShowSelectedLog} = useContext(DashboardContext);
-
+    const {states: {logs}, handleShowSelectedLog} = useContext(DashboardContext);
+    const isAllLogsEmpty = Object.keys(logs.all).length < 1;
+    const isSelectedLogEmpty = Object.keys(logs.selected).length < 1;
     const {log} = useParams();
 
-    useEffect( () => {
-        getLogs();
+    console.log(logs);
 
+    useEffect(() => {
         if (log) {
+            console.log('hererereree');
             handleShowSelectedLog(log);
+        } else {
+            console.log('2');
         }
     }, []);
 
-    const rows = logs.all.length > 0 && logs.all.map( ({id, description, created_at, properties}) => {  
+    const rows = !isAllLogsEmpty && logs.all.map( ({id, description, created_at, properties}) => {  
         return {
             id,
             date: created_at,
@@ -31,11 +35,13 @@ const ManageLogs = () => {
     const headCells = createTableHeadCells(rows)
 
     const renderLogsTable = () => {
-        return logs.all.length > 0 && <DataTable rows={rows} headCells={headCells} link='/dashboard/logs' toolbar={['show']}/>
+        return !isAllLogsEmpty && <DataTable rows={rows} headCells={headCells} link='/dashboard/logs' toolbar={['show']}/>
     }
 
     const renderSelectedLog = () => {
-        if (Object.keys(logs.selected).length > 0) {
+        if (!isSelectedLogEmpty) {
+            console.log(true);
+            // return '';
             const {description, created_at, properties} = logs.selected;
 
             const data = setObjects(

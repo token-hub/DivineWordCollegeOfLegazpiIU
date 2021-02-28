@@ -1,4 +1,4 @@
-import React, {createContext, useEffect, useState} from 'react';
+import React, {createContext, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {Api} from '../services';
 import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
@@ -220,13 +220,25 @@ const DashboardProvider = ({ children }) => {
     const getLogs = () => {
         updateState({isLoading: true});
         Api.get('/api/logs')
-        .then(response => updateState({logs: {...states.logs, all: response.data.data }, isLoading: false}));
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                logs: {...prevState.logs, all: response.data.data},
+                isLoading: false
+            }));
+        });
     }
 
     const handleShowSelectedLog = selectedLogId => {
         updateState({isLoading: true});
         Api.get(`/api/logs/${selectedLogId}`)
-            .then(response => updateState({ logs: {...states.logs, selected: response.data.data}, isLoading: false }))
+            .then(response => {
+                setStates(prevState => ({
+                    ...prevState,
+                    logs: {...prevState.logs, selected: response.data.data},
+                    isLoading: false
+                }))
+            })
             .catch(()=>{
                 handleSnackbar('There was a problem retrieving the selected log', 'error');
             })
@@ -265,8 +277,6 @@ const DashboardProvider = ({ children }) => {
                 handleSnackbar('There was a problem retrieving the selected role', 'error');
             })
     }
-
-    console.log(states);
 
     const addRole = e => {
         e.preventDefault(); 
@@ -404,6 +414,86 @@ const DashboardProvider = ({ children }) => {
         });
     }
 
+    const getUpdates = () => {
+        updateState({isLoading: true});
+        return Api.get('/api/updates')
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                updates: {...prevState.updates, all: response.data.data},
+                isLoading: false
+            }));
+        })
+    }
+
+    const getSelectedUpdate = selectedUpdateId => {
+        Api.get(`/api/updates/${selectedUpdateId}`)
+            .then(response => {
+                setStates(prevState => ({
+                    ...prevState,
+                    updates: {...prevState.updates, selected: response.data.data},
+                    isLoading: false
+                }))
+            })
+            .catch(()=>{
+                updateState({isLoading: false});
+                handleSnackbar('There was a problem retrieving the selected update', 'error');
+            })
+    }
+
+    const updateUpdate = updateId => e => {
+        e.preventDefault();
+        Api.put(`/api/updates/${updateId}`, inputFields)
+        .then(({data : {message}}) => {
+            const msgType = message.includes('Nothing') ? 'info' : 'success';
+            getSelectedUpdate(updateId);
+            getUpdates()
+            .then(()=>{
+                history.push('/dashboard/updates');
+                handleSnackbar(message, msgType);
+            })
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({isLoading: false, errors});
+        });
+    }
+
+    const addUpdate = e => {
+        e.preventDefault(); 
+        updateState({isLoading: true});
+        Api.post('/api/updates', inputFields)
+        .then(({data : {message}}) => {
+            getUpdates()
+            .then(()=>{
+                updateState({isLoading: false}, null, true);
+                history.push('/dashboard/updates');
+                handleSnackbar(message, 'success');
+            })
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({errors: errors, isLoading: false});
+        });
+    }
+
+    const deleteUpdate = updateIDs => e => {
+        e.preventDefault();
+        updateState({isLoading: true});
+        Api.delete(`/api/updates/${updateIDs}`)
+        .then(({data : {message}}) => {
+            getUpdates()
+            .then(()=>{
+                history.push('/dashboard/Updates');
+                handleSnackbar(message, 'success');
+            })
+        })
+        .catch(({response : {data: {message}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({isLoading: false});
+        });
+    }
+    
     const provider = {
         states,
         setStates,
@@ -433,7 +523,12 @@ const DashboardProvider = ({ children }) => {
         updateUser,
         getSelectedUser,
         handleUserAccountActivateDeactivation,
+        getUpdates,
+        getSelectedUpdate,
+        updateUpdate,
         getDataFromStorage,
+        addUpdate,
+        deleteUpdate,
         storageUserKey
     }
 

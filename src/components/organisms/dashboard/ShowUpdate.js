@@ -1,7 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles';
 import {Paragraph} from '../../atoms/dashboard';
-import {stringTransform} from '../../../helpers';
+import {stringTransform, formatDate} from '../../../helpers';
 
 const useStyles = makeStyles({
     header: {
@@ -19,27 +19,30 @@ const useStyles = makeStyles({
     },
     content: {
         padding: '0 2rem',
-        width: '95%',
+        width: '100%',
+    },
+    footer: {
+        padding: '0 2rem',
     }
 });
 
 const ShowUpdate = ({data: {title, category, from = null, to = null, posted_at, main}}) => {
     
-    const {header, mainContent, content} = useStyles();
+    const {header, mainContent, content, footer} = useStyles();
     
     return (
         <div>
             <div className={header}>
                 <Paragraph variant='h6'>{stringTransform(category, '-', ' ')}</Paragraph>
                 <Paragraph >{title.toUpperCase()}</Paragraph>
-                {category == 'news-and-events' && <Paragraph ><small>{`${from} - ${to}`}</small></Paragraph>}
+                {category == 'news-and-events' && <Paragraph ><small>{`${formatDate(from)} - ${formatDate(to)}`}</small></Paragraph>}
             </div>
             <div className={mainContent}>
                 <div className={content}>
                     {main}
                 </div>
             </div>
-            <Paragraph >{`Posted : ${posted_at}`}</Paragraph>
+            <Paragraph className={content}>{`Posted : ${posted_at}`}</Paragraph>
         </div>
     )
 }

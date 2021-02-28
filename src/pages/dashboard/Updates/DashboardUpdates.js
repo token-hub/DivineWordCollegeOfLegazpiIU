@@ -1,52 +1,40 @@
-import React, {useEffect, useContext} from 'react';
-import {useParams} from 'react-router-dom';
+import React, {useContext} from 'react';
 import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../components/templates/dashboard';
-import {DataTable, BasicTable} from '../../../components/organisms/dashboard';
+import {DataTable} from '../../../components/organisms/dashboard';
 import {DashboardContext} from '../../../contexts';
-import {setObjects, createTableHeadCells} from '../../../helpers';
+import {createTableHeadCells, capitalizeAllFirstLetterAndTransform} from '../../../helpers';
 
 const Updates = () => {
 
-    // const {getLogs, states: {logs}, handleShowSelectedLog} = useContext(DashboardContext);
+    const {states: {updates}, deleteUpdate} = useContext(DashboardContext);
+    const isAllUpdateNotEmpty = Object.keys(updates.all).length > 0;
 
-    // const {log} = useParams();
-
-    // useEffect( () => {
-    //     getLogs();
-
-    //     if (log) {
-    //         handleShowSelectedLog(log);
-    //     }
-    // }, []);
-
-    // const rows = logs.all.length > 0 && logs.all.map( ({id, description, created_at, properties}) => {  
-    //     return {
-    //         id,
-    //         date: created_at,
-    //         description,
-    //         user: properties.causer
-    //     }
-    // })
-
-    const rows = [
-        {
-            id: 1,
-            date: '123123',
-            title: 'Title here',
-            category: 'sample category'
+    const rows = isAllUpdateNotEmpty && updates.all.map(({id, created_at, title, category}) => {
+        return {
+            id, 
+            date: created_at, 
+            title, 
+            category: capitalizeAllFirstLetterAndTransform(category, '-', ' '), 
         }
-    ]
+    });
 
     const headCells = createTableHeadCells(rows)
 
     const renderUpdatesTable = () => {
-        return <DataTable rows={rows} headCells={headCells} link='/dashboard/logs' toolbar={['show', 'edit', 'delete']} handleDelete={()=>{}}/>
+        return  rows.length > 0 && 
+        <DataTable 
+            rows={rows} 
+            headCells={headCells} 
+            link='/dashboard/update' 
+            toolbar={['show', 'edit', 'delete']} 
+            handleDelete={deleteUpdate}
+        />
     }
 
     const setHeader = false ? 'View update' : 'Updates';
 
     return (
-        <BaseWithHeaderAndSidebarWithMainHeader header={setHeader}>
+        <BaseWithHeaderAndSidebarWithMainHeader header={setHeader} link='/dashboard/update' linkTitle='Add update'>
             {renderUpdatesTable()}
         </BaseWithHeaderAndSidebarWithMainHeader>
     )

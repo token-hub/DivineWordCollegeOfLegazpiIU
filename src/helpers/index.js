@@ -138,6 +138,20 @@ const checkCookieIsExpired = cookie => {
     return !document.cookie.includes(cookie);
 }
 
+const formatDate = (date = null)  => {
+    const options = {month: 'short', day: 'numeric', year: 'numeric'};
+    const d = new Date(date);
+    return d.toLocaleDateString("en-US", options)
+}
+
+const currentDate = () => {
+    const today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth()+1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    return `${yyyy}-${mm}-${dd}`; 
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -161,4 +175,6 @@ export {
     createTableHeadCells,
     getStringDescriptionFromArrayObject,
     checkCookieIsExpired,
+    formatDate,
+    currentDate
 }
