@@ -4,7 +4,14 @@ import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../../components/tem
 import {DashboardContext} from '../../../../contexts';
 
 const Roles = () => {
-  const {deleteRole, states:{roles}} = useContext(DashboardContext);
+  const {deleteRole, states:{roles}, getRoles} = useContext(DashboardContext);
+  const isRolesEmpty = Object.keys(roles.all).length < 1;
+
+  useEffect(()=>{
+    if (isRolesEmpty) {
+      getRoles();
+    }
+  }, [roles]);
 
   const rows = roles.all.length > 0 && roles.all.map( ({id, description, created_at}) => {  
       return {

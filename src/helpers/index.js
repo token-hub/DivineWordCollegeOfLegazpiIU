@@ -110,8 +110,16 @@ const setImageWithParagraph = (title, name, jobDescription, image) => {
 }
 
 const handleInputChange = (object, setState) => e => {
-    const {name, value} = e.target;
-    
+    let {name, value, files} = e.target;
+
+    let fd = new FormData();
+    if (files) {
+        for (let i = 0; i < files.length; i++) {
+            fd.append("slides[]", files[i]);
+        }
+        value = fd;
+    }
+
     setState(prevState => ({
         ...prevState,
         [object]: {

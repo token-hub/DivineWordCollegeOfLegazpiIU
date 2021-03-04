@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import DataTable from './DataTable';
 import BasicTable from './BasicTable';
 import ShowUpdate from './ShowUpdate';
+import SlideContainer from './SlideContainer';
 
 export {
     LoginForm,
@@ -11,5 +12,6 @@ export {
     Sidebar,
     DataTable,
     BasicTable,
-    ShowUpdate
+    ShowUpdate,
+    SlideContainer
 }

@@ -86,6 +86,10 @@ import {
 	Permissions,
 } from './pages/dashboard/UserManagement';
 import {
+	Slides,
+	ManageSlide
+} from './pages/dashboard/Slides';
+import {
 	Roles,
 	ManageRoles,
 } from './pages/dashboard/UserManagement/Roles';
@@ -205,6 +209,8 @@ const App = () => {
 					<Route path="/dashboard/update/:update/edit" exact component={ManageUpdates} />
 					<Route path="/dashboard/logs" exact component={ManageLogs} />
 					<Route path="/dashboard/logs/:log" exact component={ManageLogs} />
+					<Route path="/dashboard/slides" exact component={Slides} />
+					<Route path="/dashboard/slide" exact component={ManageSlide} />
 				</PrivateRoute>
 				<Route path='*' exact component={PageNotFound} />	
 			</Switch>

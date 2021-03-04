@@ -18,7 +18,7 @@ const menus = [
         setObject('Roles', '/dashboard/roles'),
         setObject('Users', '/dashboard/users'),
     ]),
-    setObject('Banner', null),
+    setObject('Slides', '/dashboard/slides'),
     setObject('Updates', '/dashboard/updates', [
         setObject('Announcements', '/dashboard/announcement'),
         setObject('News and Events', '/dashboard/news-and-events'),
@@ -30,7 +30,7 @@ const menuIconObject = {
     home: HomeIcon,
     users: PersonIcon,
     roles: BusinessCenterIcon,
-    banner: ImageIcon,
+    slides: ImageIcon,
     updates: UpdateIcon,
     announcements: AssignmentLateIcon,
     newsAndEvents: SportsHandballIcon,

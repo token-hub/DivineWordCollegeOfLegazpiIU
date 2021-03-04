@@ -5,9 +5,16 @@ import {DashboardContext} from '../../../contexts';
 import {createTableHeadCells} from '../../../helpers';
 
 const Permissions = () => {
-    const {states:{permissions}} = useContext(DashboardContext);
+    const {states:{permissions}, getPermissions} = useContext(DashboardContext);
     const isPermissionEmpty = Object.keys(permissions).length < 1;
     
+    useEffect(()=>{
+        if (isPermissionEmpty) {
+            getPermissions();
+        }
+    }, [permissions]);
+
+
     const rows = !isPermissionEmpty && permissions.map( ({id, description, created_at}) => {  
         return {
             id,

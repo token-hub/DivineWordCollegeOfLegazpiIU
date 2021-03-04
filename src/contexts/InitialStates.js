@@ -23,5 +23,9 @@ export const initialStates = {
         all: {},
         selected: {}
     },
+    slides: {
+        all:{},
+        selected: []
+    },
     storageUserKey
 }

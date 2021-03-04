@@ -72,7 +72,7 @@ const DashboardProvider = ({ children }) => {
                     users: {...prevState.users, authenticated: getDataFromStorage(storageUserKey)},
                     isLoggedIn: true,
                 }));
-                updateState(null, null, true);
+                updateState({isLoading: false}, null, true);
             })
             .catch(({response : {data: {message}}}) => {
                 handleSnackbar(message, 'error');
@@ -100,7 +100,7 @@ const DashboardProvider = ({ children }) => {
             })
             .catch(({response : {data: {message}}}) => {
                 handleSnackbar(message, 'error');
-                updateState(null, null, true);
+                updateState({isLoading: false}, null, true);
             });
         })
     }
@@ -130,7 +130,7 @@ const DashboardProvider = ({ children }) => {
             })
             .catch(({response : {data: {message, errors}}}) => {
                 handleSnackbar(message, 'error');
-                updateState(null, null, true);
+                updateState({isLoading: false}, null, true);
             });
         })
     }
@@ -160,7 +160,7 @@ const DashboardProvider = ({ children }) => {
             })
             .catch(({response : {data: {message, errors}}}) => {
                 handleSnackbar(message, 'error');
-                updateState(null, null, true);
+                updateState({isLoading: false}, null, true);
             });
         });
     }
@@ -401,7 +401,7 @@ const DashboardProvider = ({ children }) => {
         e.preventDefault();
         is_active = is_active ? 1 : 0;
         updateState({isLoading: true});
-        Api.put(`/api/users/${userId}`, {is_active})
+        Api.put(`/api/users/status/${userId}`, {is_active})
         .then(({data : {message}}) => {
             Api.get(`/api/users`)
             .then(response=>{
@@ -443,6 +443,7 @@ const DashboardProvider = ({ children }) => {
 
     const updateUpdate = updateId => e => {
         e.preventDefault();
+        // console.log(inputFields);
         Api.put(`/api/updates/${updateId}`, inputFields)
         .then(({data : {message}}) => {
             const msgType = message.includes('Nothing') ? 'info' : 'success';
@@ -493,6 +494,76 @@ const DashboardProvider = ({ children }) => {
             updateState({isLoading: false});
         });
     }
+
+    const addSlides = e => {
+        e.preventDefault(); 
+
+        updateState({isLoading: true});
+        Api.post('/api/slides', inputFields['slides'])
+        .then(({data : {message}}) => {
+            getSlides()
+            .then(()=>{
+                updateState({isLoading: false}, true, true);
+                history.push('/dashboard/slides');
+                handleSnackbar(message, 'success');
+            })
+        })
+        .catch(({response : {data: {message, errors}}}) => {
+            handleSnackbar(message, 'error');
+            updateState({errors: errors, isLoading: false});
+        });
+    }
+
+    const getSlides = () => {
+        updateState({isLoading: true});
+        return Api.get('/api/slides')
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                slides: {...prevState.slides, all: response.data.data},
+                isLoading: false
+            }))
+        })
+    }
+
+    const handleSelectedSlide = id => e => {
+        const {selected} = states.slides;
+        
+        if (selected.length > 0 && selected.indexOf(id) != -1){
+            selected.splice(selected.indexOf(id), 1);
+            setStates(prevState => ({
+                ...prevState,
+                slides: {...prevState.slides, selected: [...selected]},
+            }))
+        } else {
+            setStates(prevState => ({
+                ...prevState,
+                slides: {...prevState.slides, selected: [...selected, id]},
+            }))
+        }
+    }
+
+    const deleteSlide = e => {
+        e.preventDefault();
+        const {selected} = states.slides;
+        const isNotEmptySelectedSlide = selected.length > 0;
+        
+        if (isNotEmptySelectedSlide) {
+            updateState({isLoading: true});
+            Api.delete(`/api/slides/${selected}`)
+            .then(({data : {message}}) => {
+                getSlides()
+                .then(()=>{
+                    history.push('/dashboard/slides');
+                    handleSnackbar(message, 'success');
+                })
+            })
+            .catch(({response : {data: {message}}}) => {
+                handleSnackbar(message, 'error');
+                updateState({isLoading: false});
+            });
+        }
+    }
     
     const provider = {
         states,
@@ -529,7 +600,11 @@ const DashboardProvider = ({ children }) => {
         getDataFromStorage,
         addUpdate,
         deleteUpdate,
-        storageUserKey
+        addSlides,
+        storageUserKey,
+        getSlides,
+        handleSelectedSlide,
+        deleteSlide
     }
 
     return (

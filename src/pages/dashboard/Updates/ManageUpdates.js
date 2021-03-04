@@ -29,7 +29,7 @@ const ManageUpdates = () => {
             {id: 2, description: 'news-and-events'}
         ];
 
-        const default_value = category;
+        const default_value = category | null;
 
         const data = setObjects(['name', 'type', 'value'], [
             ['title', 'text', ''],
@@ -81,13 +81,13 @@ const ManageUpdates = () => {
 
     const renderEditUpdatePage = () => {
         if (!isSelectedUpdateEmpty) {
-
+           
             const values = [
                 {id: 1, description: 'announcements'},
                 {id: 2, description: 'news-and-events'}
             ];
 
-            const default_value = category;
+            const default_value = category === 'announcements' ? 1 : 2;
 
             const data = setObjects(['name', 'type', 'value'], [
                 ['id', 'hidden', id],
@@ -97,7 +97,7 @@ const ManageUpdates = () => {
                 ['to', 'date', to],
                 ['updates', 'textarea', content],
             ]);
-    
+            
             return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={updateUpdate(update)} />
         } 
     }

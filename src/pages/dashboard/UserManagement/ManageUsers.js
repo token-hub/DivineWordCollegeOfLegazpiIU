@@ -6,6 +6,7 @@ import {DashboardContext} from '../../../contexts';
 import Button from '@material-ui/core/Button';
 import {useParams, useLocation} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
+
 import {
     createTableHeadCells, 
     setObjects,
@@ -31,16 +32,23 @@ const ManageUsers = () => {
     const {user} = useParams();
     const {active, inactive} = useStyles();
     const location = useLocation();
-    const {states: {users, roles}, handleUserAccountActivateDeactivation, deleteUser, updateUser, getSelectedUser} = useContext(DashboardContext);
+    const {states: {users, roles}, handleUserAccountActivateDeactivation, deleteUser, updateUser, getSelectedUser, getUsers} = useContext(DashboardContext);
     const isEdit = location.pathname.includes('edit');
-    const {selected} = users;
-    const isSelectedEmpty = Object.keys(selected).length < 1;
+    const {selected, all} = users;
+    const isSelectedUserEmpty = Object.keys(selected).length < 1;
+    const isAllUserEmpty = Object.keys(all).length < 1;
     
     useEffect(() => {
-        if (user && isSelectedEmpty) {
+        if (user && isSelectedUserEmpty) {
             getSelectedUser(user);
         }
     }, [selected]);
+
+    useEffect(() => {
+        if (isAllUserEmpty) {
+            getUsers();
+        }
+    }, [all]);
 
     const renderButton = (status, id) => {
         const text = status ? 'Active' : 'Inactive';

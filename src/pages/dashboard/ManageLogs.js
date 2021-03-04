@@ -7,23 +7,26 @@ import {setObjects, createTableHeadCells} from '../../helpers';
 
 const ManageLogs = () => {
 
-    const {states: {logs}, handleShowSelectedLog} = useContext(DashboardContext);
-    const isAllLogsEmpty = Object.keys(logs.all).length < 1;
-    const isSelectedLogEmpty = Object.keys(logs.selected).length < 1;
+    const {states: {logs}, handleShowSelectedLog, getLogs} = useContext(DashboardContext);
+    const {all, selected} = logs;
+    const isAllLogsEmpty = Object.keys(all).length < 1;
+    const isSelectedLogEmpty = Object.keys(selected).length < 1;
     const {log} = useParams();
 
-    console.log(logs);
 
     useEffect(() => {
         if (log) {
-            console.log('hererereree');
             handleShowSelectedLog(log);
-        } else {
-            console.log('2');
         }
-    }, []);
+    }, []); 
 
-    const rows = !isAllLogsEmpty && logs.all.map( ({id, description, created_at, properties}) => {  
+    useEffect(()=>{
+        if (isAllLogsEmpty) {
+            getLogs();
+        }
+    }, [all])
+
+    const rows = !isAllLogsEmpty && all.map( ({id, description, created_at, properties}) => {  
         return {
             id,
             date: created_at,
@@ -40,9 +43,7 @@ const ManageLogs = () => {
 
     const renderSelectedLog = () => {
         if (!isSelectedLogEmpty) {
-            console.log(true);
-            // return '';
-            const {description, created_at, properties} = logs.selected;
+            const {description, created_at, properties} = selected;
 
             const data = setObjects(
                 ['date', 'description', 'cause_by', 'properties'],

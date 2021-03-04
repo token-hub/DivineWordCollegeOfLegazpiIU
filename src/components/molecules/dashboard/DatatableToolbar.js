@@ -30,7 +30,7 @@ const DatatableToolbar = ({header, selected, link = null, toolbar = [], handleDe
 
     const {root, title, icon} = useStyles()
     const numSelected = selected.length;
-
+  console.log(selected);
     const iconObject = {
       edit: EditIcon,
       delete: DeleteIcon,

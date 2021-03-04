@@ -12,7 +12,7 @@ import {handleInputChange, capitalizeAllFirstLetterAndTransform} from '../../../
 
 const useStyles = makeStyles({
     input: {
-        marginBottom: '1.5rem',
+        marginBottom: dense => dense ? '0' : '1.5rem',
         width: '100%',
     },
     hiddenInput: {
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     }
 });
 
-const RenderTextfield = ({ data = [] }) => {
+const RenderTextfield = ({ data = [], dense = false }) => {
 
     let initialState = [];
 
@@ -28,7 +28,7 @@ const RenderTextfield = ({ data = [] }) => {
 
     const {setStates, states: {inputFields, errors}} = useContext(DashboardContext);
 
-    const {input, hiddenInput} = useStyles();
+    const {input, hiddenInput} = useStyles(dense);
 
     useEffect(()=>{
         setSelect(initialState);
@@ -57,7 +57,7 @@ const RenderTextfield = ({ data = [] }) => {
             onChange={onChange}
             required={true}
             type={type}
-            value={value} 
+            value={value}
             fullWidth={true}
             className={style}
             variant="outlined"
@@ -66,7 +66,7 @@ const RenderTextfield = ({ data = [] }) => {
     }
     
     const renderSelectTextField = (index, label, value, options, onChange, style, extra) => {
-        const useId = Array.isArray(options);
+        const useId = Array.isArray(options.values);
         return <FormControl variant='outlined' required key={index} className={style} {...extra}>
             <InputLabel id="demo-controlled-open-select-label">{label}</InputLabel>
             <Select
@@ -94,6 +94,7 @@ const RenderTextfield = ({ data = [] }) => {
                 const setInput = type === 'hidden' ? hiddenInput : input;
                 const date = currentDate();
 
+                if (type === 'file') extra = {...extra,InputLabelProps: {shrink: true}, inputProps: {accept: 'image/*', 'multiple': 'multiple'} }
                 if (type === 'date') extra = {...extra, InputLabelProps: {shrink: true}, inputProps: {min: date}};
                 if (type === 'textarea') extra = {...extra, rows: 10, multiline: true, style: {width: '100%'}};
                 if (type === 'select') {

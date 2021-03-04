@@ -5,6 +5,7 @@ import LinkTextIconSidebar from './LinkTextIconSidebar';
 import DataTableBody from './DatatableBody';
 import DataTableHead from './DatatableHead';
 import DataTableToolbar from './DatatableToolbar';
+import RenderSlide from './RenderSlide';
 
 export {
     RenderForm,
@@ -13,5 +14,6 @@ export {
     LinkTextIconSidebar,
     DataTableBody,
     DataTableHead,
-    DataTableToolbar
+    DataTableToolbar,
+    RenderSlide
 }
