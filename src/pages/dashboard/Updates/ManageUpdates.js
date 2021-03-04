@@ -5,10 +5,8 @@ import {ShowUpdate} from '../../../components/organisms/dashboard';
 import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../components/templates/dashboard';
 import {DashboardContext} from '../../../contexts';
 import {setObjects} from '../../../helpers';
-import banner from '../../../assets/images/newsAndEvents/july-01-2020 college-and-graduate-school-enrollment.jpg';
 
 const ManageUpdates = () => {
-
     const {states:{updates}, getSelectedUpdate, updateUpdate, addUpdate} = useContext(DashboardContext);
     const {update} = useParams();
     const location = useLocation();

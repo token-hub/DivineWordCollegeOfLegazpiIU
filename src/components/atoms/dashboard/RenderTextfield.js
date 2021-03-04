@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,6 +9,9 @@ import {DashboardContext} from '../../../contexts';
 import {initialStates} from '../../../contexts';
 import {updateInitialInputState, currentDate} from '../../../helpers';
 import {handleInputChange, capitalizeAllFirstLetterAndTransform} from '../../../helpers';
+import { EditorState, convertToRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const useStyles = makeStyles({
     input: {
@@ -17,18 +20,23 @@ const useStyles = makeStyles({
     },
     hiddenInput: {
         display: 'none'
+    },
+    editor: {
+        height: '12rem'
     }
 });
 
 const RenderTextfield = ({ data = [], dense = false }) => {
 
     let initialState = [];
+    
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
 
     const [select, setSelect] = useState(initialState);
 
     const {setStates, states: {inputFields, errors}} = useContext(DashboardContext);
 
-    const {input, hiddenInput} = useStyles(dense);
+    const {input, hiddenInput, editor} = useStyles(dense);
 
     useEffect(()=>{
         setSelect(initialState);
@@ -47,9 +55,24 @@ const RenderTextfield = ({ data = [], dense = false }) => {
 
         setSelect(e.target.value);
     }
-   
+
+    const onEditorStateChange = editorState => {
+        setEditorState(editorState);
+    }
+    
     const renderNonSelectTextField = (index, label, name, type, value, onChange, style, extra) => {
-        return <TextField 
+        
+        if (type === 'textarea') {
+            return <>
+                <Editor
+                    editorState={editorState}
+                    wrapperClassName="demo-wrapper"
+                    editorClassName={editor}
+                    onEditorStateChange={onEditorStateChange}
+                />
+            </>
+        } else {
+            return <TextField 
             key={index}
             id={label}
             label={label}
@@ -63,6 +86,7 @@ const RenderTextfield = ({ data = [], dense = false }) => {
             variant="outlined"
             {...extra}
         />
+        }
     }
     
     const renderSelectTextField = (index, label, value, options, onChange, style, extra) => {
