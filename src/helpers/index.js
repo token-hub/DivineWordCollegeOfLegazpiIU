@@ -160,6 +160,18 @@ const currentDate = () => {
     return `${yyyy}-${mm}-${dd}`; 
 }
 
+const unchunkArrayValues = input => {
+    const arr = [];
+
+    for (let i in input) {
+        for(let ii in input[i]) {
+            arr[arr.length] = input[i][ii]
+        }
+    }
+
+    return arr;
+}
+
 export {
     stringTransform,
     isCurrentPage,
@@ -184,5 +196,6 @@ export {
     getStringDescriptionFromArrayObject,
     checkCookieIsExpired,
     formatDate,
-    currentDate
+    currentDate,
+    unchunkArrayValues
 }

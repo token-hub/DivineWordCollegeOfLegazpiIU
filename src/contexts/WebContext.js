@@ -12,6 +12,7 @@ const WebProvider = ({children}) => {
     const initialUpdateStates = {
         newsAndEvents,
         announcements,
+        slides: {}
     };
 
     const [updates, setUpdates] = useState(initialUpdateStates);
@@ -34,12 +35,23 @@ const WebProvider = ({children}) => {
             
     }
 
+    const getSlides = () => {
+        return Api.get('/api/slides')
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                slides: {...prevState.slides, all: response.data.data},
+            }))
+        })
+    }
+
     const provider = {
         states,
         setStates,
         updates,
         setUpdates,
-        handleContactUsForm
+        handleContactUsForm,
+        getSlides
     }
     
     return (

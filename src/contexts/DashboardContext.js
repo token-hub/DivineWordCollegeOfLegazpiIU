@@ -443,7 +443,7 @@ const DashboardProvider = ({ children }) => {
 
     const updateUpdate = updateId => e => {
         e.preventDefault();
-        // console.log(inputFields);
+        
         Api.put(`/api/updates/${updateId}`, inputFields)
         .then(({data : {message}}) => {
             const msgType = message.includes('Nothing') ? 'info' : 'success';

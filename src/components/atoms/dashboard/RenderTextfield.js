@@ -72,20 +72,23 @@ const RenderTextfield = ({ data = [], dense = false }) => {
                 />
             </>
         } else {
+
+            const isSetValue = type === 'file' ? {} : {value};
+
             return <TextField 
-            key={index}
-            id={label}
-            label={label}
-            name={name}
-            onChange={onChange}
-            required={true}
-            type={type}
-            value={value}
-            fullWidth={true}
-            className={style}
-            variant="outlined"
-            {...extra}
-        />
+                key={index}
+                id={label}
+                label={label}
+                name={name}
+                onChange={onChange}
+                required={true}
+                type={type}
+                {...isSetValue}
+                fullWidth={true}
+                className={style}
+                variant="outlined"
+                {...extra}
+            />
         }
     }
     
