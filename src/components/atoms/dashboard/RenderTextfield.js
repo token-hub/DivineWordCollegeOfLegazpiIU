@@ -9,8 +9,8 @@ import {DashboardContext} from '../../../contexts';
 import {initialStates} from '../../../contexts';
 import {updateInitialInputState, currentDate} from '../../../helpers';
 import {handleInputChange, capitalizeAllFirstLetterAndTransform} from '../../../helpers';
-import { EditorState, convertToRaw } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
+import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
+import {Editor} from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const useStyles = makeStyles({
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
         display: 'none'
     },
     editor: {
-        height: '12rem'
+        height: '30rem'
     }
 });
 
@@ -30,14 +30,14 @@ const RenderTextfield = ({ data = [], dense = false }) => {
 
     let initialState = [];
     
-    const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
     const [select, setSelect] = useState(initialState);
 
-    const {setStates, states: {inputFields, errors}} = useContext(DashboardContext);
+    const [uploadImages, setUploadedImage] = useState([]);
+
+    const {setStates, states: {inputFields, errors}, editorState, onEditorStateChange, setEditorState} = useContext(DashboardContext);
 
     const {input, hiddenInput, editor} = useStyles(dense);
-
+    
     useEffect(()=>{
         setSelect(initialState);
     }, [])
@@ -56,23 +56,47 @@ const RenderTextfield = ({ data = [], dense = false }) => {
         setSelect(e.target.value);
     }
 
-    const onEditorStateChange = editorState => {
-        setEditorState(editorState);
+    const uploadCallback = file => {
+        const imageObject = {
+            file,
+            localSrc : URL.createObjectURL(file)
+        }
+
+        setUploadedImage([...uploadImages, imageObject]);
+
+        return new Promise((resolve, reject) => {
+            resolve({data: {link: imageObject.localSrc}})
+        })
     }
     
     const renderNonSelectTextField = (index, label, name, type, value, onChange, style, extra) => {
-        
         if (type === 'textarea') {
+            // const setEditorState = value !== '' ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : editorState;
+            // console.log(setEditorState);
+
+            if (value !== '') {
+                // console.log('asdqweasd');
+                // setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(value))));
+            }
+
             return <>
                 <Editor
                     editorState={editorState}
                     wrapperClassName="demo-wrapper"
                     editorClassName={editor}
                     onEditorStateChange={onEditorStateChange}
+                    placeholder={'Begin typing...'}
+                    toolbar={{
+                        image: {
+                            uploadEnabled: true, 
+                            urlEnabled: true, 
+                            uploadCallback: uploadCallback,
+                            previewImage: true,
+                        }
+                    }}
                 />
             </>
         } else {
-
             const isSetValue = type === 'file' ? {} : {value};
 
             return <TextField 

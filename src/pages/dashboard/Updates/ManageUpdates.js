@@ -1,4 +1,5 @@
 import React, {useEffect, useContext} from 'react'
+import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
 import {useParams, useLocation} from 'react-router-dom';
 import {RenderForm} from '../../../components/molecules/dashboard';
 import {ShowUpdate} from '../../../components/organisms/dashboard';
@@ -7,7 +8,7 @@ import {DashboardContext} from '../../../contexts';
 import {setObjects} from '../../../helpers';
 
 const ManageUpdates = () => {
-    const {states:{updates}, getSelectedUpdate, updateUpdate, addUpdate} = useContext(DashboardContext);
+    const {states:{updates}, getSelectedUpdate, updateUpdate, addUpdate, editorState, editorInitialState, setEditorState} = useContext(DashboardContext);
     const {update} = useParams();
     const location = useLocation();
     const isEdit = location.pathname.includes('edit');
@@ -19,6 +20,12 @@ const ManageUpdates = () => {
             getSelectedUpdate(update);
         }
     }, []);
+
+    useEffect(()=>{
+        if (!isSelectedUpdateEmpty) {
+            setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(content))));
+        }       
+    }, [updates])
 
     const renderAddUpdatePage = () => {
 
@@ -49,28 +56,6 @@ const ManageUpdates = () => {
                 from,
                 to,
                 posted_at: created_at,
-                main: content,
-                // main: <>
-                //     <p>
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     </p>
-                //     <p>
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     </p>
-                //     <p>
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     </p>
-                //     <p>
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem
-                //     </p>
-                //     <div style={{ height: '35rem', width: '35rem' }}>
-                //         <img src={banner} alt='hurray' style={{ width: '100%', height: '100%' }} />
-                //     </div>
-                // </>
             }
     
             return <ShowUpdate data={data} />
@@ -79,7 +64,7 @@ const ManageUpdates = () => {
 
     const renderEditUpdatePage = () => {
         if (!isSelectedUpdateEmpty) {
-           
+
             const values = [
                 {id: 1, description: 'announcements'},
                 {id: 2, description: 'news-and-events'}

@@ -3,8 +3,12 @@ import {useHistory} from "react-router-dom";
 import {Api} from '../services';
 import {setDataToStorage, getDataFromStorage} from '../helpers/dashboard';
 import {updateInitialInputState, checkCookieIsExpired} from '../helpers';
+import {EditorState, convertToRaw} from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
+import draftToHtml from 'draftjs-to-html';
 import {useSnackbarHandler} from '../hooks';
 import {initialStates} from './';
+import { login } from '../data/dashboard/Authentication';
 
 const DashboardContext = createContext();
 
@@ -12,9 +16,36 @@ const DashboardProvider = ({ children }) => {
 
     const handleSnackbar = useSnackbarHandler();
     const [states, setStates] = useState({...initialStates});
+    
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const {inputFields, storageUserKey} = states;
     const history = useHistory();
-   
+
+    const onEditorStateChange = editorState => {
+        setEditorState(editorState);
+    }
+
+
+
+
+    /*
+        if there's a slug
+            then the editor must get that the content of that slug
+        
+
+        prob, 
+            then retrived content of the slug is being altered with the default 
+            editor state because the state is being called 4 times
+
+
+    */
+
+
+
+
+
+
+
     const updateState = (statesToUpdate = {}, resetInputFields = false, resetErrors = false) => {
        
         let emptyInputFields = {};
@@ -363,7 +394,7 @@ const DashboardProvider = ({ children }) => {
             updateState({isLoading: false});
         });
     }
-
+    
     const updateUser = userId => e => {
         e.preventDefault();
         Api.put(`/api/users/${userId}`, {roleIds: inputFields['roles']})
@@ -433,7 +464,7 @@ const DashboardProvider = ({ children }) => {
                     ...prevState,
                     updates: {...prevState.updates, selected: response.data.data},
                     isLoading: false
-                }))
+                }));
             })
             .catch(()=>{
                 updateState({isLoading: false});
@@ -444,6 +475,10 @@ const DashboardProvider = ({ children }) => {
     const updateUpdate = updateId => e => {
         e.preventDefault();
         
+        inputFields.updates = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+
+        console.log(JSON.stringify(convertToRaw(editorState.getCurrentContent())));
+
         Api.put(`/api/updates/${updateId}`, inputFields)
         .then(({data : {message}}) => {
             const msgType = message.includes('Nothing') ? 'info' : 'success';
@@ -461,7 +496,13 @@ const DashboardProvider = ({ children }) => {
     }
 
     const addUpdate = e => {
-        e.preventDefault(); 
+        e.preventDefault();
+
+        inputFields.updates = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
+
+        // console.log(editorState.getCurrentContent());
+        // console.log(convertToRaw(editorState.getCurrentContent()));
+
         updateState({isLoading: true});
         Api.post('/api/updates', inputFields)
         .then(({data : {message}}) => {
@@ -604,7 +645,10 @@ const DashboardProvider = ({ children }) => {
         storageUserKey,
         getSlides,
         handleSelectedSlide,
-        deleteSlide
+        deleteSlide,
+        editorState,
+        setEditorState,
+        onEditorStateChange
     }
 
     return (

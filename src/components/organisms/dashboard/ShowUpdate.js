@@ -1,7 +1,11 @@
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles';
 import {Paragraph} from '../../atoms/dashboard';
 import {stringTransform, formatDate} from '../../../helpers';
+import {convertToRaw, convertFromRaw} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import {DashboardContext} from '../../../contexts';
+import parse from 'html-react-parser';
 
 const useStyles = makeStyles({
     header: {
@@ -26,10 +30,12 @@ const useStyles = makeStyles({
     }
 });
 
-const ShowUpdate = ({data: {title, category, from = null, to = null, posted_at, main}}) => {
+const ShowUpdate = ({data: {title, category, from = null, to = null, posted_at}}) => {
     
     const {header, mainContent, content, footer} = useStyles();
-    
+
+    const {editorState} = useContext(DashboardContext);
+
     return (
         <div>
             <div className={header}>
@@ -39,7 +45,7 @@ const ShowUpdate = ({data: {title, category, from = null, to = null, posted_at, 
             </div>
             <div className={mainContent}>
                 <div className={content}>
-                    {main}
+                    {parse(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
                 </div>
             </div>
             <Paragraph className={content}>{`Posted : ${posted_at}`}</Paragraph>
