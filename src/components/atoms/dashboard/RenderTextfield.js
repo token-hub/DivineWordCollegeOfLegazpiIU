@@ -12,6 +12,7 @@ import {handleInputChange, capitalizeAllFirstLetterAndTransform} from '../../../
 import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
 import {Editor} from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import {Api} from '../../../services';
 
 const useStyles = makeStyles({
     input: {
@@ -57,16 +58,13 @@ const RenderTextfield = ({ data = [], dense = false }) => {
     }
 
     const uploadCallback = file => {
-        const imageObject = {
-            file,
-            localSrc : URL.createObjectURL(file)
-        }
 
-        setUploadedImage([...uploadImages, imageObject]);
-
-        return new Promise((resolve, reject) => {
-            resolve({data: {link: imageObject.localSrc}})
-        })
+        const fd = new FormData();
+        fd.append("image", file);
+        return Api.post('/api/image', fd)
+            .then(response => {
+                return {data: {link: response.data.link}}
+            });
     }
     
     const renderNonSelectTextField = (index, label, name, type, value, onChange, style, extra) => {
