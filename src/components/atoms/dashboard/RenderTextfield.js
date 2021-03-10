@@ -9,7 +9,6 @@ import {DashboardContext} from '../../../contexts';
 import {initialStates} from '../../../contexts';
 import {updateInitialInputState, currentDate} from '../../../helpers';
 import {handleInputChange, capitalizeAllFirstLetterAndTransform} from '../../../helpers';
-import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
 import {Editor} from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import {Api} from '../../../services';
@@ -32,8 +31,6 @@ const RenderTextfield = ({ data = [], dense = false }) => {
     let initialState = [];
     
     const [select, setSelect] = useState(initialState);
-
-    const [uploadImages, setUploadedImage] = useState([]);
 
     const {setStates, states: {inputFields, errors}, editorState, onEditorStateChange, setEditorState} = useContext(DashboardContext);
 
@@ -69,13 +66,6 @@ const RenderTextfield = ({ data = [], dense = false }) => {
     
     const renderNonSelectTextField = (index, label, name, type, value, onChange, style, extra) => {
         if (type === 'textarea') {
-            // const setEditorState = value !== '' ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : editorState;
-            // console.log(setEditorState);
-
-            if (value !== '') {
-                // console.log('asdqweasd');
-                // setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(value))));
-            }
 
             return <>
                 <Editor
@@ -85,12 +75,14 @@ const RenderTextfield = ({ data = [], dense = false }) => {
                     onEditorStateChange={onEditorStateChange}
                     placeholder={'Begin typing...'}
                     toolbar={{
+                        options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign','image','history'],
                         image: {
                             uploadEnabled: true, 
                             urlEnabled: true, 
                             uploadCallback: uploadCallback,
                             previewImage: true,
-                        }
+                            defaultSize: {height: '100%', 'width': '100%'}
+                        },
                     }}
                 />
             </>

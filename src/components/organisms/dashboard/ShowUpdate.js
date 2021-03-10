@@ -1,8 +1,8 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import {makeStyles} from '@material-ui/core/styles';
 import {Paragraph} from '../../atoms/dashboard';
 import {stringTransform, formatDate} from '../../../helpers';
-import {convertToRaw, convertFromRaw} from 'draft-js';
+import {convertToRaw} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import {DashboardContext} from '../../../contexts';
 import parse from 'html-react-parser';
@@ -35,7 +35,7 @@ const ShowUpdate = ({data: {title, category, from = null, to = null, posted_at}}
     const {header, mainContent, content, footer} = useStyles();
 
     const {editorState} = useContext(DashboardContext);
-
+    
     return (
         <div>
             <div className={header}>

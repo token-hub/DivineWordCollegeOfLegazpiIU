@@ -4,19 +4,24 @@ import {newsAndEvents, announcements} from '../data/web';
 import {initialStates} from './';
 import {useSnackbarHandler} from '../hooks';
 import {checkCookieIsExpired} from '../helpers';
+import {EditorState} from 'draft-js';
 
 const WebContext = createContext();
 
 const WebProvider = ({children}) => {
     const handleSnackbar = useSnackbarHandler();
     const initialUpdateStates = {
+        updates: {
+            all: {},
+            announcements: {},
+            newsAndEvents: {},
+        },
         newsAndEvents,
-        announcements,
         slides: {}
     };
 
-    const [updates, setUpdates] = useState(initialUpdateStates);
-    const [states, setStates] = useState(initialStates);
+    const [states, setStates] = useState(initialUpdateStates);
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const {inputFields} = states;
 
     const handleContactUsForm = e => {
@@ -40,18 +45,52 @@ const WebProvider = ({children}) => {
         .then(response => {
             setStates(prevState => ({
                 ...prevState,
-                slides: {...prevState.slides, all: response.data.data},
+                slides: response.data.data,
             }))
+        })
+    }
+
+    const getUpdates = () => {
+        return Api.get('/api/updates')
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                updates: {...prevState.updates, all: response.data.data},
+            }));
+        })
+    }
+
+    const getAnnouncements = () => {
+        return Api.get('/api/updates/announcements')
+        .then(response => {
+            setStates(prevState => ({
+                ...prevState,
+                updates: {...prevState.updates, announcements: response.data.data},
+            }));
+        })
+    }
+
+    const getNewsAndEvents = () => {
+        return Api.get('/api/updates/newsAndEvents')
+        .then(response => {
+
+            setStates(prevState => ({
+                ...prevState,
+                updates: {...prevState.updates, newsAndEvents: response.data.data},
+            }));
         })
     }
 
     const provider = {
         states,
         setStates,
-        updates,
-        setUpdates,
         handleContactUsForm,
-        getSlides
+        getSlides,
+        getUpdates,
+        getAnnouncements,
+        editorState,
+        setEditorState,
+        getNewsAndEvents
     }
     
     return (

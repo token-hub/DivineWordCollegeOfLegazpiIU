@@ -26,11 +26,10 @@ const Slider = ({ data, size = null }) => {
 
     const {carousel, image} = useStyle();
 
-    const {getSlides, states:{slides:{all}}} = useContext(WebContext);
-
+    const {getSlides, states:{slides}} = useContext(WebContext);
     const setSize = size ? size : carousel;
 
-    const isSlidesIsEmpty = Object.keys(all).length < 1;
+    const isSlidesIsEmpty = Object.keys(slides).length < 1;
 
     useEffect(()=> {
         if (isSlidesIsEmpty) {
@@ -48,7 +47,7 @@ const Slider = ({ data, size = null }) => {
                 next={()=>{}}
                 prev={()=>{}}
             >          
-                {!isSlidesIsEmpty && unchunkArrayValues(all).map(({alt, src}, index) => {
+                {!isSlidesIsEmpty && unchunkArrayValues(slides).map(({alt, src}, index) => {
                    return (
                        <div className={image} key={index}>
                         <Image alt={alt} source={src}  />

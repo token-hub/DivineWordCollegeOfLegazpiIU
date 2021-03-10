@@ -1,19 +1,16 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {useParams} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import {BaseWithBannerAndUpdates} from '../../../components/templates/web';
+import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {UpdateContainer, Pagination} from '../../../components/molecules/web';
 import {Paragraph} from '../../../components/atoms/web';
 import {banners} from '../../../data/web';
 import {WebContext} from '../../../contexts';
 import {makeStyles} from '@material-ui/core/styles';
-
-import {
-  ModesOfPayment,
-  Administrative,
-  BasicEducation,
-  Protocols
-} from './announcements';
+import draftToHtml from 'draftjs-to-html';
+import parse from 'html-react-parser';
+import {getDateObj} from '../../../helpers';
 
 const useStyles = makeStyles({
   selectedUpdateContainer: {
@@ -24,43 +21,62 @@ const useStyles = makeStyles({
 const ManageAnnouncements = () => { 
     const {selectedUpdateContainer} = useStyles();
     const {announcement} = useParams();
-    const {updates:{announcements}} = useContext(WebContext);
+    const {states:{updates}, getAnnouncements, setEditorState, editorState} = useContext(WebContext);
+    const {announcements} = updates;
+    const isAnnouncementIsEmpty = Object.keys(announcements).length < 1;
 
-    const isAnnouncementExist = announcements
-      .map(eachAnnouncement => { return eachAnnouncement.title })
-      .filter(title => title === announcement)
-      .length > 0;
+    // check if the desired announcement is within the announcements collection
+    const isAnnouncementExist = !isAnnouncementIsEmpty && announcements
+    .map(eachAnnouncement => eachAnnouncement.title)
+    .filter(title => title === announcement)
+    .length > 0;
+  
+    // get the selected announcement out of the announcements collecteion
+  const selectedAnnouncement = !isAnnouncementIsEmpty && Object.keys(announcements)
+    .map(data => announcements[data])
+    .filter(data => data.title === announcement)[0];
 
-      const setAnnouncementHeader = isAnnouncementExist ? announcement : `${announcement} (NOT FOUND)`;
+    useEffect(()=>{
+      if(isAnnouncementIsEmpty) {
+        getAnnouncements()
+      }
+    }, []);
+
+    useEffect(() => {
+      if (isAnnouncementExist) {
+          setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(selectedAnnouncement.updates))));
+      }       
+    }, [updates])
+
+    const setAnnouncementHeader = isAnnouncementExist ? announcement.toUpperCase() : `${announcement} (NOT FOUND)`;
 
     const renderSelectedAnnouncement = () => {
-      return <div className={selectedUpdateContainer}>
-          <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
-          <Paragraph variant='h6'  color='primary' align='center'>{setAnnouncementHeader}</Paragraph>
-          {
-            announcement.includes('PAYMENT')
-              ? <ModesOfPayment /> 
-              : announcement.includes('ADMINISTRATIVE')
-                ? <Administrative />
-                : announcement.includes('EDUCATION')
-                  ? <BasicEducation />
-                  : announcement.includes('PROTOCOLS')
-                    ? <Protocols />
-                    : ''
-          }
-        </div>
+      if (isAnnouncementExist) {
+        return (
+          <div className={selectedUpdateContainer}>
+            <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
+            <Paragraph variant='h6'  color='primary' align='center'>{setAnnouncementHeader}</Paragraph>
+            <div>{parse(draftToHtml(convertToRaw(editorState.getCurrentContent())))}</div>
+            <Paragraph>{`Posted : ${selectedAnnouncement.created_at}`}</Paragraph>
+          </div>
+        )
+      }
     }
 
     const renderAllAnnouncements = () => {
-      return <>
-        <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
-            {announcements.map((data,index) => 
-              <UpdateContainer color='primary' key={index} {...data} /> 
-            )}
-          <Grid container justify='center'>
-            {/* <Pagination /> */}
-          </Grid>
-      </>
+      if (!isAnnouncementIsEmpty) {
+        return <>
+          <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
+              {announcements.map(({category, title, updates, subtitle, created_at}, index) => {
+                  const link = `/updates/${category}/${title}`;
+                  const data = {dateAndTime: getDateObj(created_at), title, subtitle, link}
+                return <UpdateContainer color='primary' key={index} {...data} /> 
+              })}
+            <Grid container justify='center'>
+              {/* <Pagination /> */}
+            </Grid>
+        </>
+      }
     }
 
     return (

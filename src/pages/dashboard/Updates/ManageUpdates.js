@@ -1,5 +1,5 @@
 import React, {useEffect, useContext} from 'react'
-import {EditorState, convertToRaw, convertFromRaw} from 'draft-js';
+import {EditorState, convertFromRaw} from 'draft-js';
 import {useParams, useLocation} from 'react-router-dom';
 import {RenderForm} from '../../../components/molecules/dashboard';
 import {ShowUpdate} from '../../../components/organisms/dashboard';
@@ -8,7 +8,7 @@ import {DashboardContext} from '../../../contexts';
 import {setObjects} from '../../../helpers';
 
 const ManageUpdates = () => {
-    const {states:{updates}, getSelectedUpdate, updateUpdate, addUpdate, editorState, editorInitialState, setEditorState} = useContext(DashboardContext);
+    const {states:{updates}, getSelectedUpdate, updateUpdate, addUpdate, setEditorState} = useContext(DashboardContext);
     const {update} = useParams();
     const location = useLocation();
     const isEdit = location.pathname.includes('edit');

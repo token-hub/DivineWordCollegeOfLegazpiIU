@@ -88,8 +88,8 @@ const isBlock = (item, className, className2) => {
     // return Object.keys(item).length > 0 ? clsx(className, className2) : className;
 }
 
-const setUpdates = (dateAndTime, type, title, subtitle = null, link = '#', image = null) => {
-    return {dateAndTime, type, title, subtitle, link, image};
+const setUpdates = (dateAndTime, type, title, subtitle = null, link = '#', update = null) => {
+    return {dateAndTime, type, title, subtitle, link, update};
 }
 
 const renderIconFromObject = (key, object, color='inherit', breakLines = false) => {
@@ -160,6 +160,20 @@ const currentDate = () => {
     return `${yyyy}-${mm}-${dd}`; 
 }
 
+const getDateObj = date => {
+    const newDate = new Date(date);
+    newDate.setHours(9);
+    newDate.setMinutes(30);
+    
+    return {
+        day: newDate.getDate(),
+        month: newDate.toLocaleString('default', { month: 'short' }),
+        year: newDate.getFullYear(),
+        hours: newDate.getHours(),
+        minutes: newDate.getMinutes(),
+    }
+  }
+
 const unchunkArrayValues = input => {
     const arr = [];
 
@@ -197,5 +211,6 @@ export {
     checkCookieIsExpired,
     formatDate,
     currentDate,
-    unchunkArrayValues
+    unchunkArrayValues,
+    getDateObj
 }

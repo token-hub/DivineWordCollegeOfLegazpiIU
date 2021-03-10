@@ -31,12 +31,12 @@ const CardComp = ({link = '#', title, image}) => {
         <Grid container justify='center' item sm={12} md={4} className={cardContainer} >
             <Card classes={{root:card}} variant="outlined" raised={true}>
                 <CardMedia
-                classes={{root:media}}
-                image={image}
+                    classes={{root:media}}
+                    image={image}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h6" component="h2">
-                    { title }
+                    {title.toUpperCase()}
                     </Typography>
                 </CardContent>
                 <CardActions>
