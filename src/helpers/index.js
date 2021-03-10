@@ -5,8 +5,7 @@ const stringTransform = (text, from, to) => {
 }
 
 const isCurrentPage = (path, key) => {
-    const currentPath = path.split('/').pop();
-    return isHomePage(path, key) || currentPath === key; // /about
+    return isHomePage(path, key) || path.includes(key);
 }
 
 const isHomePage = (path, key = 'home') => {
