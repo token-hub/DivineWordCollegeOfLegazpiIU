@@ -43,7 +43,7 @@ const NewsAndEvents = () => {
             <Grid container item>
                 {!isNewsAndEventsIsEmpty && 
                     newsAndEvents.filter((data, index) => index < 3)
-                        .map(({title, category, updates}, index) => {
+                        .map(({title, category, updates, subtitle}, index) => {
                             const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(updates))).getCurrentContent();
                             const firstEntityKey = editorState._map._root.entries[1][1][0];
                             const lastImageSrc = firstEntityKey ? editorState.getEntity(firstEntityKey).getData()['src'] : null;

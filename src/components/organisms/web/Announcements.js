@@ -49,7 +49,7 @@ const Announcements = () => {
             <Grid container item className={announcementContainer}>
                 {!isAnnouncementIsEmpty && 
                     announcements.filter((data, index) => index < 4)
-                        .map(({category, title, updates, subtitle, created_at}, index) => {
+                        .map(({category, title, subtitle, created_at}, index) => {
                             const link = `/updates/${category}/${title}`;
                             const data = {dateAndTime: getDateObj(created_at), title, subtitle, link}
                         return <UpdateContainer color='primary' width='50%' key={index} {...data} /> 

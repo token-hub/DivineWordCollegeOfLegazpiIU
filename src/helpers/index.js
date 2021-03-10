@@ -5,7 +5,8 @@ const stringTransform = (text, from, to) => {
 }
 
 const isCurrentPage = (path, key) => {
-    return isHomePage(path, key) || path.includes(key); // /about
+    const currentPath = path.split('/').pop();
+    return isHomePage(path, key) || currentPath === key; // /about
 }
 
 const isHomePage = (path, key = 'home') => {
@@ -162,8 +163,6 @@ const currentDate = () => {
 
 const getDateObj = date => {
     const newDate = new Date(date);
-    newDate.setHours(9);
-    newDate.setMinutes(30);
     
     return {
         day: newDate.getDate(),

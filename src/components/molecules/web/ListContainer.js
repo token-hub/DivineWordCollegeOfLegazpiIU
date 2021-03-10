@@ -11,6 +11,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
+import {getDateObj} from '../../../helpers';
 
 import {
     isCurrentPage, 
@@ -117,6 +118,50 @@ const ListContainer = ({data = null, header, type}) => {
         setListDrawer({...initialState});
     }, [])
 
+    const renderListItem = (type, title, link, postedDate, sublinks, listDrawer, setListClass, dateAndTimeClass, condition) => {
+        return (
+            <ListItem button 
+                component='a' 
+                href={link}  
+                className={setListClass} 
+            >
+            <ListItemText primary={isNeedTextTransform(type, title)} />
+            {condition && <Typography variant='subtitle2' className={dateAndTimeClass}>{postedDate}</Typography>}
+            <ListItemSecondaryAction onClick={ () => handleListDrawerEvent(title) }>
+                {sublinks !== undefined 
+                    ?   listDrawer[title]
+                            ? <ExpandLess className={cursor} /> 
+                            : <ExpandMore className={cursor} />
+                    : ''
+                }
+            </ListItemSecondaryAction>
+        </ListItem>
+        )
+    }
+
+    const renderCollapsableListItem = (listDrawer, title, type, sublinks) => {
+        return (
+            <Collapse in={listDrawer[title]} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+                {sublinks.map(({title:sublinkTitle, link}, index) => {
+                    
+                    let setNestedListClass = listItemNested;
+                    if (isCurrentPage(path, sublinkTitle.toLowerCase())) {
+                        initialState = {...initialState, [title]: !initialState[title]};
+                        setNestedListClass = listItemNestedCurrent;
+                    }
+
+                    return (
+                        <ListItem button component='a' href={link} key={index} className={setNestedListClass}>
+                            <ListItemText primary={isNeedTextTransform(type, sublinkTitle)} />
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Collapse> 
+        )
+    }
+
     return (
         <Grid container item justify='center'>
             <Grid item className={listContainer}>
@@ -126,66 +171,27 @@ const ListContainer = ({data = null, header, type}) => {
                     </Typography>
                 </Grid>
                 <List component="div" disablePadding>
-                    {data ? data.map(({ title, link, dateAndTime, sublinks },index) => {
+                    {data ? data.map(({title, link, dateAndTime, sublinks},index) => {
                             
-                            let date = {
-                                year: 0,
-                                month: 0,
-                                day: 0,
-                                hours: 0,
-                                minutes: 0
-                            };
+                            const isDateAndTimeNotEmpty = dateAndTime !== null && type === 'updates';
+                            
+                            
+                            const {year, month, day, hours, minutes} = getDateObj(dateAndTime);
 
-                            const isDateAndTimeNotEmpty = dateAndTime !== null && Object.values(date)[0] !== 0;
+                            // console.log(minutes);
 
-                            if (isDateAndTimeNotEmpty) {
-                                date = {...dateAndTime};
-                            }
-
-                            const {year, month, day, hours, minutes} = date;
                             const amOrPm = hours > 12 ? 'PM' : 'AM';
                             const postedDate = `${month} ${day}, ${year} | ${hours}:${minutes} ${amOrPm}`;
 
                             const setListClass = isBlock(dateAndTime, setListItem(path, title), block);
                             if (sublinks !== undefined) initialState = {...initialState, [title]: false};
-                            return (<div key={index}>
-                                    <ListItem button 
-                                        component='a' 
-                                        href={link}  
-                                        className={setListClass} 
-                                    >
-                                        <ListItemText primary={isNeedTextTransform(type, title)} />
-                            {isDateAndTimeNotEmpty && <Typography variant='subtitle2' className={dateAndTimeClass}>{postedDate}</Typography>}
-                                        <ListItemSecondaryAction onClick={ () => handleListDrawerEvent(title) }>
-                                            {sublinks !== undefined 
-                                                ?   listDrawer[title]
-                                                        ? <ExpandLess className={cursor} /> 
-                                                        : <ExpandMore className={cursor} />
-                                                : ''
-                                            }
-                                        </ListItemSecondaryAction>
-                                    </ListItem>
-                                    {sublinks !== undefined &&
-                                        <Collapse in={listDrawer[title]} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding>
-                                                {sublinks.map(({title:sublinkTitle, link}, index) => {
-                                                    
-                                                    let setNestedListClass = listItemNested;
-                                                    if (isCurrentPage(path, sublinkTitle.toLowerCase())) {
-                                                        initialState = {...initialState, [title]: !initialState[title]};
-                                                        setNestedListClass = listItemNestedCurrent;
-                                                    }
 
-                                                    return (
-                                                        <ListItem button component='a' href={link} key={index} className={setNestedListClass}>
-                                                            <ListItemText primary={isNeedTextTransform(type, sublinkTitle)} />
-                                                        </ListItem>
-                                                    )
-                                                })}
-                                            </List>
-                                        </Collapse>     
-                                    }
-                                </div>)
+                            return (
+                                <div key={index}>
+                                    {renderListItem(type, title, link, postedDate, sublinks, listDrawer, setListClass, dateAndTimeClass, isDateAndTimeNotEmpty)}
+                                    {sublinks !== undefined && renderCollapsableListItem(listDrawer, title, type, sublinks)   }
+                                </div>
+                                )
                             })
                         :   <ListItem className={clsx(listItem, alignCenter)}>
                                 <ListItemText primary={`No ${header}`} />

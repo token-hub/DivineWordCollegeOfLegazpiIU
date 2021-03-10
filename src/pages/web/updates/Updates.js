@@ -20,9 +20,9 @@ const Updates = () => {
       }
     }, []);
 
-    const newsAndEvents = !isUpdatesIsEmpty && all.map(({title, created_at, from, to, updates, category}) => {
+    const newsAndEvents = !isUpdatesIsEmpty && all.map(({title, subtitle, created_at, from, to, updates, category}) => {
       const link = `/updates/${category}/${title}`;
-      return setUpdates(getDateObj(created_at), category, title, null, link, updates);
+      return setUpdates(getDateObj(created_at), category, title, subtitle, link, updates);
     })
   
     return (
