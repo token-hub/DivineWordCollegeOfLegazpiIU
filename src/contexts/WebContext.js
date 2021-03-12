@@ -73,7 +73,6 @@ const WebProvider = ({children}) => {
     const getNewsAndEvents = () => {
         return Api.get('/api/updates/newsAndEvents')
         .then(response => {
-
             setStates(prevState => ({
                 ...prevState,
                 updates: {...prevState.updates, newsAndEvents: response.data.data},

@@ -152,8 +152,8 @@ const formatDate = (date = null)  => {
     return d.toLocaleDateString("en-US", options)
 }
 
-const currentDate = () => {
-    const today = new Date();
+const currentDate = (date = null) => {
+    const today = date ? new Date(date) : new Date();
     const dd = String(today.getDate()).padStart(2, '0');
     const mm = String(today.getMonth()+1).padStart(2, '0');
     const yyyy = today.getFullYear();
@@ -210,5 +210,5 @@ export {
     formatDate,
     currentDate,
     unchunkArrayValues,
-    getDateObj
+    getDateObj,
 }

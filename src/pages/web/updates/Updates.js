@@ -31,7 +31,7 @@ const Updates = () => {
             <UpdateContainer color='primary' key={index} {...data} /> 
           )}
           <Grid container justify='center'>
-            {/* <Pagination /> */}
+            <Pagination />
           </Grid>
         </BaseWithBannerAndUpdates>
     )
