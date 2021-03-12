@@ -1,34 +1,44 @@
-import React from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { MemoryRouter, Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import Pagination from '@material-ui/lab/Pagination';
 import PaginationItem from '@material-ui/lab/PaginationItem';
 import { makeStyles } from '@material-ui/core/styles';
+import { WebContext } from '../../../contexts';
 
 const useStyles = makeStyles({
     marginTop: {
       marginTop: '2rem'
     }
 })
+const PaginationLink = ({ data, apiRequestCallback }) => {
 
-export default function PaginationLink() {
+  const {getUpdates} = useContext(WebContext);
 
-    const {marginTop} = useStyles();
+  const {data:updates , links, meta} = data;
+  const {path, last_page} = meta;
+  const {marginTop} = useStyles();
+
+  const [page, setPage] = useState(1);
+
+  const handleChange = (event, value) => {
+    apiRequestCallback(value);
+    setPage(value)
+  }
 
   return (
     <MemoryRouter initialEntries={['/updates']} initialIndex={0}>
       <Route>
         {({ location }) => {
-          const query = new URLSearchParams(location.search);
-          const page = parseInt(query.get('page') || '1', 10);
           return (
             <Pagination
               classes={{ ul: marginTop }}
               page={page}
-              count={10}
+              count={last_page}
               shape="rounded"
               color='primary'
               size="large"
+              onChange={handleChange}
               renderItem={(item) => (
                 <PaginationItem
                   component={Link}
@@ -43,3 +53,5 @@ export default function PaginationLink() {
     </MemoryRouter>
   );
 }
+
+export default PaginationLink

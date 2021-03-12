@@ -26,14 +26,13 @@ const ManageNewsAndEvents = () => {
     const isNewsAndEventsIsEmpty = Object.keys(newsAndEvents).length < 1;
 
     // check if the desired announcement is within the announcements collection
-    const isNewsAndEventsExist = !isNewsAndEventsIsEmpty && newsAndEvents
+    const isNewsAndEventsExist = !isNewsAndEventsIsEmpty && newsAndEvents.data
       .map(eachNewsAndEvents => eachNewsAndEvents.title)
       .filter(title => title === newsAndEvent)
       .length > 0;
 
     // get the selected announcement out of the announcements collecteion
-    const selectedNewsAndEvents = !isNewsAndEventsIsEmpty && Object.keys(newsAndEvents)
-      .map(data => newsAndEvents[data])
+    const selectedNewsAndEvents = !isNewsAndEventsIsEmpty && newsAndEvents.data
       .filter(data => data.title === newsAndEvent)[0];
 
     useEffect(()=>{
@@ -64,19 +63,24 @@ const ManageNewsAndEvents = () => {
     }
 
     const renderAllNewsAndEvents = () => {
-      if (!isNewsAndEventsIsEmpty) {
-        return <>
+
+      let newsAndEventsContent = <Paragraph variant='h6' align='center' bold color='primary'>-- There is no news and events yet --</Paragraph>
+      
+      if (!isNewsAndEventsIsEmpty && newsAndEvents.data.length > 0) {
+        newsAndEventsContent = <>
           <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
-              {newsAndEvents.map(({category, title, updates, subtitle, created_at}, index) => {
+              {newsAndEvents.data.map(({category, title, subtitle, created_at}, index) => {
                   const link = `/updates/${category}/${title}`;
                   const data = {dateAndTime: getDateObj(created_at), title, subtitle, link}
                 return <UpdateContainer color='primary' key={index} {...data} /> 
               })}
             <Grid container justify='center'>
-              {/* <Pagination /> */}
+              <Pagination data={newsAndEvents} apiRequestCallback={getNewsAndEvents}/>
             </Grid>
         </>
       }
+
+      return newsAndEventsContent;
     }
 
     return (

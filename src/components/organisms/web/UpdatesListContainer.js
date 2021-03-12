@@ -22,25 +22,24 @@ const UpdatesListContainer = () => {
     }, []);
 
     const latestPost = !isUpdatesIsEmpty && 
-        all.filter((data, index) => index < 3)
+        all.data.filter((data, index) => index < 3)
         .map(({title, created_at, category}) => {
             const link = `/updates/${category}/${title}`;
             return {title, dateAndTime: created_at, link};
         });
 
     const upcomingEvents = !isNewsAndEventsIsEmpty &&
-        all.filter((data, index) => data.category === 'news-and-events')
+        all.data.filter((data, index) => data.category === 'news-and-events')
         .filter((data, index) => index < 3)
         .filter(data => formatDate(data.to) >= formatDate(currentDate()))
         .map(({title, category}) => {
             const link = `/updates/${category}/${title}`;
             return {title, link};
         });
-
     return (
         <>
-            {upcomingEvents.length > 0 && <ListContainer data={upcomingEvents} header='Upcoming Events' type='updates'/>}
-            {latestPost.length > 0 && <ListContainer data={latestPost} header='Latest Post' type='updates'/>}
+            <ListContainer data={upcomingEvents} header='Upcoming Events' type='updates'/>
+            <ListContainer data={latestPost} header='Latest Post' type='updates'/>
             <ListContainer data={categories} header='Categories' type='updates'/>
         </>
     )

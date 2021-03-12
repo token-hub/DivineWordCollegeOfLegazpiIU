@@ -171,7 +171,7 @@ const ListContainer = ({data = null, header, type}) => {
                     </Typography>
                 </Grid>
                 <List component="div" disablePadding>
-                    {data ? data.map(({title, link, dateAndTime = null, sublinks},index) => {
+                    {data && data.length > 0 ? data.map(({title, link, dateAndTime = null, sublinks},index) => {
                             const isDateAndTimeNotEmpty = dateAndTime !== null && type === 'updates';
                             const {year, month, day, hours, minutes} = getDateObj(dateAndTime);
                             const amOrPm = hours > 12 ? 'PM' : 'AM';

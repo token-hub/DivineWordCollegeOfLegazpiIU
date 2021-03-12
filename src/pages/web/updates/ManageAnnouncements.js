@@ -26,14 +26,13 @@ const ManageAnnouncements = () => {
     const isAnnouncementIsEmpty = Object.keys(announcements).length < 1;
 
     // check if the desired announcement is within the announcements collection
-    const isAnnouncementExist = !isAnnouncementIsEmpty && announcements
+    const isAnnouncementExist = !isAnnouncementIsEmpty && announcements.data
     .map(eachAnnouncement => eachAnnouncement.title)
     .filter(title => title === announcement)
     .length > 0;
-  
+
     // get the selected announcement out of the announcements collecteion
-  const selectedAnnouncement = !isAnnouncementIsEmpty && Object.keys(announcements)
-    .map(data => announcements[data])
+  const selectedAnnouncement = !isAnnouncementIsEmpty && announcements.data
     .filter(data => data.title === announcement)[0];
 
     useEffect(()=>{
@@ -52,6 +51,7 @@ const ManageAnnouncements = () => {
 
     const renderSelectedAnnouncement = () => {
       if (isAnnouncementExist) {
+        
         return (
           <div className={selectedUpdateContainer}>
             <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
@@ -64,19 +64,23 @@ const ManageAnnouncements = () => {
     }
 
     const renderAllAnnouncements = () => {
-      if (!isAnnouncementIsEmpty) {
-        return <>
+      let announcementsContent = <Paragraph variant='h6' align='center' bold color='primary'>-- There is no announcements yet --</Paragraph>
+
+      if (!isAnnouncementIsEmpty && announcements.data.length > 0) {
+        announcementsContent = <>
           <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>
-              {announcements.map(({category, title, updates, subtitle, created_at}, index) => {
+              {announcements.data.map(({category, title, subtitle, created_at}, index) => {
                   const link = `/updates/${category}/${title}`;
                   const data = {dateAndTime: getDateObj(created_at), title, subtitle, link}
                 return <UpdateContainer color='primary' key={index} {...data} /> 
               })}
             <Grid container justify='center'>
-              {/* <Pagination /> */}
+              <Pagination data={announcements} apiRequestCallback={getAnnouncements}/>
             </Grid>
         </>
       }
+
+      return announcementsContent;
     }
 
     return (

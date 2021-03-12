@@ -5,9 +5,7 @@ import {UpdateContainer, Pagination} from '../../../components/molecules/web';
 import {banners} from '../../../data/web';
 import {WebContext} from '../../../contexts';
 import {setUpdates, getDateObj} from '../../../helpers';
-import workshop from '../../../assets/images/newsAndEvents/july-16-2020 lecture-and-workshop-on-technology-01.jpg';
-import digital from '../../../assets/images/newsAndEvents/july-12-2020 training-online-class-01.jpg';
-import enrollment from '../../../assets/images/newsAndEvents/july-01-2020 college-and-graduate-school-enrollment.jpg';
+import { Paragraph } from '../../../components/atoms/web';
 
 const Updates = () => { 
 
@@ -15,24 +13,30 @@ const Updates = () => {
     const isUpdatesIsEmpty = Object.keys(all).length < 1;
 
     useEffect(() => {
-      if (isUpdatesIsEmpty) {
-        getUpdates();
-      }
+      getUpdates();
     }, []);
 
-    const newsAndEvents = !isUpdatesIsEmpty && all.map(({title, subtitle, created_at, from, to, updates, category}) => {
+    const allUpdates = !isUpdatesIsEmpty && all.data.map(({title, subtitle, created_at, updates, category}) => {
       const link = `/updates/${category}/${title}`;
       return setUpdates(getDateObj(created_at), category, title, subtitle, link, updates);
     })
+
+    const renderUpdates = () => {
+      return (
+        <>
+          {allUpdates.map((data,index) => 
+            <UpdateContainer color='primary' key={index} {...data} /> )
+          }
+          <Grid container justify='center'>
+            {!isUpdatesIsEmpty && <Pagination data={all} apiRequestCallback={getUpdates} /> }
+          </Grid>
+        </>
+      )
+    }
   
     return (
         <BaseWithBannerAndUpdates banner={banners.UpdatesBannerObj}>
-          {!isUpdatesIsEmpty && newsAndEvents.map((data,index) => 
-            <UpdateContainer color='primary' key={index} {...data} /> 
-          )}
-          <Grid container justify='center'>
-            <Pagination />
-          </Grid>
+          {!isUpdatesIsEmpty ? renderUpdates() : <Paragraph>There is no updates yet</Paragraph>}
         </BaseWithBannerAndUpdates>
     )
 }

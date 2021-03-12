@@ -15,7 +15,7 @@ const PrivateRoute = ({ children, ...rest }) => {
 
   const isAuthenticatedUserIsEmpty = Object.keys(authenticated).length < 1;
   const {pathname} = useLocation();
-  const pagesToCheckIfThereAuthenticatedUser = ['login', 'register', 'verification', 'reset',];
+  const pagesToCheckIfThereAuthenticatedUser = ['login', 'register', 'verification', 'reset'];
   const checkUserStorageIsNotEmpty = () => {
     return getDataFromStorage(storageUserKey) === null ? false : true;
   }
@@ -53,9 +53,10 @@ const PrivateRoute = ({ children, ...rest }) => {
           ? children
           : loginPage()
         : !isAuthenticatedUserIsEmpty
-          && isAuthUserAccessingGuestPages
+          ? isAuthUserAccessingGuestPages
             ? homePage()
             : children
+          : children
       }
     </Route>
   );

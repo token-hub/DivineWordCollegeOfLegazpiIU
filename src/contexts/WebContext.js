@@ -50,32 +50,32 @@ const WebProvider = ({children}) => {
         })
     }
 
-    const getUpdates = () => {
-        return Api.get('/api/updates')
+    const getUpdates = (page = 1) => {
+        return Api.get(`/api/updates?page=${page}`)
         .then(response => {
             setStates(prevState => ({
                 ...prevState,
-                updates: {...prevState.updates, all: response.data.data},
+                updates: {...prevState.updates, all: response.data},
             }));
         })
     }
 
-    const getAnnouncements = () => {
-        return Api.get('/api/updates/announcements')
+    const getAnnouncements = (page = 1) => {
+        return Api.get(`/api/updates/announcements?page=${page}`)
         .then(response => {
             setStates(prevState => ({
                 ...prevState,
-                updates: {...prevState.updates, announcements: response.data.data},
+                updates: {...prevState.updates, announcements: response.data},
             }));
         })
     }
 
-    const getNewsAndEvents = () => {
-        return Api.get('/api/updates/newsAndEvents')
+    const getNewsAndEvents = (page = 1) => {
+        return Api.get(`/api/updates/newsAndEvents?page=${page}`)
         .then(response => {
             setStates(prevState => ({
                 ...prevState,
-                updates: {...prevState.updates, newsAndEvents: response.data.data},
+                updates: {...prevState.updates, newsAndEvents: response.data},
             }));
         })
     }
