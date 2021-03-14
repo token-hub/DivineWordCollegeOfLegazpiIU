@@ -55,7 +55,7 @@ const DashboardProvider = ({ children }) => {
             localStorage.clear();
             return Api.get('/sanctum/csrf-cookie');
         }
-        return Promise.resolve();
+        return Promise.resolve({response: {data: null}});
     }
 
     const handleInputChange = e => {
@@ -81,6 +81,7 @@ const DashboardProvider = ({ children }) => {
             }));
             updateState({isLoading: false}, null, true);
         } catch (error) {
+            updateState({isLoading: false});
             const {response : {data: {message}}} = error;
             handleSnackbar(message, 'error');
         }
@@ -89,25 +90,38 @@ const DashboardProvider = ({ children }) => {
     const handleLogin = e => {
         e.preventDefault();
         updateState({isLoading: true});
+
         setXsrfToken()
         .then(()=>{
-            Api.post('/login', inputFields)
+             Api.post('/login', inputFields)
             .then(({data : {message}}) => {
-                if (message.includes('active')) {
+                if (message.includes('verified')) {
+                    // logout -- removed cuz, anauthenticated is being thrown when accessing
+                    // verification/resend
+                    updateState({isLoading: false});
                     history.push('/dashboard/email/verification');
                     handleSnackbar(message, 'info');
+
+                }  else if (message.includes('active')) {
+                    // need to call the logout api so it can erase the cookie in
+                    // the browser -_-
+                    Api.post('/logout').then(()=>{
+                        updateState({isLoading: false}, true);
+                        handleSnackbar(message, 'info');
+                    })
                 } else {
                     getUser()
-                    .then(()=>{
-                        updateState({isLoading: false});
-                        history.push('/dashboard/home');
-                        handleSnackbar(message, 'success');
-                    })
+                    updateState({isLoading: false});
+                    history.push('/dashboard/home');
+                    handleSnackbar(message, 'success');
                 }
             })
-            .catch(({response : {data: {message}}}) => {
-                handleSnackbar(message, 'error');
-                updateState({isLoading: false}, null, true);
+            .catch(({response}) => {
+                if (response) {
+                    const {data: {message}} = response;
+                    handleSnackbar(message, 'error');
+                    updateState({isLoading: false}, null, true);
+                }
             });
         })
     }
@@ -179,9 +193,11 @@ const DashboardProvider = ({ children }) => {
         .then(()=>{
             Api.post('/register', inputFields)
             .then(() => {
-                updateState({isLoading: false}, true, true);
-                history.push('/dashboard/login');
-                handleSnackbar('Please check your email to activate your account', 'info');
+                Api.post('/logout').then(()=>{
+                    updateState({isLoading: false}, true, true);
+                    history.push('/dashboard/login');
+                    handleSnackbar('Please check your email to activate your account', 'info');
+                })
             })
             .catch(({response : {data: {message, errors}}}) => {
                 handleSnackbar(message, 'error');
@@ -225,16 +241,19 @@ const DashboardProvider = ({ children }) => {
         returnBackToDashboardProfile(e, 'profile');
     }
 
-    const getLogs = () => {
+    const getLogs = async () => {
         updateState({isLoading: true});
-        Api.get('/api/logs')
-        .then(response => {
+        try {
+            const response = await Api.get('/api/logs');
             setStates(prevState => ({
                 ...prevState,
                 logs: {...prevState.logs, all: response.data.data},
                 isLoading: false
             }));
-        });
+        } catch (error) {
+            updateState({isLoading: false});
+            handleSnackbar('There was a problem retrieving the logs', 'error');
+        }
     }
 
     const handleShowSelectedLog = selectedLogId => {
@@ -248,24 +267,39 @@ const DashboardProvider = ({ children }) => {
                 }))
             })
             .catch(()=>{
+                updateState({isLoading: false});
                 handleSnackbar('There was a problem retrieving the selected log', 'error');
             })
     }
 
-    const getPermissions = () => {
+    const getPermissions = async () => {
         updateState({isLoading: true});
-        Api.get('/api/permissions')
-        .then(response => updateState({permissions: response.data.data, isLoading: false}))
+        try {
+            const response = await Api.get('/api/permissions');
+            setStates(prevState => ({
+                ...prevState,
+                permissions: response.data.data,
+                isLoading: false
+            }));
+        } catch (error) {
+            updateState({isLoading: false});
+            handleSnackbar('There was a problem retrieving the permissions', 'error');
+        }
     }
 
     const getRoles = async () => {
         updateState({isLoading: true});
-        const response = await Api.get('/api/roles');
-        setStates(prevState => ({
-            ...prevState,
-            roles: {...prevState.roles, all: response.data.data},
-            isLoading: false
-        }));
+        try {
+            const response = await Api.get('/api/roles');
+            setStates(prevState => ({
+                ...prevState,
+                roles: {...prevState.roles, all: response.data.data},
+                isLoading: false
+            }));
+        } catch (error) {
+            updateState({isLoading: false});
+            handleSnackbar('There was a problem retrieving the selected role', 'error');
+        }
     }
     
     const getSelectedRole = selectedRoleId => {
@@ -280,6 +314,7 @@ const DashboardProvider = ({ children }) => {
                 updateState(null, null, true)
             })
             .catch(()=>{
+                updateState({isLoading: false});
                 handleSnackbar('There was a problem retrieving the selected role', 'error');
             })
     }
