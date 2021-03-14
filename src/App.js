@@ -69,34 +69,6 @@ import {
 	ManageAnnouncements,
 	ManageNewsAndEvents,
 } from './pages/web/Updates';
-import {
-	Login,
-	Register,
-	PasswordEdit,
-	EmailVerification,
-	ManagePasswordReset,
-} from './pages/dashboard/Authentication';
-import {
-	HomeDashboard,
-	Profile,
-	ManageLogs,
-} from './pages/dashboard';
-import {
-	ManageUsers,
-	Permissions,
-} from './pages/dashboard/UserManagement';
-import {
-	Slides,
-	ManageSlide
-} from './pages/dashboard/Slides';
-import {
-	Roles,
-	ManageRoles,
-} from './pages/dashboard/UserManagement/Roles';
-import {
-	DashboardUpdates,
-	ManageUpdates,
-} from './pages/dashboard/Updates';
 
 const useStyles = makeStyles({
     app: {
@@ -184,35 +156,10 @@ const App = () => {
 				<Route path="/contact-us" exact component={ContactUs} />
 				<Route path="/alumni" exact component={Alumni} />	 
 				
-				<PrivateRoute>	
-					<Route path="/dashboard/login" exact component={Login} />
-					<Route path="/dashboard/register" exact component={Register} />
-					<Route path="/dashboard/email/verification" exact component={EmailVerification} />
-					{/* Password/reset is for unathenticated user that forgotted their password */}
-					<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
+				{/* Dashboard Pages */}
+				<Route path='/dashboard'><PrivateRoute /></Route>
 
-					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
-					<Route path="/dashboard/users" exact component={ManageUsers} />
-					<Route path="/dashboard/users/:user" exact component={ManageUsers} />
-					<Route path="/dashboard/users/:user/edit" exact component={ManageUsers} />
-					<Route path="/dashboard/permissions" exact component={Permissions} />
-					<Route path="/dashboard/roles" exact component={Roles} />
-					<Route path='/dashboard/role' exact component={ManageRoles} />
-					<Route path='/dashboard/role/:role' exact component={ManageRoles} />
-					<Route path='/dashboard/role/:role/edit' exact component={ManageRoles} />
-					<Route path="/dashboard/profile" exact component={Profile} />
-					{/* Password/edit is for authenticated user that wants to change password */}
-					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
-					<Route path="/dashboard/updates" exact component={DashboardUpdates} />
-					<Route path="/dashboard/update" exact component={ManageUpdates} />
-					<Route path="/dashboard/update/:update" exact component={ManageUpdates} />
-					<Route path="/dashboard/update/:update/edit" exact component={ManageUpdates} />
-					<Route path="/dashboard/logs" exact component={ManageLogs} />
-					<Route path="/dashboard/logs/:log" exact component={ManageLogs} />
-					<Route path="/dashboard/slides" exact component={Slides} />
-					<Route path="/dashboard/slide" exact component={ManageSlide} />
-				</PrivateRoute>
-				<Route path='*' exact component={PageNotFound} />	
+				<Route exact component={PageNotFound} />
 			</Switch>
 		</div>
 	);

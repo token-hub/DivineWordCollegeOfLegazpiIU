@@ -13,7 +13,7 @@ const ManageUpdates = () => {
     const location = useLocation();
     const isEdit = location.pathname.includes('edit');
     const isSelectedUpdateEmpty = Object.keys(updates.selected).length < 1;
-    const {title, id, category, from, to, created_at, updates:content} = updates.selected;
+    const {title, subtitle, id, category, from, to, created_at, updates:content} = updates.selected;
 
     useEffect( () => {
         if (update) {
@@ -36,12 +36,13 @@ const ManageUpdates = () => {
 
         const default_value = category | null;
 
-        const data = setObjects(['name', 'type', 'value'], [
-            ['title', 'text', ''],
-            ['category', 'select', {values, default_value}],
-            ['from', 'date'],
-            ['to', 'date'],
-            ['updates', 'textarea', ''],
+        const data = setObjects(['name', 'type', 'value', 'required'], [
+            ['title', 'text', '', true],
+            ['subtitle', 'text', '', false],
+            ['category', 'select', {values, default_value}, true],
+            ['from', 'date', true],
+            ['to', 'date', true],
+            ['updates', 'textarea', '', true],
         ]);
 
         return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={addUpdate} />
@@ -72,13 +73,14 @@ const ManageUpdates = () => {
 
             const default_value = category === 'announcements' ? 1 : 2;
 
-            const data = setObjects(['name', 'type', 'value'], [
-                ['id', 'hidden', id],
-                ['title', 'text', title],
-                ['category', 'select', {values, default_value}],
-                ['from', 'date', from],
-                ['to', 'date', to],
-                ['updates', 'textarea', content],
+            const data = setObjects(['name', 'type', 'value', 'required'], [
+                ['id', 'hidden', id, true],
+                ['title', 'text', title, true],
+                ['subtitle', 'text', subtitle, false],
+                ['category', 'select', {values, default_value}, true],
+                ['from', 'date', from, true],
+                ['to', 'date', to, true],
+                ['updates', 'textarea', content, true],
             ]);
             
             return <RenderForm buttonTitle='Submit' inputFields={data} handleSubmit={updateUpdate(update)} />

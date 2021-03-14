@@ -70,20 +70,20 @@ const DashboardProvider = ({ children }) => {
 		}))
     }
 
-    const getUser = () => {
-        return Api.get('/api/user')
-            .then(response => {
-                setDataToStorage(storageUserKey, response.data)
-                setStates(prevState => ({
-                    ...prevState,
-                    users: {...prevState.users, authenticated: getDataFromStorage(storageUserKey)},
-                    isLoggedIn: true,
-                }));
-                updateState({isLoading: false}, null, true);
-            })
-            .catch(({response : {data: {message}}}) => {
-                handleSnackbar(message, 'error');
-            });
+    const getUser = async () => {
+        try {
+            const response = await Api.get('/api/user')
+            setDataToStorage(storageUserKey, response.data)
+            setStates(prevState => ({
+                ...prevState,
+                users: {...prevState.users, authenticated: getDataFromStorage(storageUserKey)},
+                isLoggedIn: true,
+            }));
+            updateState({isLoading: false}, null, true);
+        } catch (error) {
+            const {response : {data: {message}}} = error;
+            handleSnackbar(message, 'error');
+        }
     }
 
     const handleLogin = e => {
@@ -199,16 +199,17 @@ const DashboardProvider = ({ children }) => {
             let msgType = message.includes('Nothing') ? 'info' : 'success';
 
             getUser()
-            .then(() => {
-                let destination = 'profile';
+            let destination = 'profile';
+            let clearInputFields = false;
 
-                if (url.includes('password')) {
-                    destination = 'password/edit'  
-                }
-                updateState({isLoading: false}, null, true);
-                history.push(`/dashboard/${destination}`);
-                handleSnackbar(message, msgType); 
-            })
+            if (url.includes('password')) {
+                destination = 'password/edit'  
+                clearInputFields = true;
+            }
+
+            updateState({isLoading: false}, clearInputFields, true);
+            history.push(`/dashboard/${destination}`);
+            handleSnackbar(message, msgType); 
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -257,16 +258,14 @@ const DashboardProvider = ({ children }) => {
         .then(response => updateState({permissions: response.data.data, isLoading: false}))
     }
 
-    const getRoles = () => {
+    const getRoles = async () => {
         updateState({isLoading: true});
-        return Api.get('/api/roles')
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                roles: {...prevState.roles, all: response.data.data},
-                isLoading: false
-            }));
-        })
+        const response = await Api.get('/api/roles');
+        setStates(prevState => ({
+            ...prevState,
+            roles: {...prevState.roles, all: response.data.data},
+            isLoading: false
+        }));
     }
     
     const getSelectedRole = selectedRoleId => {
@@ -291,11 +290,9 @@ const DashboardProvider = ({ children }) => {
         Api.post('/api/roles', inputFields)
         .then(({data : {message}}) => {
             getRoles()
-            .then(()=>{
-                updateState({isLoading: false}, null, true);
-                history.push('/dashboard/roles');
-                handleSnackbar(message, 'success');
-            })
+            updateState({isLoading: false}, null, true);
+            history.push('/dashboard/roles');
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -309,8 +306,7 @@ const DashboardProvider = ({ children }) => {
         Api.put(`/api/roles/${roleID}`, inputFields)
         .then(({data : {message}}) => {
             const msgType = message.includes('Nothing') ? 'info' : 'success';
-            
-            getSelectedRole(roleID);
+            getRoles()
             history.push('/dashboard/roles');
             handleSnackbar(message, msgType);
         })
@@ -322,15 +318,14 @@ const DashboardProvider = ({ children }) => {
 
     const deleteRole = roleIDs => e => {
         e.preventDefault();
+
         updateState({isLoading: true});
         Api.delete(`/api/roles/${roleIDs}`)
         .then(({data : {message}}) => {
-            Api.get('/api/roles')
-            .then(response => {
-                updateState({roles: {...states.roles, all: response.data.data }, isLoading: false})
-                history.push('/dashboard/roles');
-                handleSnackbar(message, 'success');
-            })
+            getRoles()
+            updateState({isLoading: false})
+            history.push('/dashboard/roles');
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message}}}) => {
             handleSnackbar(message, 'error');
@@ -338,20 +333,19 @@ const DashboardProvider = ({ children }) => {
         });
     }
 
-    const getUsers = () => {
+    const getUsers = async ()  => {
         updateState({isLoading: true});
-        return Api.get(`/api/users`)
-        .then(response => {
+        try {
+          const response = await Api.get(`/api/users`);
             setStates(prevState => ({
                 ...prevState,
                 users: {...prevState.users, all: response.data},
                 isLoading: false
             }))
-        })
-        .catch(() => {
+        } catch (error) {
             handleSnackbar('Failed to retrieve users', 'error');
             updateState({isLoading: false});
-        });
+        }
     }
 
     const deleteUser = userIDs => e => {
@@ -360,10 +354,8 @@ const DashboardProvider = ({ children }) => {
         Api.delete(`/api/users/${userIDs}`)
         .then(({data : {message}}) => {
             getUsers()
-            .then(()=>{
-                history.push('/dashboard/users');
-                handleSnackbar(message, 'success');
-            })
+            history.push('/dashboard/users');
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message}}}) => {
             handleSnackbar(message, 'error');
@@ -376,12 +368,10 @@ const DashboardProvider = ({ children }) => {
         Api.put(`/api/users/${userId}`, {roleIds: inputFields['roles']})
         .then(({data : {message}}) => {
             const msgType = message.includes('Nothing') ? 'info' : 'success';
-            getSelectedUser(userId);
             getUsers()
-            .then(()=>{
-                history.push('/dashboard/users');
-                handleSnackbar(message, msgType);
-            })
+            getSelectedUser(userId);
+            history.push('/dashboard/users');
+            handleSnackbar(message, msgType);
         })
         .catch(({response : {data: {message}}}) => {
             handleSnackbar(message, 'error');
@@ -400,7 +390,7 @@ const DashboardProvider = ({ children }) => {
             })
             .catch(()=>{
                 updateState({isLoading: false});
-                handleSnackbar('There was a problem retrieving the selected role', 'error');
+                handleSnackbar('There was a problem retrieving the selected user', 'error');
             })
     }
  
@@ -410,27 +400,23 @@ const DashboardProvider = ({ children }) => {
         updateState({isLoading: true});
         Api.put(`/api/users/status/${userId}`, {is_active})
         .then(({data : {message}}) => {
-            Api.get(`/api/users`)
-            .then(response=>{
-                handleSnackbar(message, 'success');
-                updateState({users: {...states.users, all: response.data }, isLoading: false})
-            })
+            getUsers()
+            updateState({isLoading: false})
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message}}}) => {
             handleSnackbar(message, 'error');
         });
     }
 
-    const getUpdates = () => {
+    const getUpdates = async () => {
         updateState({isLoading: true});
-        return Api.get('/api/updates')
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                updates: {...prevState.updates, all: response.data.data},
-                isLoading: false
-            }));
-        })
+        const response = await Api.get('/api/updates')
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, all: response.data.data},
+            isLoading: false
+        }));
     }
 
     const getSelectedUpdate = selectedUpdateId => {
@@ -457,11 +443,9 @@ const DashboardProvider = ({ children }) => {
         .then(({data : {message}}) => {
             const msgType = message.includes('Nothing') ? 'info' : 'success';
             getSelectedUpdate(updateId);
-            getUpdates()
-            .then(()=>{
-                history.push('/dashboard/updates');
-                handleSnackbar(message, msgType);
-            })
+            getUpdates();
+            history.push('/dashboard/updates');
+            handleSnackbar(message, msgType);
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -474,18 +458,13 @@ const DashboardProvider = ({ children }) => {
 
         inputFields.updates = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
 
-        // console.log(editorState.getCurrentContent());
-        // console.log(convertToRaw(editorState.getCurrentContent()));
-
         updateState({isLoading: true});
         Api.post('/api/updates', inputFields)
         .then(({data : {message}}) => {
             getUpdates()
-            .then(()=>{
-                updateState({isLoading: false}, null, true);
-                history.push('/dashboard/updates');
-                handleSnackbar(message, 'success');
-            })
+            updateState({isLoading: false}, null, true);
+            history.push('/dashboard/updates');
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -499,10 +478,8 @@ const DashboardProvider = ({ children }) => {
         Api.delete(`/api/updates/${updateIDs}`)
         .then(({data : {message}}) => {
             getUpdates()
-            .then(()=>{
-                history.push('/dashboard/Updates');
-                handleSnackbar(message, 'success');
-            })
+            history.push('/dashboard/Updates');
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message}}}) => {
             handleSnackbar(message, 'error');
@@ -517,11 +494,9 @@ const DashboardProvider = ({ children }) => {
         Api.post('/api/slides', inputFields['slides'])
         .then(({data : {message}}) => {
             getSlides()
-            .then(()=>{
-                updateState({isLoading: false}, true, true);
-                history.push('/dashboard/slides');
-                handleSnackbar(message, 'success');
-            })
+            updateState({isLoading: false}, true, true);
+            history.push('/dashboard/slides');
+            handleSnackbar(message, 'success');
         })
         .catch(({response : {data: {message, errors}}}) => {
             handleSnackbar(message, 'error');
@@ -529,16 +504,14 @@ const DashboardProvider = ({ children }) => {
         });
     }
 
-    const getSlides = () => {
+    const getSlides = async () => {
         updateState({isLoading: true});
-        return Api.get('/api/slides')
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                slides: {...prevState.slides, all: response.data.data},
-                isLoading: false
-            }))
-        })
+        const response = await Api.get('/api/slides');
+        setStates(prevState => ({
+            ...prevState,
+            slides: {...prevState.slides, all: response.data.data},
+            isLoading: false
+        }))
     }
 
     const handleSelectedSlide = id => e => {
@@ -568,10 +541,8 @@ const DashboardProvider = ({ children }) => {
             Api.delete(`/api/slides/${selected}`)
             .then(({data : {message}}) => {
                 getSlides()
-                .then(()=>{
-                    history.push('/dashboard/slides');
-                    handleSnackbar(message, 'success');
-                })
+                history.push('/dashboard/slides');
+                handleSnackbar(message, 'success');
             })
             .catch(({response : {data: {message}}}) => {
                 handleSnackbar(message, 'error');

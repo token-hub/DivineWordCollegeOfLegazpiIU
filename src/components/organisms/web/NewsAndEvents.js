@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {SharedGrid, CardComp} from '../../molecules/web';
 import {WebContext} from '../../../contexts';
-import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
+import {EditorState, convertFromRaw} from 'draft-js';
 
 const useStyles = makeStyles(theme =>({
     root: {
@@ -42,7 +42,7 @@ const NewsAndEvents = () => {
             </Grid>
             <Grid container item>
                 {!isNewsAndEventsIsEmpty && 
-                    newsAndEvents.filter((data, index) => index < 3)
+                    newsAndEvents.data.filter((data, index) => index < 3)
                         .map(({title, category, updates, subtitle}, index) => {
                             const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(updates))).getCurrentContent();
                             const firstEntityKey = editorState._map._root.entries[1][1][0];

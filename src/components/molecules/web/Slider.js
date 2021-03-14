@@ -35,7 +35,7 @@ const Slider = ({ data, size = null }) => {
         if (isSlidesIsEmpty) {
             getSlides();
         }
-    });
+    }, []);
 
     const renderCorousel = () => {
         return (

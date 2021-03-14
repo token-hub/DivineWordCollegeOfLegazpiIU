@@ -20,7 +20,7 @@ const RenderMenu = () => {
 
     const {icon} = useStyles();
 
-    const {handleLogout, states: {users: {authenticated:{name}}}} = useContext(DashboardContext);
+    const {handleLogout, states: {users: {authenticated:{username}}}} = useContext(DashboardContext);
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -34,7 +34,7 @@ const RenderMenu = () => {
 
     return (
         <>
-        <Paragraph variant='h6' bold>{name}</Paragraph>
+        <Paragraph variant='h6' bold>{username}</Paragraph>
 
             <LinkTextIcon
              style={{ width: 'initial' }}

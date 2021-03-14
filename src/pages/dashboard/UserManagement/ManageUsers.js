@@ -32,12 +32,26 @@ const ManageUsers = () => {
     const {user} = useParams();
     const {active, inactive} = useStyles();
     const location = useLocation();
-    const {states: {users, roles}, handleUserAccountActivateDeactivation, deleteUser, updateUser, getSelectedUser, getUsers} = useContext(DashboardContext);
+    const {states: {users, roles}, 
+        handleUserAccountActivateDeactivation, 
+        deleteUser, 
+        updateUser, 
+        getSelectedUser, 
+        getUsers,
+        getRoles,
+    } = useContext(DashboardContext);
     const isEdit = location.pathname.includes('edit');
     const {selected, all} = users;
     const isSelectedUserEmpty = Object.keys(selected).length < 1;
     const isAllUserEmpty = Object.keys(all).length < 1;
-    
+    const isRolesEmpty = Object.keys(roles.all).length < 1;
+
+    useEffect(()=>{
+        if (isRolesEmpty) {
+            getRoles();
+        }
+    }, [])
+
     useEffect(() => {
         if (user && isSelectedUserEmpty) {
             getSelectedUser(user);
@@ -67,7 +81,6 @@ const ManageUsers = () => {
     }
 
     const rows = users.all.length > 0 && users.all.map( ({id, username, created_at, is_active, roles}) => {  
-        
         return {
             id,
             date: created_at,
@@ -80,7 +93,7 @@ const ManageUsers = () => {
     const headCells = createTableHeadCells(rows);
 
     const renderShowUserPage = () => {
-        if (Object.keys(users.selected).length > 0) {
+        if (!isSelectedUserEmpty) {
             const {created_at, email, name, username, is_active, roles} = users.selected;
             const accountStatus = is_active === 1 ? 'Active' : 'Inactive';
 
@@ -93,12 +106,13 @@ const ManageUsers = () => {
     }
 
     const renderEditUserPage = () => {
-        if (Object.keys(users.selected).length > 0 && Object.keys(roles.all).length > 0) {
+        if (!isSelectedUserEmpty && !isRolesEmpty) {
             const allRoles = roles.all;
             const filteredRoles = allRoles.map(({id, description}) => ({id, description}))
             const default_value = users.selected.roles.map(({id}) => id);
 
             const data = setObjects(['name', 'type', 'value'], [
+                ['username', 'disabled', users.selected.username],
                 ['roles', 'select', {
                     values: filteredRoles,
                     default_value,

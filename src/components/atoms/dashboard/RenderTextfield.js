@@ -129,12 +129,13 @@ const RenderTextfield = ({ data = [], dense = false }) => {
     }
   
     return <>
-            {data.map( ({name, value, type}, index) => {
+            {data.map( ({name, value, type, required = true}, index) => {
                 const isTwoWordNameOrNot = name.split(' ').join('_');
-                let extra = {};
+                let extra = {required};
                 const setInput = type === 'hidden' ? hiddenInput : input;
                 const date = currentDate();
-
+                
+                if (type === 'disabled') extra = {...extra, disabled: true}
                 if (type === 'file') extra = {...extra,InputLabelProps: {shrink: true}, inputProps: {accept: 'image/*', 'multiple': 'multiple'} }
                 if (type === 'date') extra = {...extra, InputLabelProps: {shrink: true}, inputProps: {min: date}};
                 if (type === 'textarea') extra = {...extra, rows: 10, multiline: true, style: {width: '100%'}};

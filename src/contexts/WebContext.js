@@ -1,7 +1,6 @@
 import React, {createContext, useState} from 'react'
 import {Api} from '../services';
 import {newsAndEvents, announcements} from '../data/web';
-import {initialStates} from './';
 import {useSnackbarHandler} from '../hooks';
 import {checkCookieIsExpired} from '../helpers';
 import {EditorState} from 'draft-js';
@@ -24,60 +23,58 @@ const WebProvider = ({children}) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const {inputFields} = states;
 
-    const handleContactUsForm = e => {
+    const handleContactUsForm = async e => {
         e.preventDefault();
 
         if (checkCookieIsExpired('XSRF-TOKEN')) {
             Api.get('/sanctum/csrf-cookie');
         }
 
-        Api.post('/api/contactUs', inputFields)
-            .then(handleSnackbar('Your message has been sent', 'success'))
-            .catch(({response : {data: {message, errors}}}) => {
-                handleSnackbar(message, 'error');
-                setStates({...states, errors: errors});
-            });
-            
+        try {
+            await Api.post('/api/contactUs', inputFields)
+            handleSnackbar('Your message has been sent', 'success')
+        } catch (error) {
+            const {response : {data: {message, errors}}} = error;
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        }
+            // .then(handleSnackbar('Your message has been sent', 'success'))
+            // .catch(({response : {data: {message, errors}}}) => {
+            //     handleSnackbar(message, 'error');
+            //     setStates({...states, errors: errors});
+            // });
     }
 
-    const getSlides = () => {
-        return Api.get('/api/slides')
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                slides: response.data.data,
-            }))
-        })
+    const getSlides = async () => {
+        const response = await Api.get('/api/slides');
+        setStates(prevState => ({
+            ...prevState,
+            slides: response.data.data,
+        }))
     }
 
-    const getUpdates = (page = 1) => {
-        return Api.get(`/api/updates?page=${page}`)
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                updates: {...prevState.updates, all: response.data},
-            }));
-        })
+    const getUpdates = async (page = 1) => {
+        const response = await Api.get(`/api/updates/paginated?page=${page}`);
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, all: response.data},
+        }));
     }
 
-    const getAnnouncements = (page = 1) => {
-        return Api.get(`/api/updates/announcements?page=${page}`)
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                updates: {...prevState.updates, announcements: response.data},
-            }));
-        })
+    const getAnnouncements = async (page = 1) => {
+        const response = await Api.get(`/api/updates/announcements?page=${page}`);
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, announcements: response.data},
+        }));
     }
 
-    const getNewsAndEvents = (page = 1) => {
-        return Api.get(`/api/updates/newsAndEvents?page=${page}`)
-        .then(response => {
-            setStates(prevState => ({
-                ...prevState,
-                updates: {...prevState.updates, newsAndEvents: response.data},
-            }));
-        })
+    const getNewsAndEvents = async (page = 1) => {
+        const response = await Api.get(`/api/updates/newsAndEvents?page=${page}`)
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, newsAndEvents: response.data},
+        }));
     }
 
     const provider = {
