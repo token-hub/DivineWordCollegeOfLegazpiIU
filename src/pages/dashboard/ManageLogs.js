@@ -13,18 +13,19 @@ const ManageLogs = () => {
     const isSelectedLogEmpty = Object.keys(selected).length < 1;
     const {log} = useParams();
 
-
-    useEffect(() => {
-        if (log) {
-            handleShowSelectedLog(log);
-        }
-    }, []); 
-
     useEffect(()=>{
+       
         if (isAllLogsEmpty) {
             getLogs();
         }
-    }, [all])
+    }, [])
+
+    useEffect(()=>{
+        if (log) {
+            handleShowSelectedLog(log);
+        } 
+    }, [log])
+
 
     const rows = !isAllLogsEmpty && all.map( ({id, description, created_at, properties}) => {  
         return {

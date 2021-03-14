@@ -3,8 +3,6 @@ import {Route, Redirect, useLocation} from 'react-router-dom';
 import {DashboardContext} from '../contexts';
 import {checkCookieIsExpired} from '../helpers';
 import {useRouteMatch, Switch} from 'react-router-dom';
-// import {HomeDashboard} from './dashboard';
-// import {Login} from './dashboard/Authentication';
 import {
 	Login,
 	Register,
@@ -34,7 +32,8 @@ import {
 	ManageUpdates,
 } from '../pages/dashboard/Updates';
 import PageNotFound from './PageNotFound';
-const PrivateRoute = ({ children }) => {
+
+const PrivateRoute = () => {
   let { path } = useRouteMatch();
   const {
     states:{users:{authenticated}}, 
@@ -46,6 +45,7 @@ const PrivateRoute = ({ children }) => {
   const isAuthenticatedUserIsEmpty = Object.keys(authenticated).length < 1;
   const {pathname} = useLocation();
   const pagesToCheckIfThereAuthenticatedUser = ['login', 'register', 'verification', 'reset'];
+
   const checkUserStorageIsNotEmpty = () => {
     return getDataFromStorage(storageUserKey) === null ? false : true;
   }
@@ -56,18 +56,20 @@ const PrivateRoute = ({ children }) => {
     }
   }, [authenticated]);
 
-  const isAuthUserAccessingGuestPages = !isAuthenticatedUserIsEmpty && 
-    pagesToCheckIfThereAuthenticatedUser.includes(pathname.split('/').pop());
+  const isAuthUserAccessingGuestPages = pagesToCheckIfThereAuthenticatedUser.includes(pathname.split('/').pop());
 
   const loginPage = () => {
-    localStorage.clear();
-
     return <Redirect to='/dashboard/login'></Redirect> 
   }
 
   const homePage = () => {
     return <Redirect to='/dashboard/home'></Redirect> 
   }
+
+  const redirect = location => {
+    return <Redirect to={location}></Redirect> 
+  }
+
   return (
     <>
         <Switch>
@@ -100,21 +102,27 @@ const PrivateRoute = ({ children }) => {
           <Route component={PageNotFound} />
       </Switch>
 
+      {/* 
+        if cookie
+          if user
+            if user accessing guest page
+              redirect to dashboard home page
+            else
+              show desired page
+          else no user
+            then show guest pages
+        else 
+          show guest pages
+      */}
       {
-        checkCookieIsExpired('XSRF-TOKEN')
-          ? !isAuthUserAccessingGuestPages && loginPage()
-          : !isAuthenticatedUserIsEmpty && isAuthUserAccessingGuestPages && homePage()
+        !checkCookieIsExpired('XSRF-TOKEN')
+        ? checkUserStorageIsNotEmpty()
+          ? isAuthUserAccessingGuestPages 
+            ? homePage()
+            : redirect(pathname)
+          : loginPage()
+        : loginPage()
       }
-
-      {/* {
-        checkCookieIsExpired('XSRF-TOKEN')
-          ? isAuthUserAccessingGuestPages
-            ? children
-            : loginPage()
-        : !isAuthenticatedUserIsEmpty && isAuthUserAccessingGuestPages
-          ? homePage()
-          : children
-      } */}
     </>
   )
 };

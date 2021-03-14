@@ -14,7 +14,7 @@ export const initialStates = {
         all: {},
         selected: {}
     },
-    permissions: {},
+    permissions: [],
     roles: {
         all: {},
         selected: {}

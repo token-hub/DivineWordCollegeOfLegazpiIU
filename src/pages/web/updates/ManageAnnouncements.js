@@ -25,6 +25,7 @@ const ManageAnnouncements = () => {
     const {announcements} = updates;
     const isAnnouncementIsEmpty = Object.keys(announcements).length < 1;
 
+
     // check if the desired announcement is within the announcements collection
     const isAnnouncementExist = !isAnnouncementIsEmpty && announcements.data
     .map(eachAnnouncement => eachAnnouncement.title)
@@ -32,7 +33,7 @@ const ManageAnnouncements = () => {
     .length > 0;
 
     // get the selected announcement out of the announcements collecteion
-  const selectedAnnouncement = !isAnnouncementIsEmpty && announcements.data
+    const selectedAnnouncement = !isAnnouncementIsEmpty && announcements.data
     .filter(data => data.title === announcement)[0];
 
     useEffect(()=>{

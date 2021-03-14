@@ -14,7 +14,7 @@ const ManageRoles = () => {
     const isPermissionEmpty = Object.keys(permissions).length < 1;
     const isSelectedRoleIsNotEmpty = Object.keys(selected).length > 0;
 
-    useEffect( () => {
+    useEffect(() => {
         if (role) {
             getSelectedRole(role);
         }

@@ -21,14 +21,14 @@ const UpdatesListContainer = () => {
         }
     }, []);
 
-    const latestPost = !isUpdatesIsEmpty && 
+    const latestPost = !isUpdatesIsEmpty && all.data.length > 0 && 
         all.data.filter((data, index) => index < 3)
         .map(({title, created_at, category}) => {
             const link = `/updates/${category}/${title}`;
             return {title, dateAndTime: created_at, link};
         });
 
-    const upcomingEvents = !isNewsAndEventsIsEmpty &&
+    const upcomingEvents = !isNewsAndEventsIsEmpty && !isUpdatesIsEmpty && all.data.length > 0 && 
         all.data.filter((data, index) => data.category === 'news-and-events')
         .filter((data, index) => index < 3)
         .filter(data => formatDate(data.to) >= formatDate(currentDate()))
