@@ -1,10 +1,6 @@
-   Options -MultiViews
    RewriteEngine On
     
    RewriteCond %{HTTP_HOST} ^www.dwc-legazpi.edu$ [NC]
    RewriteRule ^(.*)$ https://dwc-legazpi.edu/$1 [R=301,L]
    RewriteCond %{REQUEST_FILENAME} !-f
    RewriteRule ^ index.html [QSA,L]
-
-    
-  
