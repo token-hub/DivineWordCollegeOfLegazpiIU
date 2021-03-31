@@ -5,7 +5,7 @@ const stringTransform = (text, from, to) => {
 }
 
 const isCurrentPage = (path, key) => {
-    return isHomePage(path, key) || path.includes(key); // /about
+    return isHomePage(path, key) || path.includes(key);
 }
 
 const isHomePage = (path, key = 'home') => {
@@ -18,6 +18,10 @@ const setObject= (title, link = '#', sublinks = undefined) => {
 
 const capitalizeAllFirstLetter = string => {
     return string.split(' ').map(e => e.charAt(0).toUpperCase() + e.slice(1).toLowerCase()).join(" ");
+}
+
+const capitalizeAllFirstLetterAndTransform = (string, from = '_', to = ' ') => {
+    return capitalizeAllFirstLetter(stringTransform(string, from, to));
 }
 
 const setImage = (alt, img) => {
@@ -47,7 +51,7 @@ const updateInitialInputState = (object, key, value = '') => {
     
 */
 const setObjects = (keys = [], values = []) => {
-    let newObject = [];
+    let array = [];
     let object = {};
    
     values.forEach( value => {
@@ -64,10 +68,10 @@ const setObjects = (keys = [], values = []) => {
 
         // this push must be at the very first loop,
         // in order to get the same count of the array values
-        newObject.push(object);
+        array.push(object);
     });
 
-    return newObject;
+    return array;
 }
 
 
@@ -84,8 +88,8 @@ const isBlock = (item, className, className2) => {
     // return Object.keys(item).length > 0 ? clsx(className, className2) : className;
 }
 
-const setUpdates = (dateAndTime, type, title, subtitle = null, link = '#', image = null) => {
-    return {dateAndTime, type, title, subtitle, link, image};
+const setUpdates = (dateAndTime, type, title, subtitle = null, link = '#', update = null) => {
+    return {dateAndTime, type, title, subtitle, link, update};
 }
 
 const renderIconFromObject = (key, object, color='inherit', breakLines = false) => {
@@ -106,8 +110,16 @@ const setImageWithParagraph = (title, name, jobDescription, image) => {
 }
 
 const handleInputChange = (object, setState) => e => {
-    const {name, value} = e.target;
-    
+    let {name, value, files} = e.target;
+
+    let fd = new FormData();
+    if (files) {
+        for (let i = 0; i < files.length; i++) {
+            fd.append("slides[]", files[i]);
+        }
+        value = fd;
+    }
+
     setState(prevState => ({
         ...prevState,
         [object]: {
@@ -115,6 +127,61 @@ const handleInputChange = (object, setState) => e => {
             [name]: value
         }
     }))
+}
+
+const createTableHeadCells = array => {
+    const headCells = [];
+    array.length > 0 &&
+        Object.keys(array[0]).forEach(key => {
+            headCells.push({ [key]: key, disablePadding: false, label: key === 'id' ? '' : capitalizeAllFirstLetter(key)})
+        });
+    return headCells;
+}
+
+const getStringDescriptionFromArrayObject = obj => {
+    return Object.values(obj).map(item => item['description']).join(', ')
+}
+
+const checkCookieIsExpired = cookie => {
+    return !document.cookie.includes(cookie);
+}
+
+const formatDate = (date = null)  => {
+    const options = {month: 'short', day: 'numeric', year: 'numeric'};
+    const d = new Date(date);
+    return d.toLocaleDateString("en-US", options)
+}
+
+const currentDate = (date = null) => {
+    const today = date ? new Date(date) : new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth()+1).padStart(2, '0');
+    const yyyy = today.getFullYear();
+    return `${yyyy}-${mm}-${dd}`; 
+}
+
+const getDateObj = date => {
+    const newDate = new Date(date);
+    
+    return {
+        day: newDate.getDate(),
+        month: newDate.toLocaleString('default', { month: 'short' }),
+        year: newDate.getFullYear(),
+        hours: newDate.getHours(),
+        minutes: newDate.getMinutes(),
+    }
+  }
+
+const unchunkArrayValues = input => {
+    const arr = [];
+
+    for (let i in input) {
+        for(let ii in input[i]) {
+            arr[arr.length] = input[i][ii]
+        }
+    }
+
+    return arr;
 }
 
 export {
@@ -135,5 +202,13 @@ export {
     setImageWithParagraph,
     setObjects,
     updateInitialInputState,
-    handleInputChange
+    handleInputChange,
+    capitalizeAllFirstLetterAndTransform,
+    createTableHeadCells,
+    getStringDescriptionFromArrayObject,
+    checkCookieIsExpired,
+    formatDate,
+    currentDate,
+    unchunkArrayValues,
+    getDateObj,
 }

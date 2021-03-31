@@ -69,18 +69,6 @@ import {
 	ManageAnnouncements,
 	ManageNewsAndEvents,
 } from './pages/web/Updates';
-import {
-	Login,
-	Register,
-	PasswordEdit,
-	EmailVerification,
-	ManagePasswordReset,
-} from './pages/dashboard/Authentication';
-import {
-	HomeDashboard,
-	Roles,
-	Profile
-} from './pages/dashboard';
 
 const useStyles = makeStyles({
     app: {
@@ -90,7 +78,7 @@ const useStyles = makeStyles({
     }
 });
 
-const App = props => {
+const App = () => {
 	
 	const { app } = useStyles();
 
@@ -166,25 +154,12 @@ const App = props => {
 				<Route path="/updates/news-and-events/:newsAndEvent" exact component={ManageNewsAndEvents} />
 
 				<Route path="/contact-us" exact component={ContactUs} />
-
 				<Route path="/alumni" exact component={Alumni} />	 
 				
-				{/* ============= [ Dashboard pages ] ============= */}
-				<Route path="/dashboard/login" exact component={Login} />
-				<Route path="/dashboard/register" exact component={Register} />
-				<Route path="/dashboard/email/verification" exact component={EmailVerification} />
-				{/* Password/reset is for unathenticated user that forgotted their password */}
-				<Route path="/dashboard/password/reset" exact component={ManagePasswordReset} />
-				
-				
-				<PrivateRoute>	
-					<Route path="/dashboard/home" exact component={HomeDashboard}></Route>
-					<Route path="/dashboard/roles" exact component={Roles} />
-					<Route path="/dashboard/profile" exact component={Profile} />
-					{/* Password/edit is for authenticated user that wants to change password */}
-					<Route path="/dashboard/password/edit" exact component={PasswordEdit} />
-				</PrivateRoute>
-				<Route path='*' exact component={PageNotFound} />	
+				{/* Dashboard Pages */}
+				<Route path='/dashboard'><PrivateRoute /></Route>
+
+				<Route exact component={PageNotFound} />
 			</Switch>
 		</div>
 	);

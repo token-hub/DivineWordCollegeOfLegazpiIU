@@ -3,6 +3,7 @@ const createEventId = () => {
 }
 
 let todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD of today
+// let todayStr = new Date();
 
 let eventGuid = 0;
 
@@ -10,12 +11,13 @@ const INITIAL_EVENTS = [
  {
    id: createEventId(),
    title: 'All-day event',
-   start: todayStr
+   start: '2021-03-12',
+   end: '2021-03-21',
  },
  {
    id: createEventId(),
    title: 'Timed event',
-   start: todayStr + 'T12:00:00'
+   start: todayStr
  }
 ]
 

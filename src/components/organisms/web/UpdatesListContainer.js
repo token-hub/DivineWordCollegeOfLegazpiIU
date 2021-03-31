@@ -1,18 +1,45 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {ListContainer} from '../../molecules/web';
 import {updates} from '../../../data/web/Updates';
 import {WebContext} from '../../../contexts';
+import {getDateObj, currentDate, formatDate} from '../../../helpers';
 
 const UpdatesListContainer = () => {
 
     const {categories} = updates;
-    const {updates:{newsAndEvents}} = useContext(WebContext);
+    const {states:{updates:{all, newsAndEvents}}, getUpdates, getNewsAndEvents} = useContext(WebContext);
+    const isUpdatesIsEmpty = Object.keys(all).length < 1;
+    const isNewsAndEventsIsEmpty = Object.keys(newsAndEvents).length < 1;
 
+    useEffect(() => {
+        if (isUpdatesIsEmpty) {
+            getUpdates();
+        }
+
+        if (isNewsAndEventsIsEmpty) {
+            getNewsAndEvents()
+        }
+    }, []);
+
+    const latestPost = !isUpdatesIsEmpty && all.data.length > 0 && 
+        all.data.filter((data, index) => index < 3)
+        .map(({title, created_at, category}) => {
+            const link = `/updates/${category}/${title}`;
+            return {title, dateAndTime: created_at, link};
+        });
+
+    const upcomingEvents = !isNewsAndEventsIsEmpty && !isUpdatesIsEmpty && all.data.length > 0 && 
+        all.data.filter((data, index) => data.category === 'news-and-events')
+        .filter((data, index) => index < 3)
+        .filter(data => formatDate(data.to) >= formatDate(currentDate()))
+        .map(({title, category}) => {
+            const link = `/updates/${category}/${title}`;
+            return {title, link};
+        });
     return (
         <>
-            <ListContainer header='Upcoming Events' type='updates'/>
-            {/* change the data property of latest post below with the real data from api */}
-            <ListContainer data={newsAndEvents} header='Latest Post' type='updates'/>
+            <ListContainer data={upcomingEvents} header='Upcoming Events' type='updates'/>
+            <ListContainer data={latestPost} header='Latest Post' type='updates'/>
             <ListContainer data={categories} header='Categories' type='updates'/>
         </>
     )

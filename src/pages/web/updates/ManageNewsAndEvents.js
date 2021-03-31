@@ -1,18 +1,16 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {useParams} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import {BaseWithBannerAndUpdates} from '../../../components/templates/web';
+import {EditorState, convertFromRaw, convertToRaw} from 'draft-js';
 import {UpdateContainer, Pagination} from '../../../components/molecules/web';
 import {Paragraph} from '../../../components/atoms/web';
 import {banners} from '../../../data/web';
 import {WebContext} from '../../../contexts';
 import {makeStyles} from '@material-ui/core/styles';
-
-import {
-  LectureAndWorkshop,
-  DigitalTools,
-  Enrollment
-} from './newsAndEvents';
+import draftToHtml from 'draftjs-to-html';
+import parse from 'html-react-parser';
+import {getDateObj} from '../../../helpers';
 
 const useStyles = makeStyles({
   selectedUpdateContainer: {
@@ -23,41 +21,66 @@ const useStyles = makeStyles({
 const ManageNewsAndEvents = () => { 
     const {selectedUpdateContainer} = useStyles();
     const {newsAndEvent} = useParams();
-    const {updates:{newsAndEvents}} = useContext(WebContext);
+    const {states:{updates}, getNewsAndEvents, setEditorState, editorState} = useContext(WebContext);
+    const {newsAndEvents} = updates;
+    const isNewsAndEventsIsEmpty = Object.keys(newsAndEvents).length < 1;
 
-    const isNewsAndEventExist = newsAndEvents
-      .map(eachNewsAndEvent => { return eachNewsAndEvent.title })
+    // check if the desired announcement is within the announcements collection
+    const isNewsAndEventsExist = !isNewsAndEventsIsEmpty && newsAndEvents.data
+      .map(eachNewsAndEvents => eachNewsAndEvents.title)
       .filter(title => title === newsAndEvent)
       .length > 0;
 
-    const setNewsAndEventHeader = isNewsAndEventExist ? newsAndEvent : `${newsAndEvent} (NOT FOUND)`;
+    // get the selected announcement out of the announcements collecteion
+    const selectedNewsAndEvents = !isNewsAndEventsIsEmpty && newsAndEvents.data
+      .filter(data => data.title === newsAndEvent)[0];
+
+    useEffect(()=>{
+      if(isNewsAndEventsIsEmpty) {
+        getNewsAndEvents()
+      }
+    }, []);
+
+    useEffect(() => {
+      if (isNewsAndEventsExist) {
+          setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(selectedNewsAndEvents.updates))));
+      }       
+    }, [updates])
+
+    const setNewsAndEventHeader = isNewsAndEventsExist ? newsAndEvent.toUpperCase() : `${newsAndEvent} (NOT FOUND)`;
 
     const renderSelectedNewsAndEvent = () => {
-      return <div className={selectedUpdateContainer}>
-          <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
-          <Paragraph variant='h6' color='primary' align='center' >{setNewsAndEventHeader}</Paragraph>
-          {
-            newsAndEvent.includes('LECTURE')
-              ? <LectureAndWorkshop />
-              : newsAndEvent.includes('DIGITAL')
-                ? <DigitalTools />
-                : newsAndEvent.includes('ENROLLMENT')
-                  ? <Enrollment />
-                  : ''
-          }
-         </div>
+      if (isNewsAndEventsExist) {
+        return (
+          <div className={selectedUpdateContainer}>
+            <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
+            <Paragraph variant='h6'  color='primary' align='center'>{setNewsAndEventHeader}</Paragraph>
+            <div>{parse(draftToHtml(convertToRaw(editorState.getCurrentContent())))}</div>
+            <Paragraph>{`Posted : ${selectedNewsAndEvents.created_at}`}</Paragraph>
+          </div>
+        )
+      }
     }
 
     const renderAllNewsAndEvents = () => {
-      return <>
-        <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
-        {newsAndEvents.map((data,index) => 
-          <UpdateContainer color='primary' key={index} {...data} /> 
-        )}
-        <Grid container justify='center'>
-          {/* <Pagination /> */}
-        </Grid> 
-      </>
+
+      let newsAndEventsContent = <Paragraph variant='h6' align='center' bold color='primary'>-- There is no news and events yet --</Paragraph>
+      
+      if (!isNewsAndEventsIsEmpty && newsAndEvents.data.length > 0) {
+        newsAndEventsContent = <>
+          <Paragraph variant='h5' align='center' bold color='primary' >NEWS AND EVENTS</Paragraph>
+              {newsAndEvents.data.map(({category, title, subtitle, created_at}, index) => {
+                  const link = `/updates/${category}/${title}`;
+                  const data = {dateAndTime: getDateObj(created_at), title, subtitle, link}
+                return <UpdateContainer color='primary' key={index} {...data} /> 
+              })}
+            <Grid container justify='center'>
+              <Pagination data={newsAndEvents} apiRequestCallback={getNewsAndEvents}/>
+            </Grid>
+        </>
+      }
+
+      return newsAndEventsContent;
     }
 
     return (

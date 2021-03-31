@@ -8,26 +8,29 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
-visuallyHidden: {
-  border: 0,
-  clip: 'rect(0 0 0 0)',
-  height: 1,
-  margin: -1,
-  overflow: 'hidden',
-  padding: 0,
-  position: 'absolute',
-  top: 20,
-  width: 1,
-},
+  visuallyHidden: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    top: 20,
+    width: 1,
+  },
+  header: {
+    borderBottom: '2px solid #E3E3FE',
+    padding: '0 1rem'
+  }
 });
 const DatatableHead = ({ order, orderBy, onRequestSort, headCells, numSelected, rowCount, onSelectAllClick }) => {
 
-  const { visuallyHidden } = useStyles();
+  const {visuallyHidden, header} = useStyles();
 
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-
       return (
         <TableHead>
           <TableRow>
@@ -39,22 +42,23 @@ const DatatableHead = ({ order, orderBy, onRequestSort, headCells, numSelected, 
                 inputProps={{ 'aria-label': 'select all items' }}
               />
             </TableCell>
-            {headCells.map(headCell => (
+            {headCells.map( ({id, label}, index) => (
+              id !== 'id' &&              
               <TableCell
-              variant='head'
-                style={{ borderBottom: '2px solid #E3E3FE' }}
-                key={headCell.id}
-                align={headCell.numeric ? 'right' : 'left'}
+                variant='head'
+                className={header}
+                key={index}
+                align={'left'}
                 padding='default'
-                sortDirection={orderBy === headCell.id ? order : false}
+                sortDirection={orderBy === id ? order : false}
               >
                 <TableSortLabel
-                  active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
-                  onClick={createSortHandler(headCell.id)}
+                  active={orderBy === id}
+                  direction={orderBy === id ? order : 'asc'}
+                  onClick={createSortHandler(id)}
                 >
-                  {<p style={{ fontWeight: 600 }}>{headCell.label}</p>}
-                  {orderBy === headCell.id ? (
+                  {<p style={{ fontWeight: 600 }}>{label}</p>}
+                  {orderBy === id ? (
                     <span className={visuallyHidden}>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </span>

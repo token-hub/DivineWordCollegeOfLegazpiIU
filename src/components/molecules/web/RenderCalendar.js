@@ -5,20 +5,20 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import {calendar} from '../../../data/web/Updates';
 
-const RenderCalendar = () => {
-    
-  const {INITIAL_EVENTS} = calendar;
+const RenderCalendar = ({data}) => {
+    const {id} = data;
+  // const {INITIAL_EVENTS} = calendar;
 
-  let eventGuid = 0;
+  // let eventGuid = 0;
 
   let state = {
     weekendsVisible: true,
     currentEvents: []
   }
 
-  const createEventId = () => {
-    return String(eventGuid++)
-  }
+  // const createEventId = () => {
+  //   return String(eventGuid++)
+  // }
 
   const renderSidebar = () => {
     return (
@@ -58,9 +58,7 @@ const RenderCalendar = () => {
   }
 
   const handleEventClick = clickInfo => {
-    // if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-    //   clickInfo.event.remove()
-    // }
+    alert(clickInfo.event.title);
   }
 
   const handleMouseEnter = hoverInfo => {
@@ -102,7 +100,7 @@ const renderSidebarEvent = event => {
 
     if (title) {
       calendarApi.addEvent({
-        id: createEventId(),
+        id,
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
@@ -129,11 +127,11 @@ const renderSidebarEvent = event => {
         selectMirror={true}
         dayMaxEvents={true}
         weekends={state.weekendsVisible}
-        initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
+        initialEvents={data} // alternatively, use the `events` setting to fetch from a feed
         // select={handleDateSelect}
-        eventMouseEnter={handleMouseEnter}
+        // eventMouseEnter={handleMouseEnter}
         eventContent={renderEventContent} // custom render function
-        // eventClick={handleEventClick}
+        eventClick={handleEventClick}
         eventsSet={handleEvents} // called after events are initialized/added/changed/removed
         /* you can update a remote database when these fire:
         eventAdd={function(){}}

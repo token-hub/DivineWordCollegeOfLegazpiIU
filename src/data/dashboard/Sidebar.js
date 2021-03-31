@@ -18,21 +18,21 @@ const menus = [
         setObject('Roles', '/dashboard/roles'),
         setObject('Users', '/dashboard/users'),
     ]),
-    setObject('Banner', null),
+    setObject('Slides', '/dashboard/slides'),
     setObject('Updates', '/dashboard/updates', [
-        setObject('Announcement', '/dashboard/announcement'),
+        setObject('Announcements', '/dashboard/announcement'),
         setObject('News and Events', '/dashboard/news-and-events'),
     ]),
-    setObject('Logs', null),
+    setObject('Logs', '/dashboard/logs'),
 ];
 
 const menuIconObject = {
     home: HomeIcon,
     users: PersonIcon,
     roles: BusinessCenterIcon,
-    banner: ImageIcon,
+    slides: ImageIcon,
     updates: UpdateIcon,
-    announcement: AssignmentLateIcon,
+    announcements: AssignmentLateIcon,
     newsAndEvents: SportsHandballIcon,
     userManagement: SettingsIcon,
     permissions: LockIcon,

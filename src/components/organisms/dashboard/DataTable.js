@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+
 import {
     DataTableBody,
     DataTableHead,
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Datatable = ({ rows, headCells }) => {
+const Datatable = ({ rows, headCells, link = null, toolbar = [], handleDelete}) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('calories');
   const [selected, setSelected] = useState([]);
@@ -64,7 +65,7 @@ const Datatable = ({ rows, headCells }) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = rows.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -97,7 +98,7 @@ const Datatable = ({ rows, headCells }) => {
   return (
     <div className={root}>
       <Paper className={paper}>
-        <DataTableToolbar numSelected={selected.length} />
+        <DataTableToolbar selected={selected} link={link} toolbar={toolbar} handleDelete={handleDelete}/>
         <TableContainer className={container}>
           <Table
             className={table}

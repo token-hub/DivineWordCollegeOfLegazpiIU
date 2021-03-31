@@ -67,7 +67,7 @@ const UpdateContainer = ({ dateAndTime, title, subtitle = null, link = '#', colo
             <Grid item className={content}>
                 <Typography gutterBottom variant="h6">
                     <Link href={link} underline='none' className={header} color={color} >
-                    {title}
+                    {title.toUpperCase()}
                     </Link>
                 </Typography>
                 <Typography variant="subtitle2" gutterBottom={false}>

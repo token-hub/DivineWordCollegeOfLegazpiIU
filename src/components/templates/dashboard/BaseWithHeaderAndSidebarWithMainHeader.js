@@ -10,12 +10,10 @@ const BaseWithHeaderAndSidebarWithMainHeader = ({header, link = '#', linkTitle =
         <BaseWithHeaderAndSidebar>
             <Grid container direction='row' alignItems='flex-end'>
                 <Paragraph variant='h5' style={{ flex: '1', lineHeight: 1 }}> {header} </Paragraph>
-                {
-                    (link && linkTitle) && <Button component='a' href={link} variant='contained' color='secondary'>{linkTitle}</Button>
-                }
+                {(link && linkTitle) && <Button component='a' href={link} variant='contained' color='secondary'>{linkTitle}</Button>}
             </Grid>
             <Divider style={{ margin: '1rem 0' }} />
-            { children }
+            {children}
         </BaseWithHeaderAndSidebar>
     )
 }

@@ -16,14 +16,16 @@ const useStyles = makeStyles({
     },
 })
 
-const RenderForm = ({ inputFields, buttonTitle, handleSubmit }) => {
+const RenderForm = ({inputFields, buttonTitle, handleSubmit, dense, encType = false }) => {
 
     const {fields, button} = useStyles();
 
+    const multiform = encType ? {'encType': 'multipart/form-data'} : {}
+
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} {...multiform}>
             <div className={fields}>
-                <RenderTextfield data={inputFields} />
+                <RenderTextfield data={inputFields} dense={dense} />
             </div>
 
             <div className={button}>

@@ -1,9 +1,10 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {SharedGrid, UpdateContainer} from '../../molecules/web';
 import {makeStyles} from '@material-ui/core/styles';
 import {WebContext} from '../../../contexts';
+import {getDateObj} from '../../../helpers';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,7 +30,14 @@ const useStyles = makeStyles(theme => ({
 const Announcements = () => {
 
     const {root, announcementContainer, title} = useStyles();
-    const {updates:{announcements}} = useContext(WebContext);
+    const {states:{updates:{announcements}}, getAnnouncements} = useContext(WebContext);
+    const isAnnouncementIsEmpty = Object.keys(announcements).length < 1;
+
+    useEffect(()=>{
+        if(isAnnouncementIsEmpty) {
+          getAnnouncements()
+        }
+      }, []);
 
     return (
         <SharedGrid root={root}>
@@ -39,14 +47,13 @@ const Announcements = () => {
                 </Typography>
             </Grid>
             <Grid container item className={announcementContainer}>
-                {
-                    announcements.map((data, index) => 
-                        <UpdateContainer 
-                            key={index}
-                            width='50%'
-                            {...data}
-                        /> 
-                    )
+                {!isAnnouncementIsEmpty && 
+                    announcements.data.filter((data, index) => index < 4)
+                        .map(({category, title, subtitle, created_at}, index) => {
+                            const link = `/updates/${category}/${title}`;
+                            const data = {dateAndTime: getDateObj(created_at), title, subtitle, link}
+                        return <UpdateContainer color='primary' width='50%' key={index} {...data} /> 
+                        })
                 }
             </Grid> 
         </SharedGrid>

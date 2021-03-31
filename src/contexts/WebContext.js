@@ -1,39 +1,92 @@
 import React, {createContext, useState} from 'react'
 import {Api} from '../services';
 import {newsAndEvents, announcements} from '../data/web';
-import {initialStates} from './';
 import {useSnackbarHandler} from '../hooks';
+import {checkCookieIsExpired} from '../helpers';
+import {EditorState} from 'draft-js';
 
 const WebContext = createContext();
 
 const WebProvider = ({children}) => {
     const handleSnackbar = useSnackbarHandler();
     const initialUpdateStates = {
+        updates: {
+            all: {},
+            announcements: {},
+            newsAndEvents: {},
+        },
         newsAndEvents,
-        announcements,
+        slides: {}
     };
 
-    const [updates, setUpdates] = useState(initialUpdateStates);
-    const [states, setStates] = useState(initialStates);
+    const [states, setStates] = useState(initialUpdateStates);
+    const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const {inputFields} = states;
 
-    const handleContactUsForm = e => {
+    const handleContactUsForm = async e => {
         e.preventDefault();
-        Api.post('/api/contactUs', inputFields)
-            .then(handleSnackbar('Your message has been sent', 'success'))
-            .catch(({response : {data: {message, errors}}}) => {
-                handleSnackbar(message, 'error');
-                setStates({...states, errors: errors});
-            });
-            
+
+        if (checkCookieIsExpired('XSRF-TOKEN')) {
+            Api.get('/sanctum/csrf-cookie');
+        }
+
+        try {
+            await Api.post('/api/contactUs', inputFields)
+            handleSnackbar('Your message has been sent', 'success')
+        } catch (error) {
+            const {response : {data: {message, errors}}} = error;
+            handleSnackbar(message, 'error');
+            setStates({...states, errors: errors});
+        }
+            // .then(handleSnackbar('Your message has been sent', 'success'))
+            // .catch(({response : {data: {message, errors}}}) => {
+            //     handleSnackbar(message, 'error');
+            //     setStates({...states, errors: errors});
+            // });
+    }
+
+    const getSlides = async () => {
+        const response = await Api.get('/api/slides');
+        setStates(prevState => ({
+            ...prevState,
+            slides: response.data.data,
+        }))
+    }
+
+    const getUpdates = async (page = 1) => {
+        const response = await Api.get(`/api/updates/paginated?page=${page}`);
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, all: response.data},
+        }));
+    }
+
+    const getAnnouncements = async (page = 1) => {
+        const response = await Api.get(`/api/updates/announcements?page=${page}`);
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, announcements: response.data},
+        }));
+    }
+
+    const getNewsAndEvents = async (page = 1) => {
+        const response = await Api.get(`/api/updates/newsAndEvents?page=${page}`)
+        setStates(prevState => ({
+            ...prevState,
+            updates: {...prevState.updates, newsAndEvents: response.data},
+        }));
     }
 
     const provider = {
         states,
         setStates,
-        updates,
-        setUpdates,
-        handleContactUsForm
+        handleContactUsForm,
+        getSlides,
+        getUpdates,
+        getAnnouncements,
+        editorState,
+        setEditorState,
+        getNewsAndEvents
     }
     
     return (

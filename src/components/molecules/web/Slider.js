@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import Carousel from 'react-material-ui-carousel'
 import {makeStyles} from '@material-ui/core/styles';
 import {Image} from '../../atoms/web';
 import {EnrollmentPortal} from '../../molecules/web';
+import {WebContext} from '../../../contexts';
+import systemCover from '../../../assets/images/others/SYSTEMCOVER.jpg';
+import {unchunkArrayValues} from '../../../helpers';
 
 const useStyle = makeStyles({
     image: {
-        height: '100%',
+        height: '450px',
         width: '100%',
         backgroundSize: 'cover',
     },
@@ -21,13 +24,21 @@ const useStyle = makeStyles({
 
 const Slider = ({ data, size = null }) => {
 
-    const {indicators, indicatorContainer, carousel} = useStyle();
+    const {carousel, image} = useStyle();
 
+    const {getSlides, states:{slides}} = useContext(WebContext);
     const setSize = size ? size : carousel;
 
-    return (
-        <div className={setSize}>
-            <EnrollmentPortal />
+    const isSlidesIsEmpty = Object.keys(slides).length < 1;
+
+    useEffect(()=> {
+        if (isSlidesIsEmpty) {
+            getSlides();
+        }
+    }, []);
+
+    const renderCorousel = () => {
+        return (
             <Carousel
                 autoPlay={false}
                 indicators={false}
@@ -36,14 +47,27 @@ const Slider = ({ data, size = null }) => {
                 next={()=>{}}
                 prev={()=>{}}
             >          
-                {
-                    data.map( ({alt, img}, index) => {
-                        return (
-                            <Image alt={alt} source={img} key={index} />
-                        )
-                    } )
-                }
+                {!isSlidesIsEmpty && unchunkArrayValues(slides).map(({alt, src}, index) => {
+                   return (
+                       <div className={image} key={index}>
+                        <Image alt={alt} source={src}  />
+                       </div>
+                   ) 
+                })}
             </Carousel>
+        )
+    }
+
+    const renderDefaultSlide = () => {
+        return (
+            <Image alt='default slide' source={systemCover} />
+        )
+    }
+
+    return (
+        <div className={setSize}>
+            <EnrollmentPortal />
+            {isSlidesIsEmpty ? renderDefaultSlide() : renderCorousel()}
         </div>
     )
 }
