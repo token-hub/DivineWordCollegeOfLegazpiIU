@@ -55,7 +55,6 @@ const RenderTextfield = ({ data = [], dense = false }) => {
     }
 
     const uploadCallback = file => {
-
         const fd = new FormData();
         fd.append("image", file);
         return Api.post('/api/image', fd)
@@ -75,7 +74,7 @@ const RenderTextfield = ({ data = [], dense = false }) => {
                     onEditorStateChange={onEditorStateChange}
                     placeholder={'Begin typing...'}
                     toolbar={{
-                        options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign','image','history'],
+                        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign','image','history'],
                         image: {
                             uploadEnabled: true, 
                             urlEnabled: true, 
@@ -83,6 +82,9 @@ const RenderTextfield = ({ data = [], dense = false }) => {
                             previewImage: true,
                             defaultSize: {height: '100%', 'width': '100%'}
                         },
+                        fontFamily: {
+                            options: ['Arial'],
+                          },
                     }}
                 />
             </>
