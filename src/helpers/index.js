@@ -163,12 +163,17 @@ const currentDate = (date = null) => {
 const getDateObj = date => {
     const newDate = new Date(date);
     
+    let hours = newDate.getHours();
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+
     return {
         day: newDate.getDate(),
         month: newDate.toLocaleString('default', { month: 'short' }),
         year: newDate.getFullYear(),
-        hours: newDate.getHours(),
+        hours,
         minutes: newDate.getMinutes(),
+        ampm: hours >= 12 ? 'pm' : 'am'
     }
   }
 

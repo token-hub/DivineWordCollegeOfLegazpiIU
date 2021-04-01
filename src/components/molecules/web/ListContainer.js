@@ -173,9 +173,8 @@ const ListContainer = ({data = null, header, type}) => {
                 <List component="div" disablePadding>
                     {data && data.length > 0 ? data.map(({title, link, dateAndTime = null, sublinks},index) => {
                             const isDateAndTimeNotEmpty = dateAndTime !== null && type === 'updates';
-                            const {year, month, day, hours, minutes} = getDateObj(dateAndTime);
-                            const amOrPm = hours > 12 ? 'PM' : 'AM';
-                            const postedDate = `${month} ${day}, ${year} | ${hours}:${minutes} ${amOrPm}`;
+                            const {year, month, day, hours, minutes, ampm} = getDateObj(dateAndTime);
+                            const postedDate = `${month} ${day}, ${year} | ${hours}:${minutes} ${ampm}`;
 
                             const setListClass = isBlock(dateAndTime, setListItem(path, title), block);
                             if (sublinks !== undefined) initialState = {...initialState, [title]: false};
