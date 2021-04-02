@@ -164,6 +164,7 @@ const getDateObj = date => {
     const newDate = new Date(date);
     
     let hours = newDate.getHours();
+    let ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
 
@@ -173,7 +174,7 @@ const getDateObj = date => {
         year: newDate.getFullYear(),
         hours,
         minutes: newDate.getMinutes(),
-        ampm: hours >= 12 ? 'pm' : 'am'
+        ampm
     }
   }
 
