@@ -12,6 +12,7 @@ import {
     setObjects,
     getStringDescriptionFromArrayObject
 } from '../../../helpers';
+import { Paragraph } from '../../../components/atoms/dashboard';
 
 const useStyles = makeStyles({
     active: {
@@ -59,10 +60,8 @@ const ManageUsers = () => {
     }, [selected]);
 
     useEffect(() => {
-        if (isAllUserEmpty) {
-            getUsers();
-        }
-    }, [all]);
+        getUsers();
+    }, []);
 
     const renderButton = (status, id) => {
         const text = status ? 'Active' : 'Inactive';
@@ -124,7 +123,7 @@ const ManageUsers = () => {
     }
 
     const renderShowAllPage = () => {
-        return rows.length > 0 && 
+        return rows.length > 0 ? 
         <DataTable 
             rows={rows} 
             headCells={headCells} 
@@ -132,6 +131,7 @@ const ManageUsers = () => {
             toolbar={['show', 'edit', 'delete']}
             handleDelete={deleteUser}
         />
+        : <p style={{ textAlign: 'center' }}><i>--  No user accounts found other than the admins and your accoount --</i></p>
     }
 
     const renderHeaderTitle = () => {
