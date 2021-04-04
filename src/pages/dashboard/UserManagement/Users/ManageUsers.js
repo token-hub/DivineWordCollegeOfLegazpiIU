@@ -1,8 +1,8 @@
 import React, {useContext, useEffect} from 'react'
-import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../components/templates/dashboard';
-import {DataTable, BasicTable} from '../../../components/organisms/dashboard';
-import {RenderForm} from '../../../components/molecules/dashboard';
-import {DashboardContext} from '../../../contexts';
+import {BaseWithHeaderAndSidebarWithMainHeader} from '../../../../components/templates/dashboard';
+import {DataTable, BasicTable} from '../../../../components/organisms/dashboard';
+import {RenderForm} from '../../../../components/molecules/dashboard';
+import {DashboardContext} from '../../../../contexts';
 import Button from '@material-ui/core/Button';
 import {useParams, useLocation} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
@@ -11,8 +11,7 @@ import {
     createTableHeadCells, 
     setObjects,
     getStringDescriptionFromArrayObject
-} from '../../../helpers';
-import { Paragraph } from '../../../components/atoms/dashboard';
+} from '../../../../helpers';
 
 const useStyles = makeStyles({
     active: {
@@ -31,20 +30,15 @@ const useStyles = makeStyles({
 
 const ManageUsers = () => {
     const {user} = useParams();
-    const {active, inactive} = useStyles();
     const location = useLocation();
     const {states: {users, roles}, 
-        handleUserAccountActivateDeactivation, 
-        deleteUser, 
         updateUser, 
         getSelectedUser, 
-        getUsers,
         getRoles,
     } = useContext(DashboardContext);
     const isEdit = location.pathname.includes('edit');
-    const {selected, all} = users;
+    const {selected} = users;
     const isSelectedUserEmpty = Object.keys(selected).length < 1;
-    const isAllUserEmpty = Object.keys(all).length < 1;
     const isRolesEmpty = Object.keys(roles.all).length < 1;
 
     useEffect(()=>{
@@ -52,44 +46,12 @@ const ManageUsers = () => {
             getRoles();
         }
     }, [])
-
+    
     useEffect(() => {
         if (user && isSelectedUserEmpty) {
             getSelectedUser(user);
         }
     }, [selected]);
-
-    useEffect(() => {
-        getUsers();
-    }, []);
-
-    const renderButton = (status, id) => {
-        const text = status ? 'Active' : 'Inactive';
-        const setClass = status ? active : inactive;
-        return (
-            <Button 
-                variant='contained' 
-                size='small' 
-                color='primary' 
-                className={setClass}
-                onClick={handleUserAccountActivateDeactivation(id, !status)}
-            >
-            {text}
-            </Button>
-        )
-    }
-
-    const rows = users.all.length > 0 && users.all.map( ({id, username, created_at, is_active, roles}) => {  
-        return {
-            id,
-            date: created_at,
-            username,
-            roles:  getStringDescriptionFromArrayObject(roles),
-            status: renderButton(is_active, id)
-        }
-    })
-
-    const headCells = createTableHeadCells(rows);
 
     const renderShowUserPage = () => {
         if (!isSelectedUserEmpty) {
@@ -122,35 +84,22 @@ const ManageUsers = () => {
         }
     }
 
-    const renderShowAllPage = () => {
-        return rows.length > 0 ? 
-        <DataTable 
-            rows={rows} 
-            headCells={headCells} 
-            link='/dashboard/users' 
-            toolbar={['show', 'edit', 'delete']}
-            handleDelete={deleteUser}
-        />
-        : <p style={{ textAlign: 'center' }}><i>--  No user accounts found other than the admins and your accoount --</i></p>
-    }
-
     const renderHeaderTitle = () => {
-        return userConditions('Show user', 'Edit user', 'Users');
+        return userConditions('Show user', 'Edit user');
     }
 
-    const userConditions = (isShowPage, isEditPage, isShowAllPage) => {
+    const userConditions = (isShowPage, isEditPage) => {
         return user 
-                ?  isEdit
+                &&  isEdit
                     ? isEditPage
                     : isShowPage 
-                :  isShowAllPage
     }
 
     const renderHeaderLink = user && {link: '/dashboard/users', linkTitle: 'All Users'};
 
     return (
         <BaseWithHeaderAndSidebarWithMainHeader header={renderHeaderTitle()} link='/'  {...renderHeaderLink}>
-            {userConditions(renderShowUserPage(), renderEditUserPage(), renderShowAllPage())}
+            {userConditions(renderShowUserPage(), renderEditUserPage())}
         </BaseWithHeaderAndSidebarWithMainHeader>
     )
 }

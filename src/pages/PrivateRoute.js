@@ -16,10 +16,6 @@ import {
 	ManageLogs,
 } from '../pages/dashboard';
 import {
-	ManageUsers,
-	Permissions,
-} from '../pages/dashboard/UserManagement';
-import {
 	Slides,
 	ManageSlide
 } from '../pages/dashboard/Slides';
@@ -32,6 +28,11 @@ import {
 	ManageUpdates,
 } from '../pages/dashboard/Updates';
 import PageNotFound from './PageNotFound';
+import {
+	Users,
+	ManageUsers,
+} from '../pages/dashboard/UserManagement/Users';
+import {Permissions} from '../pages/dashboard/UserManagement';
 
 const PrivateRoute = () => {
   let { path } = useRouteMatch();
@@ -80,7 +81,7 @@ const PrivateRoute = () => {
           <Route path={`${path}/password/reset`} exact component={ManagePasswordReset} />
 
           <Route path={`${path}/home`} exact component={HomeDashboard} />
-          <Route path={`${path}/users`} exact component={ManageUsers} />
+          <Route path={`${path}/users`} exact component={Users} />
           <Route path={`${path}/users/:user`} exact component={ManageUsers} />
           <Route path={`${path}/users/:user/edit`} exact component={ManageUsers} />
           <Route path={`${path}/permissions`} exact component={Permissions} />
