@@ -116,13 +116,13 @@ const PrivateRoute = () => {
           show guest pages
       */}
       {
-        !checkCookieIsExpired('XSRF-TOKEN')
-        ? checkUserStorageIsNotEmpty()
+        checkCookieIsExpired('XSRF-TOKEN')
+        ? loginPage()
+        : checkUserStorageIsNotEmpty()
           ? isAuthUserAccessingGuestPages 
             ? homePage()
             : redirect(pathname)
           : loginPage()
-        : loginPage()
       }
     </>
   )

@@ -415,6 +415,7 @@ const DashboardProvider = ({ children }) => {
     }
 
     const getSelectedUser = selectedUserId => {
+        updateState({isLoading: true});
         Api.get(`/api/users/${selectedUserId}`)
             .then(response => {
                 setStates(prevState => ({
