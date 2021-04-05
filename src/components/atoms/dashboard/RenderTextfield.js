@@ -74,7 +74,7 @@ const RenderTextfield = ({ data = [], dense = false }) => {
                     onEditorStateChange={onEditorStateChange}
                     placeholder={'Begin typing...'}
                     toolbar={{
-                        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign','image','history'],
+                        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'image', 'list', 'textAlign','history'],
                         image: {
                             uploadEnabled: true, 
                             urlEnabled: true, 
@@ -136,7 +136,7 @@ const RenderTextfield = ({ data = [], dense = false }) => {
                 let extra = {required};
                 const setInput = type === 'hidden' ? hiddenInput : input;
                 const date = currentDate();
-                
+
                 if (type === 'disabled') extra = {...extra, disabled: true}
                 if (type === 'file') extra = {...extra,InputLabelProps: {shrink: true}, inputProps: {accept: 'image/*', 'multiple': 'multiple'} }
                 if (type === 'date') extra = {...extra, InputLabelProps: {shrink: true}, inputProps: {min: date}};
