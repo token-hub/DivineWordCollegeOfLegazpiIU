@@ -88,7 +88,7 @@ const App = () => {
 				<Route path="/" exact component={Home} />
 				
 				{/* About Us Pages */}
-				 <Route path="/about-us/history" exact component={History} />
+				<Route path="/about-us/history" exact component={History} />
 				<Route path="/about-us/the-seal" exact component={TheSeal} />
 				<Route path="/about-us/mission,-vision-&-goal" exact component={MissionVisionGoal} />
 				<Route path="/about-us/the-hymn" exact component={TheHymn} />

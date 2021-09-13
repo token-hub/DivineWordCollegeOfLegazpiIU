@@ -52,7 +52,6 @@ const ManageAnnouncements = () => {
 
     const renderSelectedAnnouncement = () => {
       if (isAnnouncementExist) {
-        
         return (
           <div className={selectedUpdateContainer}>
             <Paragraph variant='h5' align='center' bold color='primary' >ANNOUNCEMENTS</Paragraph>

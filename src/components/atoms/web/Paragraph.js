@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
     paragraph: {
         marginBottom: '1.5rem',
+        textAlign: 'center'
     },
     boldText: {
         fontWeight: 600
