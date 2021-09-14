@@ -11,10 +11,10 @@ const admins = [
 
 const otherAdmins = [
     setObject('President', 'REV. FR. NIELO CANTILADO, SVD'),
-    setObject('Vice President for Administration', 'Rev Fr. Remigio B. Domino, SVD'),
-    setObject('Vice-President for Finance', 'Rev Fr. Vicente R. Rayco, SVD'),
+    setObject('Vice President for Administration', 'REV FR. REMIGIO B. DOMINO, SVD'),
+    setObject('Vice-President for Finance', 'REV Fr. VICENTE R. RAYCO, SVD'),
     setObject('Vice President for Basic Education', 'BR. YOSEP UNDUNG, SVD'),
-    setObject('Director, Office of External Relations', 'Rev Fr. Jhonatan A. Letada, SVD'),
+    setObject('Director, Office of External Relations', 'REV FR. JHONATAN A. LETADA, SVD'),
     setObject('CMO Chaplain', 'REV. FR. RICO GERARDO J. JAZMIN, SVD'),
     setObject('Director, AGTC', 'Rev. Fr. BERNARDO R. COLLERA, SVD, RGC'),
 ];

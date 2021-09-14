@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const Api = axios.create({
-    baseURL: 'http://api.dwc-legazpi.edu',
+    baseURL: 'https://api.dwc-legazpi.edu',
     // baseURL: 'http://localhost:8000',
     withCredentials: true,
 });
